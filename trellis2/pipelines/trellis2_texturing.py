@@ -9,7 +9,6 @@ from . import samplers, rembg
 from ..modules.sparse import SparseTensor
 from ..modules import image_feature_extractor
 import o_voxel
-import cumesh
 import nvdiffrast.torch as dr
 import cv2
 import flex_gemm
@@ -117,7 +116,10 @@ class Trellis2TexturingPipeline(Pipeline):
         vertices[:, 1] = -vertices[:, 2]
         vertices[:, 2] = tmp
         assert np.all(vertices >= -0.5) and np.all(vertices <= 0.5), 'vertices out of range'
-        return trimesh.Trimesh(vertices=vertices, faces=mesh.faces, process=False)
+        new_mesh = trimesh.Trimesh(vertices=vertices, faces=mesh.faces, process=False)
+        if hasattr(mesh, 'visual') and hasattr(mesh.visual, 'uv') and mesh.visual.uv is not None:
+            new_mesh.visual = trimesh.visual.TextureVisuals(uv=mesh.visual.uv, material=mesh.visual.material)
+        return new_mesh
 
     def preprocess_image(self, input: Image.Image) -> Image.Image:
         """
@@ -301,6 +303,7 @@ class Trellis2TexturingPipeline(Pipeline):
             uvs[:, 1] = 1 - uvs[:, 1]
             uvs_torch = torch.from_numpy(uvs).float().cuda()
         else:
+            import cumesh
             _cumesh = cumesh.CuMesh()
             _cumesh.init(vertices_torch, faces_torch)
             vertices_torch, faces_torch, uvs_torch, vmap = _cumesh.uv_unwrap(return_vmaps=True)
@@ -313,7 +316,7 @@ class Trellis2TexturingPipeline(Pipeline):
             normals = normals[vmap.cpu().numpy()]
                 
         # rasterize
-        ctx = dr.RasterizeCudaContext()
+        ctx = dr.RasterizeGLContext()
         uvs_torch = torch.cat([uvs_torch * 2 - 1, torch.zeros_like(uvs_torch[:, :1]), torch.ones_like(uvs_torch[:, :1])], dim=-1).unsqueeze(0)
         rast, _ = dr.rasterize(
             ctx, uvs_torch, faces_torch,
