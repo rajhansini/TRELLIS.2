@@ -1,0 +1,13 @@
+{
+  "mesh": "/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/frozen_f0075.ply",
+  "n_frames": 150,
+  "resolution": 512,
+  "raster_res": 960,
+  "latent_grid": 32,
+  "n_voxels": 1999,
+  "n_vertices": 215462,
+  "covered_px": 98083,
+  "voxels_every_frame": 743,
+  "voxels_never": 1237,
+  "vertices_every_frame": 39708
+}

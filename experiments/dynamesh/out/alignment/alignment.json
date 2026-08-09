@@ -1,0 +1,73 @@
+{
+  "frame": 75,
+  "n_voxels": 1999,
+  "visible_voxels": 773,
+  "visible_frac": 0.38669334667333666,
+  "uniform": 0.0005002501250625312,
+  "summary": {
+    "frozen@1.0": {
+      "orphaned": 928,
+      "orphaned_frac": 0.464232116058029,
+      "frac_of_unseen_orphaned": 0.46492659053833607,
+      "frac_of_seen_orphaned": 0.463130659767141,
+      "mean_claim_seen": 0.0019623541738837957,
+      "mean_claim_unseen": 0.0020143468864262104
+    },
+    "frozen@0.75": {
+      "orphaned": 1086,
+      "orphaned_frac": 0.5432716358179089,
+      "frac_of_unseen_orphaned": 0.5464926590538336,
+      "frac_of_seen_orphaned": 0.538163001293661,
+      "mean_claim_seen": 0.001938536181114614,
+      "mean_claim_unseen": 0.0018477868288755417
+    },
+    "frozen@0.5": {
+      "orphaned": 1218,
+      "orphaned_frac": 0.609304652326163,
+      "frac_of_unseen_orphaned": 0.6060358890701468,
+      "frac_of_seen_orphaned": 0.6144890038809832,
+      "mean_claim_seen": 0.001770418370142579,
+      "mean_claim_unseen": 0.001737418002448976
+    },
+    "frozen@0.25": {
+      "orphaned": 1324,
+      "orphaned_frac": 0.6623311655827914,
+      "frac_of_unseen_orphaned": 0.6394779771615008,
+      "frac_of_seen_orphaned": 0.6985769728331177,
+      "mean_claim_seen": 0.0015691218432039022,
+      "mean_claim_unseen": 0.0016332234954461455
+    },
+    "rung14@1.0": {
+      "orphaned": 862,
+      "orphaned_frac": 0.43121560780390195,
+      "frac_of_unseen_orphaned": 0.4624796084828711,
+      "frac_of_seen_orphaned": 0.3816300129366106,
+      "mean_claim_seen": 0.002039532409980893,
+      "mean_claim_unseen": 0.0018122257897630334
+    },
+    "rung14@0.75": {
+      "orphaned": 930,
+      "orphaned_frac": 0.4652326163081541,
+      "frac_of_unseen_orphaned": 0.5065252854812398,
+      "frac_of_seen_orphaned": 0.3997412677878396,
+      "mean_claim_seen": 0.0019676550291478634,
+      "mean_claim_unseen": 0.001800693105906248
+    },
+    "rung14@0.5": {
+      "orphaned": 984,
+      "orphaned_frac": 0.49224612306153076,
+      "frac_of_unseen_orphaned": 0.49184339314845027,
+      "frac_of_seen_orphaned": 0.49288486416558863,
+      "mean_claim_seen": 0.0018755634082481265,
+      "mean_claim_unseen": 0.0018074660329148173
+    },
+    "rung14@0.25": {
+      "orphaned": 1033,
+      "orphaned_frac": 0.5167583791895948,
+      "frac_of_unseen_orphaned": 0.4926590538336052,
+      "frac_of_seen_orphaned": 0.5549805950840879,
+      "mean_claim_seen": 0.001795171294361353,
+      "mean_claim_unseen": 0.0018316200003027916
+    }
+  }
+}

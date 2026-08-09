@@ -205,3 +205,28 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ---- Experiment artifacts (large generated outputs, not source) ----
+# Model checkpoints / weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Rendered frames, videos, meshes, tensors
+*.png
+*.jpg
+*.jpeg
+*.mp4
+*.ply
+*.glb
+*.obj
+*.mtl
+*.npz
+*.npy
+*.blend
+
+# Cluster job logs
+*.out
+*.err
+*.log

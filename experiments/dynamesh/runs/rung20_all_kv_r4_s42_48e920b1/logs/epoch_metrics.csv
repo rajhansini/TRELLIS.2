@@ -1,0 +1,2 @@
+epoch,loss,monitor_psnr,monitor_ssim,B_mean,B_max,dB_toq,dB_tokv,dB_toout,n_zero,time_s
+1,0.086258,11.5839,0.34134,0.54223,0.54223,0.0000e+00,6.6412e-03,0.0000e+00,0,164.9

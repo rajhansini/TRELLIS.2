@@ -1,0 +1,8 @@
+{
+  "mesh": "/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/frozen_f0075.ply",
+  "render_res": 518,
+  "n_frames": 150,
+  "silhouette_px": 28559,
+  "usable_px_min": 27558,
+  "usable_px_max": 27958
+}
