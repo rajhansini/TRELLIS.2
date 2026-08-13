@@ -1,0 +1,13 @@
+{
+  "mesh": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/spot/mesh/spot_render_frame.obj",
+  "n_frames": 150,
+  "resolution": 512,
+  "raster_res": 960,
+  "latent_grid": 32,
+  "n_voxels": 2776,
+  "n_vertices": 3225,
+  "covered_px": 191275,
+  "voxels_every_frame": 484,
+  "voxels_never": 2238,
+  "vertices_every_frame": 560
+}

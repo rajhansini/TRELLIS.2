@@ -1,0 +1,8 @@
+{
+  "mesh": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/spot/mesh/spot_render_frame.obj",
+  "render_res": 518,
+  "n_frames": 150,
+  "silhouette_px": 48402,
+  "usable_px_min": 41286,
+  "usable_px_max": 42088
+}

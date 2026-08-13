@@ -31,6 +31,13 @@ _RUN = Path('/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/'
 ap = argparse.ArgumentParser()
 ap.add_argument('--run', default=str(_RUN))
 ap.add_argument('--ckpt', default='lora_best.pt')
+ap.add_argument('--mesh', default=None,
+                help="which mesh to render. Defaults to the mesh recorded in the "
+                     "run's config.json; falls back to the teapot for runs made "
+                     "before the mesh was hashed. Rendering a checkpoint against "
+                     "the WRONG mesh produces a plausible video of the wrong "
+                     "object with every gate passing, so this is not optional "
+                     "once more than one object exists.")
 ap.add_argument('--sweep', default='angle', choices=['angle', 'both'],
                 help="angle = frame pinned, camera orbits (propagation at one "
                      "instant); both = frame advances 1..N AND camera turns 360 "
@@ -56,10 +63,22 @@ ARGS = ap.parse_args()
 
 RUN_DIR = Path(ARGS.run)
 CFG = json.load(open(RUN_DIR / 'config.json'))
+_TEAPOT = '/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/frozen_f0075.ply'
+MESH = ARGS.mesh or CFG.get('mesh') or _TEAPOT
+# The CONDITIONING images must come from this run's own data. Without this the
+# imported trainer falls back to its --gt-dir default (the teapot's lava frames)
+# and every render is this mesh wearing the TEAPOT's texture — plausible-looking
+# and completely wrong. Cost six renders on 2026-08-11.
+_TEAPOT_GT = ('/net/projects/ranalab/rajhansini/MV-Adapter-Experimental/outputs/'
+              'teapot_lava_kling_premium/teapot_lava_kling_premium_front/all_frames_150')
+GT_DIR = CFG.get('gt_dir') or _TEAPOT_GT
+print(f'[MESH]   {MESH}', flush=True)
+print(f'[GT-DIR] {GT_DIR}   <- conditioning images', flush=True)
 
 _so, _se = sys.stdout, sys.stderr
 sys.argv = ['rung17_backproj_lora.py',
-            '--mesh', '/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/frozen_f0075.ply',
+            '--mesh', MESH,
+            '--gt-dir', GT_DIR,
             '--rank', str(CFG['rank']), '--targets', CFG['targets'],
             '--seed', str(CFG['seed']), '--epochs', str(CFG['epochs']),
             '--n-frames', str(CFG['n_frames']), '--resolution', str(CFG['resolution'])]
@@ -130,18 +149,25 @@ def main():
             for p in m.parameters():
                 p.requires_grad_(False)
 
-    mesh_in = trimesh.load('/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/'
-                           'frozen_f0075.ply', process=False, force='mesh')
+    mesh_in = trimesh.load(MESH, process=False, force='mesh')
     mesh_pp = pipe.preprocess_mesh(mesh_in)
     v_raw = torch.from_numpy(np.asarray(mesh_in.vertices)).float().to(DEVICE)
     v_pp = torch.from_numpy(np.asarray(mesh_pp.vertices)).float().to(DEVICE)
     faces = torch.from_numpy(np.asarray(mesh_in.faces)).int().to(DEVICE).contiguous()
 
+    # alpha MUST come from the run's own config, not the default: dW is scaled by
+    # alpha/rank, so rendering a rank-32 checkpoint with the wrong alpha silently
+    # rescales every edit. Runs made before the rank sweep have no 'lora_alpha'
+    # key; 4.0 is their implied value and at their rank 4 it gives scaling 1.0,
+    # which is exactly how they were trained.
+    _alpha = CFG.get('lora_alpha', 4.0)
     reg = R.LoRARegistry(len(flow.blocks), flow.model_channels, flow.cond_channels,
                          CFG['rank'], with_mlp=False,
                          mlp_hidden=int(flow.model_channels * flow.mlp_ratio),
                          targets=tuple(CFG['target_set']),
-                         active=CFG.get('active')).to(DEVICE)
+                         active=CFG.get('active'), alpha=_alpha).to(DEVICE)
+    print(f'[LORA-SCALE] rank {CFG["rank"]}  alpha {_alpha}  '
+          f'-> scaling {_alpha / CFG["rank"]:.4f}', flush=True)
     print(f'[REGISTRY] targets={tuple(CFG["target_set"])}  '
           f'blocks={len(CFG.get("active", range(30)))}  '
           f'{sum(p.numel() for p in reg.parameters()):,} params', flush=True)

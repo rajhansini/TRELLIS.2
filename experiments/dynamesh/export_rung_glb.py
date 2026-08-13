@@ -47,7 +47,7 @@ FRAMES = [int(x) for x in ARGS.frames.replace(':', ',').split(',') if x.strip()]
 
 _so, _se = sys.stdout, sys.stderr
 sys.argv = ['rung17_backproj_lora.py',
-            '--mesh', '/net/projects/ranalab/rajhansini/TRELLIS/render/out/f0075/frozen_f0075.ply',
+            '--mesh', MESH,
             '--rank', str(CFG['rank']), '--targets', CFG['targets'],
             '--seed', str(CFG['seed']), '--epochs', str(CFG['epochs']),
             '--n-frames', str(CFG['n_frames']), '--resolution', str(CFG['resolution'])]

@@ -2,7 +2,7 @@
 #SBATCH --job-name=r21orbit720
 #SBATCH --partition=threedle-contrib,threedle-own,general
 #SBATCH --gres=gpu:1
-#SBATCH --constraint="a40|L40S|h100|h200|a30"
+#SBATCH --constraint="a40|L40S|a30"
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=03:00:00
@@ -26,6 +26,7 @@ ${PY2} -u "${E}/render_rung17_orbit.py" \
   --sweep both \
   --n-frames 150 \
   --res "${RES}" \
+  --turns "${TURNS:-1}" \
   --fps 20 \
   --tag "${TAG}" \
   2>&1 | stdbuf -oL grep --line-buffered -vE "FutureWarning|UserWarning|warnings.warn|^\s+@torch|^\s+_TORCH|^\s+def backward"

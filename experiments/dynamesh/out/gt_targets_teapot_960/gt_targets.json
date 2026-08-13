@@ -1,0 +1,11 @@
+{
+  "render_res": 960,
+  "silhouette_px": 98083,
+  "n_frames": 150,
+  "strict_px_min": 95955,
+  "strict_px_max": 97534,
+  "iou_min": 0.8855562820093713,
+  "iou_max": 0.9175719885924668,
+  "white_px_inside": 0,
+  "brightest": 0.95686274766922
+}
