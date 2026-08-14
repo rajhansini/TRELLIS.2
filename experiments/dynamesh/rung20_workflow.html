@@ -1,0 +1,801 @@
+<title>rung20, Line by Line</title>
+<style>
+  :root{
+    --paper:#FAFBFC; --card:#F1F4F7; --card-2:#E7ECF1; --well:#EDF1F5;
+    --ink:#0F141B; --ink-2:#414D5C; --ink-3:#78859A;
+    --rule:#DDE3EA; --rule-2:#C2CBD6;
+    --train:#1B5FA8;  --train-bg:#E3EDF8;   /* trainable  */
+    --froz:#6C7787;   --froz-bg:#E9ECF0;    /* frozen     */
+    --gate:#0B6E5F;   --gate-bg:#DFF0EC;    /* gates      */
+    --warn:#9A5B00;   --warn-bg:#F8EEDC;    /* caveats    */
+    --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0D1117; --card:#141B24; --card-2:#1B242F; --well:#111922;
+      --ink:#E8EDF3; --ink-2:#B3BECD; --ink-3:#7F8C9E;
+      --rule:#222C38; --rule-2:#33404F;
+      --train:#6FA8E0; --train-bg:#132436;
+      --froz:#95A1B2;  --froz-bg:#1A212A;
+      --gate:#57BBA6;  --gate-bg:#0F2A26;
+      --warn:#D9A257;  --warn-bg:#2A2013;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0D1117; --card:#141B24; --card-2:#1B242F; --well:#111922;
+    --ink:#E8EDF3; --ink-2:#B3BECD; --ink-3:#7F8C9E;
+    --rule:#222C38; --rule-2:#33404F;
+    --train:#6FA8E0; --train-bg:#132436;
+    --froz:#95A1B2;  --froz-bg:#1A212A;
+    --gate:#57BBA6;  --gate-bg:#0F2A26;
+    --warn:#D9A257;  --warn-bg:#2A2013;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  .sheet{max-width:1140px;margin:0 auto;padding:0 26px 110px}
+  .col{max-width:74ch}
+
+  header{padding:66px 0 30px;border-bottom:2px solid var(--ink);margin-bottom:14px}
+  .kick{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-3);margin:0 0 14px}
+  h1{font-family:var(--serif);font-size:clamp(30px,4.4vw,44px);font-weight:600;
+    letter-spacing:-.015em;line-height:1.1;margin:0 0 16px;text-wrap:balance}
+  .lede{font-size:17px;color:var(--ink-2);margin:0;max-width:70ch}
+  .lede b{color:var(--ink)}
+
+  h2{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.01em;
+    margin:0 0 6px;text-wrap:balance}
+  h3{font-size:15px;font-weight:700;margin:26px 0 8px;letter-spacing:.005em}
+  h4{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--ink-3);margin:22px 0 8px}
+  p{margin:0 0 13px}
+  a{color:var(--train)}
+
+  /* stage rail — the pipeline really is ordered, so the numbers carry meaning */
+  .stage{display:grid;grid-template-columns:56px 1fr;gap:22px;
+    padding:40px 0 8px;border-top:1px solid var(--rule);margin-top:40px}
+  .stage:first-of-type{border-top:none}
+  .snum{font-family:var(--mono);font-size:12px;color:var(--ink-3);
+    padding-top:11px;letter-spacing:.08em;border-top:2px solid var(--ink);height:0}
+  .sbody{min-width:0}
+  .sdesc{color:var(--ink-2);font-size:15px;margin:0 0 4px;max-width:70ch}
+
+  code{font-family:var(--mono);font-size:.855em;background:var(--card-2);
+    padding:.1em .34em;border-radius:3px;color:var(--ink)}
+  pre{font-family:var(--mono);font-size:12.5px;line-height:1.62;background:var(--well);
+    border:1px solid var(--rule);border-left:3px solid var(--rule-2);border-radius:0 7px 7px 0;
+    padding:15px 17px;overflow-x:auto;margin:14px 0;color:var(--ink)}
+  pre.t{border-left-color:var(--train)}
+  pre b{color:var(--train);font-weight:600}
+  pre i{color:var(--ink-3);font-style:normal}
+  pre em{color:var(--warn);font-style:normal}
+
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--rule);border-radius:8px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--card)}
+  th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-3);padding:10px 13px;
+    border-bottom:1px solid var(--rule-2);white-space:nowrap;background:var(--card-2)}
+  td{padding:9px 13px;border-bottom:1px solid var(--rule);color:var(--ink-2);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--ink);font-weight:600}
+  td.n,th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  td.m{font-family:var(--mono);font-size:12.5px}
+
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+    padding:2px 7px;border-radius:3px;white-space:nowrap;display:inline-block}
+  .tag.t{background:var(--train-bg);color:var(--train)}
+  .tag.f{background:var(--froz-bg);color:var(--froz)}
+  .tag.g{background:var(--gate-bg);color:var(--gate)}
+  .tag.w{background:var(--warn-bg);color:var(--warn)}
+
+  .note{border-left:3px solid var(--rule-2);background:var(--card);
+    border-radius:0 7px 7px 0;padding:14px 17px;margin:16px 0;font-size:14.5px;color:var(--ink-2)}
+  .note.g{border-left-color:var(--gate)}
+  .note.w{border-left-color:var(--warn);background:var(--warn-bg)}
+  .note.t{border-left-color:var(--train)}
+  .note b{color:var(--ink)}
+  .note .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:6px}
+  .note p:last-child{margin-bottom:0}
+
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin:16px 0}
+  .box{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+  .box h4{margin-top:0}
+  .box p:last-child{margin-bottom:0}
+  .box.t{border-top:3px solid var(--train)}
+  .box.f{border-top:3px solid var(--froz)}
+
+  ul{margin:0 0 13px;padding-left:20px}
+  li{margin-bottom:6px}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .src{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);line-height:1.85}
+  @media (max-width:640px){
+    .stage{grid-template-columns:1fr;gap:6px}
+    .snum{border-top:none;height:auto;padding-top:0}
+  }
+</style>
+
+<div class="sheet">
+
+<header>
+  <p class="kick">rung20_conf_lora.py &middot; 1,948 lines &middot; TRELLIS.2 texture flow</p>
+  <h1>rung20, Line by Line</h1>
+  <p class="lede">Every operation the training script performs, in execution order, with the
+  tensor shapes and constants it actually uses. Written from the source, not from memory —
+  each claim below carries the line it comes from. The one question this document exists to
+  settle: <b>where gradients reach, and how an edit admitted at cross-attention arrives at
+  geometry the camera never saw.</b></p>
+</header>
+
+<div class="note t">
+  <span class="lbl">The single sentence</span>
+  <p>A rank-4 LoRA on <code>cross_attn.to_kv</code> in all 30 blocks of the frozen texture-flow
+  transformer is trained to make the render of a <b>fixed mesh</b> under a <b>fixed camera</b>
+  and <b>fixed noise</b> match 150 per-frame targets, so that the only thing distinguishing one
+  frame from another is the image conditioning — and therefore the only thing the adapter can
+  learn is a function of that conditioning.</p>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">00</div>
+  <div class="sbody">
+    <h2>Inputs and run identity</h2>
+    <p class="sdesc">Everything that defines the experiment, and how it gets a directory.</p>
+
+    <h4>Required and material arguments</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Flag</th><th>Value used</th><th>What it selects</th></tr></thead>
+        <tbody>
+          <tr><td><code>--mesh</code></td><td class="m">required</td><td>the object. Rasterised and encoded; never generated</td></tr>
+          <tr><td><code>--gt-dir</code></td><td class="m">data/&lt;obj&gt;/frames_from_video</td><td>150 video frames, 960&sup2;. The only source of colour</td></tr>
+          <tr><td><code>--gt-render-dir</code></td><td class="m">out/gt_targets_&lt;obj&gt;/frames</td><td>the 2D-copy targets and their validity masks</td></tr>
+          <tr><td><code>--render-res</code></td><td class="n">518 or 960</td><td>rasterisation size. Must equal the targets'</td></tr>
+          <tr><td><code>--resolution</code></td><td class="n">512</td><td>picks <code>tex_slat_flow_model_512</code> and the voxel grid</td></tr>
+          <tr><td><code>--targets</code></td><td class="m">kv</td><td>adapts <code>to_kv</code> only</td></tr>
+          <tr><td><code>--blocks</code></td><td class="m">all</td><td>blocks 0&ndash;29</td></tr>
+          <tr><td><code>--rank</code> / <code>--lora-alpha</code></td><td class="n">4 / 4.0</td><td>scaling &alpha;/r is exactly <span class="num">1.0</span></td></tr>
+          <tr><td><code>--conf-weight</code> / <code>--conf-tau</code></td><td class="m">on / 0.25</td><td>the trust map, and its hard cutoff</td></tr>
+          <tr><td><code>--conf-quantile</code></td><td class="n">&minus;1</td><td>&minus;1 keeps the fixed &tau; &mdash; this is what makes it rung20, not rung21</td></tr>
+          <tr><td><code>--epochs</code> / <code>--n-frames</code></td><td class="n">30 / 150</td><td></td></tr>
+          <tr><td><code>--lr</code> / <code>--loss-scale</code> / <code>--grad-clip</code></td><td class="n">1e-4 / 4096 / 1.0</td><td></td></tr>
+          <tr><td><code>--seed</code></td><td class="n">42</td><td>the noise tensor, and the frame shuffle</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Rung number is computed, not named <span class="src">&mdash; L335&ndash;340</span></h4>
+    <p>The filename does not decide the rung. A cascade over the flags does, and it is evaluated
+    at runtime:</p>
+<pre>_RUNG = (24 if (conf_ramp_qlo &gt;= 0 and conf_ramp_qhi &gt;= 0)
+    else 22 if (lambda_con &gt; 0 and lambda_smo &lt;= 0)
+    else 21 if (lambda_con &gt; 0 or lambda_smo &gt; 0)
+    else <b>20 if conf_weight</b>
+    else 23 if lambda_smooth &gt; 0
+    else {'kv': 17, 'kvo': 18, 'v': 19}.get(targets, 17))</pre>
+    <p><b>rung20 is exactly:</b> <code>--conf-weight</code> on, every regulariser off. Turn the
+    trust map off with the same target set and the identical file produces rung17.</p>
+
+    <h4>Run id <span class="src">&mdash; L296&ndash;344</span></h4>
+    <p>A <code>_CFG</code> dict is hashed with md5 and truncated to 8 characters. The directory is
+    <code>runs/rung20_{blocks}_{targets}_r{rank}_s{seed}_{RUN_ID}</code>, and stdout is tee'd into
+    <code>train.log</code> inside it.</p>
+    <div class="note w">
+      <span class="lbl">Two omissions from this hash cost real runs</span>
+      <p><b>mesh, gt_dir, gt_render_dir</b> were absent until 2026-08-11. spot_star and spot_lava
+      differ <em>only</em> in those paths, so they hashed identically, landed in one directory, and
+      the second job resumed from the first's <code>lora_e001.pt</code> &mdash; 29 epochs of cow-spot
+      weights trained on lava data, detectable only as 59 rows in a 30-epoch CSV.</p>
+      <p><b>render_res</b> had the same gap: the teapot at 518 and at 960 would have collided.
+      Both are now in the hash <em>and</em> in the resume guard <span class="src">(L1765)</span>,
+      which refuses to resume a checkpoint whose mesh, targets or render resolution differ.</p>
+    </div>
+
+    <h4>Frame split <span class="src">&mdash; L280&ndash;294</span></h4>
+<pre>HELD_OUT   = []          <i># --held-every defaults to 0</i>
+TRAIN      = [1 .. 150]
+ALL_FRAMES = [1 .. 150]
+MONITOR    = ALL_FRAMES[4::10]   <i># 5, 15, 25 ... 145 — 15 frames</i></pre>
+    <div class="note w">
+      <p><b>There is no held-out set.</b> The code says why: the task is "this mesh, these 150
+      textures from this video," so every frame is part of the deliverable. Reported numbers come
+      from <code>evaluate(ALL_FRAMES)</code>, and the checkpoint is selected on <code>MONITOR</code>,
+      a subset of the same frames. <b>Every PSNR in this project is training-frame reconstruction.</b>
+      Defensible for a per-object fit; it must be stated as such.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">01</div>
+  <div class="sbody">
+    <h2>The adapter</h2>
+    <p class="sdesc">What is created, where it attaches, and what it costs.</p>
+
+    <h4>LoRALayer <span class="src">&mdash; L368&ndash;389</span></h4>
+<pre>A = Parameter(empty(rank, in_dim));  kaiming_uniform_(A, a=sqrt(5))
+B = Parameter(<b>zeros</b>(out_dim, rank))
+scaling = alpha / rank
+
+forward(x) -&gt; ((x.float() @ A.T) @ B.T) * scaling</pre>
+    <p><b>B is zero-initialised</b>, so at step 0 the delta is exactly zero and the model reproduces
+    frozen TRELLIS.2 bit for bit. <code>GATE-plain</code> asserts this. With &alpha;=4 and r=4 the
+    scaling is exactly <span class="num">1.0</span>, which reproduces every run made before the
+    &alpha;/r factor was introduced.</p>
+
+    <h4>Which projection, and why that one <span class="src">&mdash; L402&ndash;414, L266&ndash;272</span></h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Module</th><th class="n">Shape</th><th>Input is</th><th>rung20</th></tr></thead>
+        <tbody>
+          <tr><td><code>cross_attn.to_q</code></td><td class="n">1536 &rarr; 1536</td><td>the 3D tokens</td><td><span class="tag f">frozen</span></td></tr>
+          <tr><td><code>cross_attn.to_kv</code></td><td class="n">1024 &rarr; 3072</td><td><b>the image tokens</b></td><td><span class="tag t">LoRA</span></td></tr>
+          <tr><td><code>cross_attn.to_out</code></td><td class="n">1536 &rarr; 1536</td><td>the attention output</td><td><span class="tag f">frozen</span></td></tr>
+          <tr><td><code>self_attn.*</code></td><td class="n">&mdash;</td><td>the 3D tokens</td><td><span class="tag f">frozen</span></td></tr>
+          <tr><td><code>mlp</code>, <code>adaLN_modulation</code></td><td class="n">&mdash;</td><td>&mdash;</td><td><span class="tag f">frozen</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Input widths settle the argument. <code>to_q</code> takes 1536 — the 3D token width.
+    <code>to_kv</code> takes <b>1024</b>, the DINOv3 token width. It is the only weight matrix in
+    the network whose input is the image.</p>
+<pre>params = rank &times; (1024 + 3072) &times; 30 blocks
+       = 4 &times; 4096 &times; 30
+       = <b>491,520</b>          <i># 0.038% of the 1.29B texture DiT</i></pre>
+
+    <h4>How it attaches <span class="src">&mdash; L440&ndash;470</span></h4>
+    <p>Not by replacing modules — by <b>forward hooks</b> installed inside a context manager, so the
+    base model is never mutated:</p>
+<pre>def _kv(mod, inp, out, _lb=lb):
+    return out + _lb.to_kv(inp[0]).to(out.dtype)
+
+blk.cross_attn.to_kv.register_forward_hook(_kv)</pre>
+    <p>Blocks outside the active set receive <b>no hook at all</b> and run exactly frozen — which is
+    what makes <code>--blocks early/mid/late</code> a clean placement comparison rather than a
+    weighted one.</p>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">02</div>
+  <div class="sbody">
+    <h2>Setup — everything computed once</h2>
+    <p class="sdesc">The mesh, camera, conditioning, targets, noise and trust map are all constants.
+    Per-step work is only what the gradient needs.</p>
+
+    <h3>The two coordinate frames <span class="src">&mdash; L600&ndash;609</span></h3>
+    <div class="grid2">
+      <div class="box f">
+        <h4>v_raw</h4>
+        <p>The mesh as exported, already registered. Used for <b>rasterisation</b>, so the image lines
+        up with the video. Normals and the eye vector live here too.</p>
+      </div>
+      <div class="box f">
+        <h4>v_pp</h4>
+        <p>The same vertices after <code>preprocess_mesh</code> — normalised to [&minus;0.5, 0.5],
+        axes permuted. <b>The PBR voxel field lives in this frame</b>, so v_pp is what gets
+        interpolated to give each pixel its sampling position.</p>
+      </div>
+    </div>
+    <p><code>preprocess_mesh</code> preserves faces and vertex order, so <code>v_raw[i]</code> and
+    <code>v_pp[i]</code> are the same vertex. That correspondence is what lets both frames coexist.</p>
+
+    <h3>SurfaceRenderer — rasterise once <span class="src">&mdash; L612&ndash;671</span></h3>
+<pre>full_proj = intrinsics_to_projection(intr, NEAR, FAR) @ ext
+rast      = dr.rasterize(ctx, v_clip, faces, (res, res))
+mask      = rast[0,...,3] &gt; 0                 <i># the silhouette, constant</i>
+mask_idx  = nonzero(mask.reshape(-1))
+
+eye     = -(R.T @ t)                          <i># = (0, -2, 0)</i>
+cos_inc = |normalize(n) &middot; normalize(p - eye)|   <i># per-pixel incidence</i>
+
+<b>pos</b>     = interpolate(v_pp, rast)[mask_idx]  <i># [K,3] sampling points</i>
+
+dx, dy    = screen-space derivatives of pos
+footprint = ||cross(dx, dy)||                 <i># surface area one pixel covers</i>
+fp_valid  = both neighbours inside the mask   <i># no silhouette-straddling diffs</i></pre>
+    <p>Mesh and camera never move, so the raster, the silhouette, each pixel's 3D surface point,
+    its incidence and its footprint are all computed <b>once</b> and reused for all 150 frames
+    &times; 30 epochs.</p>
+
+    <h3>Conditioning <span class="src">&mdash; L1133&ndash;1186</span></h3>
+    <p>Reproduced deterministically rather than by calling <code>preprocess_image()</code>, and the
+    reason is stated in the source: that function runs BiRefNet per frame and crops to
+    <em>that frame's own</em> bbox, so both the matte and the framing would jitter frame to frame —
+    and that jitter would be indistinguishable from texture change.</p>
+<pre>alpha  = largest_component(min(RGB) &lt; 245)     <i># per frame</i>
+bbox   = square box around the <b>UNION</b> of all 150 alphas
+crop, then premultiply by alpha                <i># background becomes BLACK</i>
+cond   = pipe.get_cond([img], resolution).detach()
+
+shape  <b>(1, 1029, 1024)</b>   <i># DINOv3 tokens, cached once, frozen</i></pre>
+    <div class="note">
+      <p>The union crop means <b>identical framing for every frame</b>, contributing exactly zero to
+      any temporal measurement. Handing the raw 960&sup2; frame instead — a small object in a large
+      white field — is far out of distribution and yields a black texture.</p>
+    </div>
+
+    <h3>Targets <span class="src">&mdash; L1166&ndash;1182</span></h3>
+<pre>gts[fi]      = gt_{fi}.png       -&gt; [1,H,W,3] in [0,1]
+gt_masks[fi] = <b>valid</b>_{fi}.npy    <i># which target pixels are real</i></pre>
+    <div class="note w">
+      <p>An earlier version loaded <code>valid_</code> and then <b>overwrote it</b> with the raw
+      video's silhouette, which knows nothing about which target pixels were fabricated. That let
+      447 pure-white pixels per frame into the loss for all 30 epochs, and the adapter learned to
+      paint them white. The comment at L1180 reads: <i>"Do not add a second assignment here."</i></p>
+    </div>
+
+    <h3>Shape latent and noise <span class="src">&mdash; L1121&ndash;1196</span></h3>
+<pre>shape_slat = pipe.encode_shape_slat(mesh_pp, resolution)   <i># ENCODE, not sample</i>
+ss_n       = (shape_slat - ss_mean) / ss_std
+
+g          = Generator(cpu).manual_seed(42)
+noise      = ss_n.replace(feats=randn(n_vox, flow.in_channels - ss_n.feats.shape[1]))</pre>
+    <div class="note t">
+      <p><b>This is the experimental control.</b> <code>shape_slat</code> is a deterministic encode of
+      a fixed mesh. The noise is drawn once and reused for every frame. So across the 150 frames the
+      <em>only</em> input that varies is the image conditioning — and any change the adapter learns
+      is therefore attributable to the cross-attention pathway and nothing else.</p>
+    </div>
+
+    <h3>The trust map <span class="src">&mdash; L1475&ndash;1553</span></h3>
+<pre>w = cos_inc / footprint.clamp_min(1e-12)
+w = where(fp_valid, w, 0)
+w = w * (cos_inc &gt;= TAU)          <i># TAU = 0.25, a hard step in rung20</i>
+w = where(mask, w, 0)
+w = w / median(w[w &gt; 0])           <i># normalise so the median weight is 1.0</i>
+
+assert kept / covered &gt; 0.4</pre>
+    <p>Measured, teapot at 518&sup2;: <span class="num">28,559</span> covered,
+    <span class="num">27,088</span> kept (<span class="num">94.8%</span>),
+    <span class="num">1,471</span> discarded — all in a thin band at the rim. At 960&sup2; the same
+    &tau; keeps <span class="num">95.1%</span>.</p>
+    <p>Both factors matter and they are not redundant: incidence alone misses high curvature at the
+    silhouette, which inflates the footprint even where the cosine is not yet small.
+    <span class="src">(L654&ndash;660)</span></p>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">03</div>
+  <div class="sbody">
+    <h2>The gates</h2>
+    <p class="sdesc">Nine assertions run before the first gradient step. Each exists because the
+    failure it catches once happened silently.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Gate</th><th>Asserts</th><th>The failure it prevents</th></tr></thead>
+        <tbody>
+          <tr><td>GATE 0</td><td>param count; B = 0</td><td>wrong target set silently in the optimiser</td></tr>
+          <tr><td>GATE-align</td><td class="m">(tgt_mask ^ mask).sum() == 0</td><td>targets rasterised by another script with a different silhouette — <b>turns the texture loss into a shape loss</b></td></tr>
+          <tr><td>GATE-cam</td><td class="m">IoU vs GT frame 75 &gt; 0.80</td><td>wrong camera or double-applied alignment, which look exactly like texture failure</td></tr>
+          <tr><td>GATE-grad</td><td>no B matrix gets zero grad, probed at t = 1.0, 0.75, 0.5, 0.25</td><td>fp16 flush-to-zero in the decoder — discovered after 4 h once, now caught in 60 s</td></tr>
+          <tr><td>GATE-plain</td><td class="m">max|frozen &minus; lora(B=0)| &lt; 1e-4</td><td>adapter not the identity at init</td></tr>
+          <tr><td>GATE-bwd</td><td>decoder backward runs after purging the spconv cache</td><td><code>SubMConv3dNeighborCache</code> missing <code>valid_signal_i</code></td></tr>
+          <tr><td>GATE-region</td><td>loss region constant across all 150 frames</td><td>PSNR not comparable between frames or arms</td></tr>
+          <tr><td>CONF gate</td><td class="m">kept / covered &gt; 0.4</td><td>&tau; so aggressive the adapter is fit from a sliver</td></tr>
+          <tr><td>GATE-resume</td><td>mesh, targets, render_res match the checkpoint</td><td>resuming another experiment's adapter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note g">
+      <span class="lbl">Two of these have fired in production</span>
+      <p><b>GATE-align</b> stopped job 2173382 at 79 seconds: the mask had been built without
+      <code>--raw</code>, so <code>make_render_mask.py</code> re-normalised an already-registered mesh
+      and produced <span class="num">136,643</span> px against the training render's
+      <span class="num">98,083</span>. Without the gate that run would have spent four hours
+      optimising a shape error.</p>
+      <p><b>GATE-resume</b> is the fix for the spot_star / spot_lava collision described in stage 00.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">04</div>
+  <div class="sbody">
+    <h2>One training step</h2>
+    <p class="sdesc">Executed 150 &times; 30 = 4,500 times. This is the whole of it.</p>
+
+<pre class="t">for ep in 1..30:
+  order = rng.permutation(TRAIN)               <i># reshuffled every epoch</i>
+  for fi in order:
+
+    <b>k</b>   = rng.integers(0, 12)                 <i># a knot of the REAL schedule</i>
+    t_k = T_SEQ[k]
+
+    with <b>lora_ctx</b>(flow, reg):                  <i># hooks installed</i>
+
+        x_k = run_ode(flow, noise, conds[fi], ss_n, T_PAIRS[:k])
+                                                 <i># k Euler steps, no_grad, LoRA ACTIVE</i>
+        v   = flow_eval(flow, x_k, t_k, conds[fi], ss_n)
+                                                 <i># ONE evaluation, WITH grad</i>
+        x0  = pred_to_xstart(x_k, t_k, v)        <i># the sampler's own helper</i>
+
+        img = decode_render(x0, <b>clamp=False</b>)
+        _m  = renderer.mask &amp; gt_masks[fi]
+
+        _se = ((img - gts[fi])**2)[0][_m]        <i># [N,3]</i>
+        _wm = conf_w[_m]                         <i># [N]</i>
+        loss = (_wm[:,None] * _se).sum() / (_wm.sum()*3).clamp_min(1e-9)
+
+        opt.zero_grad(set_to_none=True)
+        (loss * <b>4096</b>).backward()                 <i># INSIDE the context</i>
+
+    for p in reg.parameters(): p.grad.div_(4096)
+    clip_grad_norm_(reg.parameters(), 1.0)
+    opt.step()                                   <i># AdamW, lr 1e-4, wd 0</i></pre>
+
+    <h3>Seven details that are load-bearing</h3>
+    <div class="grid2">
+      <div class="box t">
+        <h4>k is drawn from the real schedule</h4>
+        <p><code>STEPS=12, RESCALE_T=3.0</code> gives <code>T_SEQ = 3t/(1+2t)</code>, which is
+        <b>front-loaded</b> — seven of twelve knots sit above t=0.75. Drawing k from this list rather
+        than uniform [0,1] means the adapter is never trained where inference never goes.
+        <span class="src">L751&ndash;759</span></p>
+      </div>
+      <div class="box t">
+        <h4>Backward must be inside lora_ctx</h4>
+        <p>Gradient checkpointing recomputes the flow forward during backward. With
+        <code>.backward()</code> outside the block the recomputed graph is the bare model and torch
+        raises <code>CheckpointError: forward 74 / recomputation 57</code> — the 17 missing tensors
+        being exactly the LoRA deltas. <span class="src">L1812&ndash;1820</span></p>
+      </div>
+      <div class="box t">
+        <h4>clamp=False during training</h4>
+        <p><code>torch.clamp</code> has <b>exactly zero gradient</b> outside its range, so a voxel
+        pushed past 1.0 is frozen there forever — the loss still reports it as too bright, but no
+        gradient can bring it back. A one-way ratchet into white. Metrics and saved images still
+        clamp. <span class="src">L677&ndash;683</span></p>
+      </div>
+      <div class="box t">
+        <h4>LOSS_SCALE is mandatory</h4>
+        <p>The decoder is fp16 and its gradients underflow. Measured:
+        <code>scale 1 &rarr; sum|grad| 0.0000e+00</code>,
+        <code>scale 4096 &rarr; 4.6620e+03</code>. Divided back out of
+        <code>reg.grad</code> before the optimiser step, so the effective lr is unchanged.
+        <span class="src">L1332&ndash;1340</span></p>
+      </div>
+      <div class="box t">
+        <h4>The prefix runs with the adapter active</h4>
+        <p><code>run_ode</code> is called <em>inside</em> <code>lora_ctx</code>, under
+        <code>no_grad</code>. This matches inference, which also has the adapter active for all 12
+        steps. The prefix contributes no gradient but does place x<sub>k</sub> on the adapted
+        trajectory. <span class="src">L893&ndash;899</span></p>
+      </div>
+      <div class="box t">
+        <h4>The loss region is the intersection</h4>
+        <p><code>renderer.mask &amp; gt_masks[fi]</code>. Because <code>make_gt_targets.py</code> fills
+        100% of our silhouette, <code>valid_</code> is all-true, so the region equals our silhouette
+        and is <b>constant</b> across frames — which GATE-region asserts, and which is what makes
+        PSNR comparable between frames and between arms. <span class="src">L1260&ndash;1276</span></p>
+      </div>
+      <div class="box t">
+        <h4>Only the adapter is optimised</h4>
+        <p><code>AdamW(reg.parameters())</code>. The decoder's weights carry
+        <code>requires_grad</code> only to stop flex_gemm returning <code>grad_weight=None</code>;
+        nothing optimises them and their <code>.grad</code> is cleared each step so it cannot
+        accumulate. <span class="src">L1757, L1874</span></p>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="lbl">Why one graded step and not twelve</span>
+      <p>Backpropagating through all 12 ODE steps means 12 sequential 1.3B forward passes with
+      activations retained. Instead k is resampled every step, so over an epoch the adapter still
+      sees every timestep — just one at a time. <code>x0</code> uses
+      <code>FlowEulerSampler._pred_to_xstart</code> directly rather than a reimplementation, so the
+      rectified-flow parameterisation cannot drift from TRELLIS.2's.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">05</div>
+  <div class="sbody">
+    <h2>Where the gradient actually reaches</h2>
+    <p class="sdesc">The propagation question, answered from the code rather than by analogy.</p>
+
+    <h3>The backward path, narrowest point first</h3>
+<pre>renderer.sample() grid-samples the PBR field at <b>self.pos</b>
+    &rarr; pos = interpolate(v_pp, rast)[<b>mask_idx</b>]
+    &rarr; i.e. ONLY the surface points visible to the training camera
+
+so d(loss)/d(voxel feature) is non-zero only for voxels
+trilinearly touched by those visible points.</pre>
+    <p>Measured for this mesh and camera: the training view resolves
+    <span class="num">18.4%</span> of vertices with a target in every frame
+    (<span class="num">39,708</span> of <span class="num">215,462</span>). The rest of the object
+    contributes <b>nothing</b> to the loss.</p>
+
+    <h3>But the parameter is shared, and that is the mechanism</h3>
+    <div class="note t">
+      <p><code>to_kv</code> does not transform voxels. It transforms the <b>1029 image tokens</b>,
+      once per block, producing the keys and values that <b>every</b> voxel then attends to. So:</p>
+      <ul>
+        <li>the <b>gradient</b> arrives only from the ~18% of voxels the camera resolves;</li>
+        <li>the <b>learned delta</b> is applied to the K,V that all voxels read, in all 30 blocks;</li>
+        <li>therefore voxels on the back <b>do</b> receive the adapted conditioning — they are
+        unsupervised in the <em>loss</em>, not absent from the <em>forward pass</em>;</li>
+        <li>and <code>self_attn</code>, left frozen, mixes across voxels downstream of every one of
+        those 30 cross-attention reads.</li>
+      </ul>
+      <p>This is the bet the file's own docstring states at L15&ndash;20: <i>"an edit admitted at
+      cross-attention gets distributed by TRELLIS's own machinery to voxels the camera never saw.
+      That bet is what this experiment tests, and the turntable decides it — not PSNR from the
+      training view."</i></p>
+    </div>
+
+    <h3>What the mechanism can and cannot supply</h3>
+    <p>The conditioning is <b>one image of one viewpoint</b> — <code>get_cond([cond_img], ...)</code>,
+    a single view, 1029 tokens. A voxel on the back cross-attends to that same token set. The adapter
+    changes what those tokens say; it cannot add information about a surface the video never showed.</p>
+    <p>Measured on teapot_lava2, interior pixels only, mean gradient magnitude:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Region</th><th class="n">edge detail</th><th class="n">contrast (std)</th></tr></thead>
+        <tbody>
+          <tr><td>GT target</td><td class="n">9.82</td><td class="n">42.50</td></tr>
+          <tr><td>adapted, training view</td><td class="n">5.44</td><td class="n">32.30</td></tr>
+          <tr><td>adapted, opposite side</td><td class="n">2.62</td><td class="n">14.49</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Two separable losses. The <b>front</b> gap (5.44 vs 9.82) occurs where every pixel is
+    supervised, so it is not a propagation limit — masked MSE is minimised by the local mean, and
+    <code>--w-lpips</code> is <b>inert</b> in this environment (no <code>lpips</code> package;
+    L262&ndash;264). The <b>back</b> gap is the propagation limit: material and its temporal
+    evolution transfer, high-frequency pattern does not.</p>
+    <div class="note w">
+      <p><b>The claim that survives review:</b> the adapter carries the material and its evolution to
+      unsupervised geometry. The claim that does not: that it reproduces the pattern there. The
+      turntables show this plainly and a reviewer will see it in one glance.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">06</div>
+  <div class="sbody">
+    <h2>Epoch loop, evaluation, outputs</h2>
+
+<pre>every epoch:
+    ev = evaluate(<b>MONITOR</b>)          <i># 15 frames, full 12-step inference</i>
+    save ckpts/lora_e{ep}.pt
+    if ev.psnr_mean &gt; best: save ckpts/<b>lora_best.pt</b>
+    append loss_history.json, logs/epoch_metrics.csv
+    every 5 epochs: diag/e{ep}_gt_vs_ours.jpg
+
+at the end:
+    load ckpts/lora_best.pt
+    final = evaluate(<b>ALL_FRAMES</b>)     <i># 150 frames</i>
+    dump final_eval.json {frozen, final, best_epoch}</pre>
+
+    <p><code>evaluate</code> runs <code>full_inference</code> — all 12 ODE steps with the adapter
+    active, then decode and render — and scores PSNR and SSIM inside <code>inter_mask(fi)</code>.
+    The frozen baseline is measured on the identical frame set and the identical mask, so the
+    frozen &rarr; adapted difference within a row is a like-for-like measurement.</p>
+
+    <h4>Results produced by this path</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Run</th><th class="n">render</th><th class="n">frozen</th><th class="n">adapted</th><th class="n">gain</th><th>run id</th></tr></thead>
+        <tbody>
+          <tr><td>teapot &middot; lava</td><td class="n">518&sup2;</td><td class="n">9.602</td><td class="n">19.510</td><td class="n">+9.91</td><td class="m">bbbce460</td></tr>
+          <tr><td>teapot &middot; lava</td><td class="n">960&sup2;</td><td class="n">9.578</td><td class="n">19.154</td><td class="n">+9.58</td><td class="m">2378c291</td></tr>
+          <tr><td>teapot_lava2</td><td class="n">960&sup2;</td><td class="n">10.047</td><td class="n">19.100</td><td class="n">+9.05</td><td class="m">bc7a75b0</td></tr>
+          <tr><td>spot &middot; stars</td><td class="n">960&sup2;</td><td class="n">12.301</td><td class="n">23.332</td><td class="n">+11.03</td><td class="m">419828a7</td></tr>
+          <tr><td>spot &middot; lava</td><td class="n">960&sup2;</td><td class="n">9.503</td><td class="n">21.195</td><td class="n">+11.69</td><td class="m">fe2edd55</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Three objects, two effects, five runs, <b>identical hyperparameters throughout</b> — a config
+    diff across all five shows no difference except the data paths and the render resolution.
+    Absolute PSNR is not comparable across rows: different scenes, and 28,559 scored pixels at
+    518&sup2; versus 98,083 or 191,275 at 960&sup2;.</p>
+  </div>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">07</div>
+  <div class="sbody">
+    <h2>Constants, and what is frozen</h2>
+
+    <div class="grid2">
+      <div class="box f">
+        <h4>Frozen</h4>
+        <p>The entire TRELLIS.2 texture DiT (30 blocks, 1.29B), the shape encoder, the texture
+        decoder, DINOv3, the mesh, the camera, the noise tensor, the shape latent, and every
+        conditioning tensor.</p>
+      </div>
+      <div class="box t">
+        <h4>Trained</h4>
+        <p><code>reg</code> — 30 <code>CrossAttnLoRA</code> bundles, one <code>to_kv</code>
+        LoRALayer each. <span class="num">491,520</span> parameters. Nothing else appears in the
+        optimiser.</p>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Quantity</th><th class="n">Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>ODE steps</td><td class="n">12</td><td class="m">L756</td></tr>
+          <tr><td>rescale_t / sigma_min</td><td class="n">3.0 / 1e-5</td><td class="m">L756</td></tr>
+          <tr><td>blocks</td><td class="n">30</td><td class="m">L273</td></tr>
+          <tr><td>token width / context width</td><td class="n">1536 / 1024</td><td class="m">L24&ndash;26</td></tr>
+          <tr><td>DINOv3 tokens</td><td class="n">1029</td><td class="m">runtime log</td></tr>
+          <tr><td>shape_slat voxels</td><td class="n">1999 teapot / 2776 spot</td><td class="m">runtime log</td></tr>
+          <tr><td>guidance strength</td><td class="n">1.0</td><td class="m">L885 — CFG short-circuits</td></tr>
+          <tr><td>grad checkpointing</td><td class="n">flow only</td><td class="m">L762&ndash;797</td></tr>
+          <tr><td>spconv algorithm</td><td class="m">implicit_gemm</td><td class="m">L907&ndash;919</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note w">
+      <span class="lbl">Open, and better stated than discovered</span>
+      <ul>
+        <li><b>No held-out set.</b> All numbers are training-frame reconstruction.</li>
+        <li><b>rung20 is not the highest-scoring arm.</b> On the teapot, rung17 (same adapter, trust
+        map off) reaches <span class="num">22.30</span> and rung18 (<code>to_kv</code>+<code>to_out</code>)
+        reaches <span class="num">23.37</span>, against rung20's <span class="num">19.51</span>. The
+        trust map costs <span class="num">2.8 dB</span> and what it buys — fewer rim artefacts — has
+        never been measured, only judged by eye.</li>
+        <li><b>Rank 4 is not shown optimal.</b> The sweep was flat across r &isin; {1…32}, and it ran
+        under &alpha;/r scaling, which is itself a candidate explanation for the flatness.</li>
+        <li><b>0.038%</b> is of the 1.29B texture DiT, not of the 4B model name.</li>
+        <li><b>&minus;&minus;w&minus;lpips is inert</b> and has been recorded in every run's config while
+        doing nothing.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ────────────────────────────────────────────────────────── -->
+<div class="stage">
+  <div class="snum">08</div>
+  <div class="sbody">
+    <h2>What the literature says about these choices</h2>
+    <p class="sdesc">Read against ~40 papers on 3D texture generation and adapter design. Three
+    verdicts: validated, unprecedented, behind the field.</p>
+
+    <h3><span class="tag t">validated</span> &nbsp;The adapter design</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Choice here</th><th>Precedent</th><th>What they found</th></tr></thead>
+        <tbody>
+          <tr><td>train only cross-attn K/V, backbone frozen</td><td><b>IP-Adapter</b><br><span class="src">arXiv 2308.06721</span></td>
+              <td>&ldquo;only the parameters of the new cross-attention layers are trained, while the original UNet remains frozen&rdquo; &mdash; K,V from the reference image, Q from the noisy tokens. <b>22M params matches full fine-tuning.</b> This is our structure exactly.</td></tr>
+          <tr><td>freeze the propagation machinery, adapt only the conditioning pathway</td><td><b>AnimateDiff</b><br><span class="src">arXiv 2307.04725</span></td>
+              <td>motion module on a frozen T2I; &ldquo;spatial attention layers are never modified.&rdquo; Same separation of concerns, along time instead of space.</td></tr>
+          <tr><td>K and V are different pathways</td><td><b>Perfusion</b><br><span class="src">arXiv 2305.01644</span></td>
+              <td>K is a &ldquo;where&rdquo; pathway setting the attention map; V is a &ldquo;what&rdquo; pathway setting appearance. Training K makes attention &ldquo;spread across the entire image rather than focusing on the object.&rdquo;</td></tr>
+          <tr><td>cos-incidence confidence weighting</td><td><b>Meta 3D TextureGen</b><br><span class="src">arXiv 2407.02430</span></td>
+              <td>&ldquo;textures over areas not facing the camera are less reliable&rdquo;; blended &ldquo;by a weighted average by incidence angles, using cosine similarity between the viewing direction and per-pixel normal.&rdquo; <b>Our trust map is standard practice.</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note w">
+      <span class="lbl">One place our measurement contradicts the literature</span>
+      <p>Perfusion&rsquo;s prescription is to <b>lock K</b> and adapt V alone. We implemented that
+      (<code>--targets v</code>, rung19) and it scored <span class="num">21.41</span> against
+      <code>to_kv</code>&rsquo;s <span class="num">22.30</span> on the teapot &mdash; the recommended
+      variant was <b>worse</b>. Cite Perfusion for the K/V distinction, not as endorsement of a
+      configuration our own ablation beat.</p>
+    </div>
+
+    <h3><span class="tag w">unprecedented</span> &nbsp;Single-camera supervision</h3>
+    <p>Six families exist in the texture-generation literature, and <b>every one of them exists to
+    avoid supervising from a single fixed view</b>:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Family</th><th>Representative</th><th>How it reaches unseen surface</th></tr></thead>
+        <tbody>
+          <tr><td>iterative view-by-view inpainting</td><td>TEXTure, Text2Tex, InTeX</td><td>rotate and inpaint newly visible texels, guided by a generation mask &mdash; <b>makes the unseen seen</b></td></tr>
+          <tr><td>synchronised multi-view diffusion</td><td>SyncMVD, TexFusion, MVPaint, SyncTweedies</td><td>denoise in N cameras at once, aggregate through a shared UV/latent map <b>after every step</b> so views reach consensus early</td></tr>
+          <tr><td>UV-space diffusion</td><td>Paint3D, GenesisTex</td><td>work in texture space, so unseen regions are simply holes to inpaint</td></tr>
+          <tr><td>learned backprojection</td><td>Im2SurfTex</td><td>replaces ad-hoc cosine averaging with a trained attention module over 3D position, normal and geodesic distance</td></tr>
+          <tr><td>attention-level propagation</td><td>EpiDiff, StyleAligned, GenesisTex2</td><td>epipolar or shared K/V attention <em>between views</em>, often inserted into a frozen model</td></tr>
+          <tr><td>explicit back-view hallucination</td><td>SiTH, CaPa</td><td>generate the missing view with a diffusion prior, then reconstruct from front + back</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note t">
+      <p><b>We are in none of them.</b> One fixed camera, and the unseen surface is reached only by
+      the frozen self-attention propagating a cross-attention edit. That is genuinely novel &mdash;
+      and it is also the direct explanation for the measured
+      <span class="num">2.62</span> vs <span class="num">9.82</span> sharpness gap on the far side.
+      The field&rsquo;s consensus is that pattern cannot be placed on a surface no camera observed;
+      our numbers are that consensus appearing in our own data.</p>
+      <p><b>Consequence for the write-up:</b> the defensible claim is that <em>material and its
+      temporal evolution</em> transfer to unsupervised geometry. Not that the pattern does.</p>
+    </div>
+
+    <h3><span class="tag w">behind the field</span> &nbsp;The loss</h3>
+    <p>Masked MSE alone, with <code>--w-lpips</code> inert. The failure mode has a name and a
+    literature:</p>
+    <ul>
+      <li><b>Rethinking SDS</b> <span class="src">arXiv 2505.01888</span> &mdash; score distillation
+      &ldquo;is <b>mean-seeking</b> and tends to create an average of plausible generation results,&rdquo;
+      producing &ldquo;overly smoothed texture.&rdquo; Masked MSE has the identical pathology: its
+      minimiser at an uncertain pixel is the local mean.</li>
+      <li><b>GenesisTex2</b> <span class="src">arXiv 2409.18401</span> &mdash; names
+      &ldquo;blurring, over-saturation, or over-smoothing&rdquo; as the recurring failure of the whole
+      field.</li>
+      <li><b>Tex4D</b> <span class="src">arXiv 2410.10821</span> &mdash; hit exactly this:
+      &ldquo;combining video diffusion models and UV texture aggregation initially led to blurry
+      results.&rdquo; Their fix was a modified DDIM sampling process plus a <b>reference latent
+      texture</b> strengthening frame-to-frame correlation.</li>
+      <li>Perceptual loss is the standard remedy &mdash; documented to reduce blurriness and
+      structural inconsistency.</li>
+    </ul>
+    <p>This is the one defect <em>inside this file</em> that the literature predicts will produce the
+    blur we measure at the <b>front</b>, where every pixel is supervised and propagation cannot be
+    blamed.</p>
+
+    <div class="note">
+      <span class="lbl">A hypothesis that was tested and rejected</span>
+      <p><span class="num">58%</span> of training steps land at t &ge; 0.75, where
+      <code>x0_hat</code> is closest to a conditional mean, which suggested the timestep schedule
+      might be driving the smoothing. <b>Measured and false:</b> mean MSE across the twelve knots is
+      flat (0.011&ndash;0.025, no trend with t). The schedule is not the cause.</p>
+    </div>
+
+    <h3><span class="tag w">caution</span> &nbsp;Two claims to withdraw</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Claim</th><th>Why it does not hold</th></tr></thead>
+        <tbody>
+          <tr><td>&ldquo;rank 4 is optimal&rdquo;</td>
+              <td><b>rsLoRA</b> <span class="src">arXiv 2312.03732</span> shows &alpha;/r scaling makes
+              &ldquo;the effective gradient magnitude and output activations of the adapter collapse
+              as r increases.&rdquo; Our sweep ran under &alpha;/r, so a flat curve across
+              r &isin; {1&hellip;32} measures <b>the scaling, not the rank</b>. Say &ldquo;the smallest
+              rank that works,&rdquo; not &ldquo;optimal.&rdquo;</td></tr>
+          <tr><td>the rung21/22 regularisers were the right shape</td>
+              <td><b>RegNeRF</b> <span class="src">arXiv 2112.00724</span> is the principled version:
+              <b>sample unobserved viewpoints</b> and regularise the rendered patches against a
+              learned image prior, rather than penalising voxel features directly. If unsupervised-region
+              regularisation is revisited, that is the formulation.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note w">
+      <span class="lbl">Nearest prior work &mdash; must be cited</span>
+      <p><b>Tex4D</b> is &ldquo;the first method specifically designed for 4D scene texturing,&rdquo;
+      producing multi-view and temporally consistent textures for mesh sequences, zero-shot. The
+      differentiators are real &mdash; it needs a mesh <em>sequence</em> and a text prompt, we take one
+      fixed mesh and a real video and train an adapter &mdash; but a reviewer who knows Tex4D and does
+      not see it cited will assume we do not.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  rung20_conf_lora.py &middot; byte-identical fork of rung17_backproj_lora.py, kept separate so the rung20 line can be extracted<br>
+  targets from make_gt_targets.py (2D copy); backprojection exists in the tree and is used by no run<br>
+  runs/ &middot; bbbce460 &nbsp;2378c291 &nbsp;bc7a75b0 &nbsp;419828a7 &nbsp;fe2edd55 &middot; config.json, final_eval.json, loss_history.json, logs/epoch_metrics.csv<br>
+  line numbers refer to rung20_conf_lora.py as committed in 13ec8a8
+</footer>
+
+</div>

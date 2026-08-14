@@ -313,11 +313,21 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
             epochs=EPOCHS, n_frames=N_FRAMES, lr=args.lr, seed=args.seed,
             loss_scale=args.loss_scale, resolution=args.resolution,
             w_lpips=args.w_lpips, held_out=HELD_OUT,
-            # WHICH OBJECT AND WHICH DATA. Absent from the hash until 2026-08-11.
-            # Two runs differing ONLY in these paths hashed identically, shared a
-            # run directory, and the second RESUMED from the first's checkpoint —
-            # training one object's adapter on another's data for 29 epochs with no
-            # error anywhere. The mesh and the targets ARE the experiment.
+            # RENDER RESOLUTION. Same omission as the paths below, same failure
+            # mode: the teapot ran at 518 and spot at 960, so a teapot re-run at
+            # 960 hashes to the 518 run's directory and resumes from its
+            # checkpoints. It also sets how many pixels are supervised and scored
+            # (28,559 at 518 vs 191,275 at 960), so it changes what PSNR means and
+            # two runs that differ in it are not the same experiment.
+            render_res=args.render_res,
+            # WHICH OBJECT, AND WHICH DATA. These were absent from the hash until
+            # 2026-08-11 and it cost two full runs. spot_star and spot_lava differ
+            # ONLY in these paths, so they hashed identically, landed in the same
+            # run directory, and the job that started second found the first's
+            # lora_e001.pt and RESUMED from it — training cow-spot weights on lava
+            # data for 29 epochs while both overwrote each other's checkpoints.
+            # The symptom was 59 rows in a 30-epoch epoch_metrics.csv.
+            # The mesh and the targets ARE the experiment. They belong in its id.
             mesh=str(Path(args.mesh).resolve()),
             gt_dir=str(Path(args.gt_dir).resolve()),
             gt_render_dir=str(Path(args.gt_render_dir).resolve()))
@@ -1756,9 +1766,23 @@ def main():
     ckpts = sorted((OUT / 'ckpts').glob('lora_e*.pt'))
     if ckpts:
         st = torch.load(ckpts[-1], map_location=DEVICE, weights_only=False)
+        # GATE-resume. Belt to the config hash's braces: a checkpoint may only be
+        # inherited by a run using the SAME mesh and the SAME targets. Without
+        # this, two runs that hash alike silently continue each other's training
+        # on different data, which is exactly what happened on 2026-08-11 and
+        # produced two unusable results with no error anywhere.
+        _prev = st.get('cfg', {})
+        for _k in ('mesh', 'gt_render_dir', 'render_res'):
+            _a, _b = _prev.get(_k), _CFG.get(_k)
+            assert _a is None or _a == _b, (
+                f'GATE-resume FAILED: {ckpts[-1].name} was written by a run whose '
+                f'{_k} was\n    {_a}\nbut this run uses\n    {_b}\n'
+                f'Refusing to resume — that would continue another experiment\'s '
+                f'adapter on different data. Delete {OUT} or fix the paths.')
         reg.load_state_dict(st['reg']); opt.load_state_dict(st['opt'])
         start_ep, best = st['epoch'] + 1, st['best']
-        print(f'[RESUME] from {ckpts[-1].name}, epoch {start_ep}', flush=True)
+        print(f'[RESUME] from {ckpts[-1].name}, epoch {start_ep}   '
+              f'[GATE-resume] PASSED — same mesh and targets', flush=True)
     else:
         print('[RESUME] no checkpoint — starting fresh', flush=True)
 

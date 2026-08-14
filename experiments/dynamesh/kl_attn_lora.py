@@ -136,6 +136,35 @@ ap.add_argument('--w-lpips',    type=float, default=0.1,
                      "passed. The default stays 0.1 rather than 0.0 because this "
                      "value is already in the config hash of every run ever made; "
                      "changing it would silently re-hash all of them.")
+ap.add_argument('--attn-entropy', action='store_true',
+                help="DIAGNOSTIC, NOT TRAINING. Runs one graded flow evaluation, "
+                     "captures the cross-attention distribution of every voxel over "
+                     "the 1029 image tokens, and reports its entropy split by "
+                     "whether the training camera can see that voxel. Tests one "
+                     "claim: that voxels the camera never sees have no good match "
+                     "in a front-view image, so their softmax is flat and the "
+                     "attention output degenerates to the MEAN of all tokens -- "
+                     "which would keep material and destroy pattern by "
+                     "construction. Exits after printing; trains nothing.")
+ap.add_argument('--kl',         action='store_true',
+                help="ATTENTION-DISTRIBUTION REGULARISER. The render loss is only "
+                     "DEFINED on the ~18% of voxels the camera resolves; the other "
+                     "82% receive the adapter's edit with nothing constraining it. "
+                     "rung21/22 tried to fix that by penalising voxel FEATURES and "
+                     "both collapsed to trivial minimisers. This penalises how far "
+                     "the adapted cross-attention PROBABILITY has drifted from the "
+                     "frozen model's -- defined for EVERY voxel, because every "
+                     "voxel cross-attends whether or not a pixel scores it. Same "
+                     "shape as the RLHF objective (reward - beta*KL to a reference "
+                     "policy), and the soft form of Perfusion's key-locking.")
+ap.add_argument('--w-kl',       type=float, default=0.0,
+                help="beta. The dial between fidelity to the target texture and "
+                     "staying near TRELLIS's own reading of the image. Set it from "
+                     "the MEASURED ratio of the two terms, never by guessing.")
+ap.add_argument('--kl-blocks',  default='all', choices=['all', 'early', 'mid', 'late'],
+                help="which third of the 30 blocks contributes KL. 'all' retains "
+                     "~99 MB of attention graph per block for the backward; the "
+                     "subsets are the fallback if that does not fit.")
 ap.add_argument('--lpips',      action='store_true',
                 help="Add a perceptual term to the data loss. Rationale: L1 and "
                      "L2 both compare pixel-to-pixel, which is harsh about a "
@@ -300,22 +329,17 @@ _TSET = {'v':   ('to_v',),
          'qkvo': ('to_q', 'to_kv', 'to_out'),
          'cross': ('to_q', 'to_kv', 'to_out'),
          'cross+mlp': ('to_q', 'to_kv', 'to_out')}[args.targets]
-# WHICH TARGET SET GETS WHICH RUNG NUMBER.
-# Redefined 2026-08-13. qkv and qkvo previously fell through to 17, which made
-# them indistinguishable from the kv arm in the label. They now take 18 and 19.
-#   18 = to_q + to_kv           "adapt the question AND the image, not the output"
-#   19 = to_q + to_kv + to_out  "adapt all three"
-# The old occupants move rather than being overwritten, so no number ever means
-# two things: kvo was 18 (run ac8beea4, 23.37 dB) and v was 19 (run 8dc4a430,
-# 21.41 dB). Those directories keep their names -- only future runs are affected.
-_TARGET_RUNG = {'kv': 17, 'qkv': 18, 'qkvo': 19, 'kvo': 25, 'v': 26}
-
 _NB = 30                       # tex_slat_flow_model_512/1024 both have 30 blocks
 _THIRD = _NB // 3
 ACTIVE = {'all':   list(range(_NB)),
           'early': list(range(0, _THIRD)),
           'mid':   list(range(_THIRD, 2 * _THIRD)),
           'late':  list(range(2 * _THIRD, _NB))}[args.blocks]
+
+_KLB = {'all':   list(range(_NB)),
+        'early': list(range(0, _THIRD)),
+        'mid':   list(range(_THIRD, 2 * _THIRD)),
+        'late':  list(range(2 * _THIRD, _NB))}[args.kl_blocks]
 
 EPOCHS   = 2 if args.smoke else args.epochs
 N_FRAMES = 8 if args.smoke else args.n_frames
@@ -339,7 +363,7 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
                   else 22 if (args.lambda_con > 0 and args.lambda_smo <= 0)
                   else 21 if (args.lambda_con > 0 or args.lambda_smo > 0)
                   else 20 if args.conf_weight else 23 if args.lambda_smooth > 0
-                  else _TARGET_RUNG.get(args.targets, 17)),
+                  else {'kv': 17, 'kvo': 18, 'v': 19}.get(args.targets, 17)),
             conf_ramp_qlo=args.conf_ramp_qlo, conf_ramp_qhi=args.conf_ramp_qhi,
             conf_weight=bool(args.conf_weight), conf_tau=args.conf_tau,
             conf_quantile=args.conf_quantile, lambda_con=args.lambda_con,
@@ -364,6 +388,8 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
             # keeps every historical hash intact, present is enough to keep an
             # lpips run out of a non-lpips run's directory.
             **({} if not args.lpips else dict(lpips=True)),
+            **({} if not args.kl else dict(kl=True, w_kl=args.w_kl,
+                                           kl_blocks=args.kl_blocks)),
             # RENDER RESOLUTION. Same omission as the paths below, same failure
             # mode: the teapot ran at 518 and spot at 960, so a teapot re-run at
             # 960 hashes to the 518 run's directory and resumes from its
@@ -388,13 +414,13 @@ _RUNG = (24 if (args.conf_ramp_qlo >= 0 and args.conf_ramp_qhi >= 0)
          else 21 if (args.lambda_con > 0 or args.lambda_smo > 0)
          else 20 if args.conf_weight
          else 23 if args.lambda_smooth > 0
-         else _TARGET_RUNG.get(args.targets, 17))
+         else {'kv': 17, 'kvo': 18, 'v': 19}.get(args.targets, 17))
 # The reconstruction penalty is ORTHOGONAL to the rung: l1 composes with 17, 20,
 # 18, anything. So it is a tag in the label rather than a new rung number -- a
 # 1-D counter cannot carry a second axis, and 'rung25' would not tell anyone it
 # is the no-trust-map arm. Empty for l2, so existing directory names are
 # unchanged; without it two runs would differ only by an opaque hash.
-_RTAG  = ('' if args.recon == 'l2' else f'_{args.recon}') + ('_lp' if args.lpips else '')
+_RTAG  = ('' if args.recon == 'l2' else f'_{args.recon}') + ('_lp' if args.lpips else '') + ('_kl' if args.kl else '')
 LABEL  = f'rung{_RUNG}{_RTAG}_{args.blocks}_{args.targets}_r{args.rank}_s{args.seed}_{RUN_ID}'
 OUT    = (args.out_dir or (_HERE / 'runs' / LABEL)).resolve()
 for d in (OUT, OUT / 'logs', OUT / 'ckpts', OUT / 'diag'):
@@ -493,6 +519,68 @@ class LoRARegistry(nn.Module):
         return self.blocks[k] if k in self.blocks else None
 
 
+# ── attention-distribution regulariser ───────────────────────────────────────
+# Per step the hooks fill _KL['q'] (queries, from the frozen to_q) and append one
+# scalar per block to _KL['terms']. The training loop reads and clears it.
+# 'collect' is the important one. Hooks fire on EVERY forward -- the no_grad
+# ODE prefix, the four GATE-grad probes, every evaluate() -- and if the KL is
+# built on all of them the terms from one backward outlive it and the next
+# backward walks a freed graph:
+#   RuntimeError: Trying to backward through the graph a second time
+# So collection is opened for exactly one graded flow_eval and closed again.
+_KL = {'q': {}, 'terms': [], 'on': False, 'blocks': set(), 'collect': False}
+# Armed here, immediately after the definition -- NOT at argparse time, where
+# _KL does not exist yet. lora_ctx reads both fields when installing hooks.
+_KL['on'] = bool(args.kl)
+_KL['blocks'] = set(_KLB)
+
+
+def attn_kl(blk, q_raw, kv_frozen, kv_adapted):
+    """
+    KL( P_lora || P_frozen ) over the 1029 image tokens, averaged over voxels+heads.
+
+    THE HOOKS SEE RAW TENSORS, NOT SparseTensors. sparse/attention/modules.py:79
+    `_linear` calls `module(x.feats)` and re-wraps the result, so a forward hook
+    on the nn.Linear observes the plain tensor:
+        to_q  -> [N, C]          N = voxels, no batch dim
+        to_kv -> [B, Lkv, 2C]    context is dense
+    Two smoke runs died on this: first assuming a dense [B,L,C] query, then
+    assuming a SparseTensor. It is neither.
+
+    Reproducing the model's own arithmetic (:128-136), qk_rms_norm is TRUE:
+        q : [N, C]        -> [N, H, D]        -> q_rms_norm
+        kv: [B, Lkv, 2C]  -> [B, Lkv, 2, H, D] -> unbind(-3)[0] -> k_rms_norm
+        logits = q . k^T / sqrt(D)  over the token axis
+    MultiHeadRMSNorm is F.normalize(x,-1)*gamma*scale with gamma [H,D], so it
+    broadcasts over both shapes and the block's own layers can be called directly.
+
+    ON THE QUERIES. q is from the ADAPTED forward and shared by both arms. Exact
+    at block 0; later the frozen model's true queries would differ and recovering
+    them needs a second full forward. Holding q fixed measures the divergence
+    ATTRIBUTABLE TO THE ADAPTED KEYS -- the only thing this adapter controls,
+    since to_q is frozen. Deliberate, and stated so.
+    """
+    ca = blk.cross_attn
+    H = ca.num_heads
+    D = q_raw.shape[-1] // H
+
+    q = q_raw.reshape(-1, H, D)                      # [N, H, D]
+    if ca.qk_rms_norm:
+        q = ca.q_rms_norm(q)
+
+    def logits(kv):
+        k = kv.reshape(*kv.shape[:-1], 2, H, D).unbind(dim=-3)[0]   # [B,Lkv,H,D]
+        if ca.qk_rms_norm:
+            k = ca.k_rms_norm(k)
+        k = k.reshape(-1, H, D)                      # [Lkv, H, D], B == 1
+        return torch.einsum('nhd,khd->nhk', q, k) * (1.0 / math.sqrt(D))
+
+    with torch.no_grad():
+        lp_f = torch.log_softmax(logits(kv_frozen).float(), dim=-1)
+    lp_a = torch.log_softmax(logits(kv_adapted).float(), dim=-1)
+    return (lp_a.exp() * (lp_a - lp_f)).sum(-1).mean()
+
+
 @contextmanager
 def lora_ctx(flow_model, registry):
     """
@@ -508,8 +596,14 @@ def lora_ctx(flow_model, registry):
         def _q(mod, inp, out, _lb=lb):
             return out + _lb.to_q(inp[0]).to(out.dtype)
 
-        def _kv(mod, inp, out, _lb=lb):
-            return out + _lb.to_kv(inp[0]).to(out.dtype)
+        def _kv(mod, inp, out, _lb=lb, _blk=blk, _i=i):
+            # `out` IS the frozen to_kv output and the return is the adapted one,
+            # so both arms are already in scope here — the reference distribution
+            # costs no second model forward, only a second attention.
+            adapted = out + _lb.to_kv(inp[0]).to(out.dtype)
+            if _KL['collect'] and _i in _KL['blocks'] and _i in _KL['q']:
+                _KL['terms'].append(attn_kl(_blk, _KL['q'][_i], out, adapted))
+            return adapted
 
         def _o(mod, inp, out, _lb=lb):
             return out + _lb.to_out(inp[0]).to(out.dtype)
@@ -523,6 +617,15 @@ def lora_ctx(flow_model, registry):
         # Only hook what the bundle actually carries. Blocks outside the active
         # set get no hook at all and run exactly frozen — which is what makes
         # early/mid/late a clean placement comparison.
+        # The KL needs the queries, but to_q is NOT a LoRA target in the kv / v
+        # arms, so it never gets hooked above and _KL['q'] would stay empty.
+        # This one is read-only: returning None leaves `out` untouched. It must
+        # run before _kv, and it does — modules.py:90-91 computes q then kv.
+        if _KL['on'] and i in _KL['blocks']:   # stash hook installed if KL is on at all
+            def _qstash(mod, inp, out, _i=i):
+                _KL['q'][_i] = out
+            handles.append(blk.cross_attn.to_q.register_forward_hook(_qstash))
+
         if lb.has('to_q'):
             handles.append(blk.cross_attn.to_q.register_forward_hook(_q))
         if lb.has('to_kv'):
@@ -1845,6 +1948,103 @@ def main():
               f'  crop y[{_y0}:{_y1}] x[{_x0}:{_x1}] = {_y1-_y0}x{_x1-_x0} at native resolution\n'
               f'  weight {args.w_lpips}  (loss = recon + w * lpips)', flush=True)
 
+    # ── ATTENTION-ENTROPY DIAGNOSTIC ─────────────────────────────────────────
+    # Tests ONE claim: a voxel the camera never sees has no good match in a
+    # front-view image, so its softmax over the image tokens is flat, and a flat
+    # softmax returns the MEAN of the values -- which keeps material and destroys
+    # pattern by construction. Prediction: unseen voxels have HIGHER entropy.
+    # If they do not, the claim is wrong and the smoothing comes from elsewhere
+    # (voxel resolution, or the decoder). Trains nothing; prints and exits.
+    if args.attn_entropy:
+        _ck = OUT / 'ckpts' / 'lora_best.pt'
+        if _ck.exists():
+            _st = torch.load(_ck, map_location=DEVICE, weights_only=False)
+            reg.load_state_dict(_st['reg'])
+            print(f"\n[ENTROPY] loaded {_ck.name} (epoch {_st.get('epoch')})", flush=True)
+        else:
+            print(f'\n[ENTROPY] no checkpoint — measuring the FROZEN model', flush=True)
+
+        # WHICH VOXELS DOES THE CAMERA SEE?
+        # NOT by mapping coordinates -- that was wrong once already. The latent
+        # is 1,999 voxels; the DECODED field the renderer samples is 874,978 at
+        # spatial_shape (512,385,415). Different grids, different resolutions,
+        # non-cubic extent, and matching one against the other gave 3.4% where
+        # ~tens of percent was expected.
+        #
+        # Instead ask autograd directly: push a latent through the real
+        # decode+render path and see which latent voxels carry gradient from the
+        # rendered pixels. A voxel the camera cannot see contributes nothing to
+        # any scored pixel, so its gradient is exactly zero. This is the
+        # DEFINITION of "seen", measured through the same code the loss uses,
+        # with no coordinate reasoning at all.
+        _probe = ss_n.replace(torch.zeros(ss_n.coords.shape[0], 32, device=DEVICE)
+                              .normal_(0, 0.1).requires_grad_(True))
+        _im = decode_render(_probe, clamp=False)
+        _im[0][renderer.mask].square().sum().backward()
+        _g = _probe.feats.grad
+        _seen = (_g.abs().sum(-1) > 0)
+        _nv, _ns = int(_seen.numel()), int(_seen.sum())
+        _pct = 100.0 * _ns / _nv
+        print(f'[ENTROPY] latent voxels {_nv:,}   reached by the render {_ns:,} ({_pct:.1f}%)'
+              f'   never reached {_nv-_ns:,}')
+        print(f'[ENTROPY] measured by autograd through decode+render, not by coordinate mapping',
+              flush=True)
+        assert 0 < _ns < _nv, (
+            f'seen set degenerate ({_ns}/{_nv}) — the probe backward did not '
+            f'discriminate, results would be meaningless')
+        reg.zero_grad(set_to_none=True)
+
+        _ENT = {}
+        def _grab(blk, q_raw, kv, i):
+            ca = blk.cross_attn; H = ca.num_heads; Dh = q_raw.shape[-1] // H
+            q = q_raw.reshape(-1, H, Dh)
+            if ca.qk_rms_norm: q = ca.q_rms_norm(q)
+            k = kv.reshape(*kv.shape[:-1], 2, H, Dh).unbind(dim=-3)[0]
+            if ca.qk_rms_norm: k = ca.k_rms_norm(k)
+            k = k.reshape(-1, H, Dh)
+            lg = torch.einsum('nhd,khd->nhk', q, k) * (1.0 / math.sqrt(Dh))
+            lp = torch.log_softmax(lg.float(), dim=-1)
+            _ENT[i] = (-(lp.exp() * lp).sum(-1)).mean(1)
+
+        _hs = []
+        for _i, _blk in enumerate(flow.blocks):
+            _slot = {}
+            def _qh(m, inp, out, _d=_slot): _d['q'] = out
+            def _kh(m, inp, out, _b=_blk, _i=_i, _d=_slot, _lb=reg.get(_i)):
+                _kv = out if _lb is None else out + _lb.to_kv(inp[0]).to(out.dtype)
+                if 'q' in _d: _grab(_b, _d['q'], _kv, _i)
+                return None
+            _hs.append(_blk.cross_attn.to_q.register_forward_hook(_qh))
+            _hs.append(_blk.cross_attn.to_kv.register_forward_hook(_kh))
+        _fi = frames[len(frames) // 2]
+        with torch.no_grad(), lora_ctx(flow, reg):
+            flow_eval(flow, noise, T_SEQ[STEPS - 1], conds[_fi], ss_n)
+        for _hh in _hs: _hh.remove()
+
+        _E = torch.stack([_ENT[i] for i in sorted(_ENT)])
+        _ntok = conds[_fi].shape[1]
+        _maxE = math.log(_ntok)
+        _es, _eu = _E[:, _seen].mean(), _E[:, ~_seen].mean()
+        print(f'\n[ENTROPY] frame {_fi}  t={T_SEQ[STEPS-1]:.3f}  {_E.shape[0]} blocks  '
+              f'{_ntok} tokens  (uniform entropy = {_maxE:.3f} nats)')
+        print(f'  {"":<9}{"seen":>10}{"unseen":>10}{"diff":>10}')
+        print(f'  {"MEAN":<9}{float(_es):>10.4f}{float(_eu):>10.4f}{float(_eu-_es):>+10.4f}')
+        for _b in (0, _E.shape[0] // 2, _E.shape[0] - 1):
+            _a, _c = _E[_b][_seen].mean(), _E[_b][~_seen].mean()
+            print(f'  blk {_b:<5}{float(_a):>10.4f}{float(_c):>10.4f}{float(_c-_a):>+10.4f}')
+        _d = float(_eu - _es)
+        print(f'\n[ENTROPY] unseen voxels are {"MORE" if _d > 0 else "LESS"} diffuse '
+              f'by {abs(_d):.4f} nats ({100*abs(_d)/_maxE:.2f}% of uniform)')
+        print(f'[ENTROPY] {"CLAIM SUPPORTED" if _d > 0.05 else "CLAIM NOT SUPPORTED — flat attention does not explain the smoothing"}',
+              flush=True)
+        json.dump(dict(frame=int(_fi), n_voxels=_nv, n_seen=_ns, n_tokens=int(_ntok),
+                       uniform_entropy=_maxE, ent_seen=float(_es), ent_unseen=float(_eu),
+                       per_block_seen=[float(x) for x in _E[:, _seen].mean(1)],
+                       per_block_unseen=[float(x) for x in _E[:, ~_seen].mean(1)]),
+                  open(OUT / 'logs' / 'attn_entropy.json', 'w'), indent=2)
+        print(f'[ENTROPY] saved logs/attn_entropy.json\n[DONE]', flush=True)
+        return
+
     opt = torch.optim.AdamW(reg.parameters(), lr=args.lr, weight_decay=0.0)
     start_ep, best = 1, -1e9
     ckpts = sorted((OUT / 'ckpts').glob('lora_e*.pt'))
@@ -1888,6 +2088,7 @@ def main():
         _oob, _nb = 0.0, 0            # fraction of predicted px outside [0,1]
         _smtot, _smn = 0.0, 0         # neighbour-consistency term
         _rctot = _rstot = 0.0; _rn = 0 # rung21 regularisers
+        _kltot, _kln = 0.0, 0         # attention divergence, logged separately
         _lptot, _lpn = 0.0, 0         # perceptual term, logged separately from
                                       # the data term so their RATIO is visible —
                                       # that ratio is how w_lpips gets chosen
@@ -1905,7 +2106,18 @@ def main():
             # — the 17 missing tensors being exactly the LoRA deltas.
             with lora_ctx(flow, reg):
                 x_k = run_ode(flow, noise, conds[fi], ss_n, T_PAIRS[:k])
+                # COLLECTION MUST STAY OPEN THROUGH THE BACKWARD. Gradient
+                # checkpointing REPLAYS this forward during backward, and the hook
+                # has to build the same tensors both times or torch raises
+                #   CheckpointError: A different number of tensors was saved during
+                #   the original forward and recomputation
+                # Closing the gate right after flow_eval is exactly that mismatch.
+                # So: clear here, open here, snapshot the terms below, and let the
+                # replay append freely into a list nobody reads again.
+                _KL['terms'].clear(); _KL['q'].clear()
+                _KL['collect'] = bool(args.kl)
                 v = flow_eval(flow, x_k, t_k, conds[fi], ss_n)
+                _kl_terms = list(_KL['terms'])          # snapshot BEFORE backward
                 x0 = pred_to_xstart(x_k, t_k, v)
                 _need_pbr = args.lambda_smooth > 0 or REG_ON
                 _ret = decode_render(x0, clamp=False, return_pbr=_need_pbr)
@@ -1923,6 +2135,15 @@ def main():
                     _d = (img - gts[fi])[:, _m]
                     loss_data = (_d.abs() if args.recon == 'l1' else _d ** 2).mean()
                 loss = loss_data
+                # KL is collected by the hooks DURING the graded forward
+                # above, so it is read here rather than computed here.
+                _klv = 0.0
+                if args.kl and _kl_terms:
+                    _kl_mean = torch.stack(_kl_terms).mean()
+                    loss = loss + args.w_kl * _kl_mean
+                    _klv = float(_kl_mean)
+                    _kltot += _klv; _kln += 1
+
                 _lpv = 0.0
                 if lpips_term is not None:
                     _lp = lpips_term(img, gts[fi])
@@ -1965,6 +2186,9 @@ def main():
                 last_rep = grad_report(reg)
             torch.nn.utils.clip_grad_norm_(reg.parameters(), args.grad_clip)
             opt.step()
+            # Backward (and any checkpoint replay) is finished, so the gate can
+            # close. Anything the replay appended is dropped with the next clear.
+            _KL['collect'] = False
             # The decoder's weights carry requires_grad only to keep flex_gemm from
             # returning grad_weight=None; nothing optimises them. opt.zero_grad()
             # does not touch them (the optimizer holds reg.parameters() alone), so
@@ -1976,9 +2200,13 @@ def main():
             lv = float(loss_data)            # comparable across lambda settings
             del loss, loss_data, img, x0, v, x_k
 
-            if si % 25 == 0 or si == 1:
+            if si % 10 == 0 or si == 1:
                 print(f'  e{ep:02d} [{si:03d}/{len(order)}] f{fi:04d} k={k:02d} '
                       f't={t_k:.3f}  {args.recon}={lv:.5f}  '
+                      + (f'kl={_klv:.3e} n={len(_kl_terms)} '
+                         f'(w*kl={args.w_kl*_klv:.3e}, '
+                         f'{100*args.w_kl*_klv/max(lv+args.w_kl*_klv,1e-12):.2f}% of loss)  '
+                         if args.kl else '')
                       + (f'lpips={_lpv:.5f} (w*lp={args.w_lpips*_lpv:.5f}, '
                          f'{100*args.w_lpips*_lpv/max(lv+args.w_lpips*_lpv,1e-12):.0f}% of loss)  '
                          if lpips_term is not None else '')

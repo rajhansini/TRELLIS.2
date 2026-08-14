@@ -230,3 +230,9 @@ __marimo__/
 *.out
 *.err
 *.log
+
+# training artifacts: checkpoints, renders, per-run diagnostics (GBs, not source)
+experiments/dynamesh/runs/
+experiments/dynamesh/sam_experiment/
+experiments/mcfm/
+*.bak
