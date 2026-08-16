@@ -236,3 +236,7 @@ experiments/dynamesh/runs/
 experiments/dynamesh/sam_experiment/
 experiments/mcfm/
 *.bak
+
+# generated experiment output (renders, targets, videos, logs) — reproducible, GB-scale
+experiments/dynamesh/out/
+*.bak.[0-9]*

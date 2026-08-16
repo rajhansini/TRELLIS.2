@@ -1,0 +1,117 @@
+{
+  "_provenance": "Rotations used to render the Kling input PNGs (guanc, render_final.py). Every entry re-rendered on 2026-08-15 and verified byte-identical to the PNG the video was generated from.",
+  "_convention": {
+    "world": "y-up; fixed camera on +Z looking at the origin; image x rightward, y downward in pixels",
+    "order_of_operations": "v_posed = R_view @ normalize( R_pre @ v_raw ), where normalize(v) = (v - bbox_midpoint) / max(bbox_extent). R_pre is applied to raw vertices BEFORE normalization; R_view AFTER, with no re-normalization.",
+    "composed_shortcut": "R_total = R_view @ R_pre is correct up to a small scale difference: applying R_total then normalizing re-measures the bbox of the rotated mesh. If you use R_total + your own normalization, expect a uniform-scale offset (the whale/pumpkin bboxes change most under rotation); the verify step below catches it.",
+    "matrix_layout": "row-major 3x3, right-multiplies column vectors",
+    "camera_used_for_kling_pngs": {
+      "distance": 2.6,
+      "fov_deg": 30.0,
+      "resolution": 1024
+    },
+    "verify_before_training": "render the mask through GATE-cam with the rotation applied and compare against video frame 1. Gate on COVERAGE (pixels of our silhouette not covered by the video mask ~ 0), not symmetric IoU - coverage is immune to cast shadows in the video (the teapot_ceramic_crack failure mode). If coverage is bad, try conjugating by your canonical map M=(-x,z,y): R' = M @ R @ M^T, or seed solve_orientation.py with R."
+  },
+  "objects": {
+    "hammer": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/hammer_unwarp.glb",
+      "kling_input_png": "hammer_rust.png",
+      "videos": ["hammer_forge (idea 1)"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "verified_byte_exact": true
+    },
+    "pumpkin": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/pumpkin_unwarp.glb",
+      "kling_input_png": "pumpkin_rot.png",
+      "videos": ["pumpkin_rot.mp4", "pumpkin ripening (idea 15)"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 35, "mesh_prerot_x_deg": -90},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, -1.0, 0.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.819152044289, -0.573576436351], [0.0, 0.573576436351, 0.819152044289]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.573576436351, 0.819152044289], [0.0, -0.819152044289, 0.573576436351]],
+      "verified_byte_exact": true
+    },
+    "whale": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/whale_unwarp.glb",
+      "kling_input_png": "whale_barnacles.png",
+      "videos": ["whale_spots.mp4", "whale galaxy (idea 3)", "whale inkblots (idea 12)"],
+      "view_params": {"cam_yaw_deg": 25, "cam_pitch_deg": 18, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[0.906307787037, 0.0, -0.422618261741], [-0.130596225011, 0.951056516295, -0.280064508329], [0.401933851734, 0.309016994375, 0.86194992663]],
+      "R_total": [[0.906307787037, 0.0, -0.422618261741], [-0.130596225011, 0.951056516295, -0.280064508329], [0.401933851734, 0.309016994375, 0.86194992663]],
+      "verified_byte_exact": true
+    },
+    "horse": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/horse_unwarp.glb",
+      "kling_input_png": "horse_patina.png",
+      "videos": ["horse_metal.mp4", "horse_hair.mp4", "horse_hair_more.mp4"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "verified_byte_exact": true
+    },
+    "penguin": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/penguin_remesh_unwarp.glb",
+      "kling_input_png": "penguin_char.png",
+      "videos": ["penguin_circuuits.mp4"],
+      "view_params": {"cam_yaw_deg": 90, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[0.0, 0.0, -1.0], [-0.173648177667, 0.984807753012, -0.0], [0.984807753012, 0.173648177667, 0.0]],
+      "R_total": [[0.0, 0.0, -1.0], [-0.173648177667, 0.984807753012, -0.0], [0.984807753012, 0.173648177667, 0.0]],
+      "verified_byte_exact": true
+    },
+    "armadillo": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/armadillo_unwarp.glb",
+      "kling_input_png": "armadillo_moss.png",
+      "videos": ["armadillo crochet (idea 6)"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "verified_byte_exact": true
+    },
+    "batman": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/batman_bust_unwarp.glb",
+      "kling_input_png": "batman_marble.png",
+      "videos": ["batman chrome (idea 7)", "batman inkblots (idea 13)"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "verified_byte_exact": true
+    },
+    "hat": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/hat_unwarp.glb",
+      "kling_input_png": "hat_dye.png",
+      "videos": ["hat_spiral.mp4", "hat_vines.mp4", "hat night sky (idea 16)", "hat dip-dye (idea 17)"],
+      "view_params": {"cam_yaw_deg": 180, "cam_pitch_deg": 12, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[-1.0, 0.0, -0.0], [-0.0, 0.978147600734, 0.207911690818], [0.0, 0.207911690818, -0.978147600734]],
+      "R_total": [[-1.0, 0.0, -0.0], [-0.0, 0.978147600734, 0.207911690818], [0.0, 0.207911690818, -0.978147600734]],
+      "verified_byte_exact": true
+    },
+    "teapot": {
+      "mesh": "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/teapot_homogenized_unwarp.obj",
+      "kling_input_png": "teapot_crackle.png",
+      "videos": ["teapot_porcelain.mp4", "teapot_ceramic_crack.mp4", "teapot celadon (idea 14)"],
+      "view_params": {"cam_yaw_deg": 0, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "R_total": [[1.0, 0.0, 0.0], [0.0, 0.984807753012, -0.173648177667], [0.0, 0.173648177667, 0.984807753012]],
+      "verified_byte_exact": true
+    },
+    "cow": {
+      "mesh": "/net/projects/ranalab/rajhansini/pytorch3d_source/tests/data/cow.glb",
+      "kling_input_png": "cow_mud.png",
+      "videos": ["cow tiger stripes (idea 10)"],
+      "view_params": {"cam_yaw_deg": 90, "cam_pitch_deg": 10, "mesh_prerot_x_deg": 0},
+      "R_pre": [[1.0, 0.0, 0.0], [0.0, 1.0, -0.0], [0.0, 0.0, 1.0]],
+      "R_view": [[0.0, 0.0, -1.0], [-0.173648177667, 0.984807753012, -0.0], [0.984807753012, 0.173648177667, 0.0]],
+      "R_total": [[0.0, 0.0, -1.0], [-0.173648177667, 0.984807753012, -0.0], [0.984807753012, 0.173648177667, 0.0]],
+      "verified_byte_exact": true
+    }
+  }
+}

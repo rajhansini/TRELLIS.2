@@ -1,0 +1,32 @@
+{
+  "pumpkin_rot": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_3bb4375e",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_f9e70449",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_a08b9a37"
+  },
+  "horse_metal": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_b4656f3d",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_16391733",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_441e877f"
+  },
+  "penguin_circuits": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_2df79d90",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_cc4b0fe1",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_a9b659ba"
+  },
+  "whale_spots": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_c529e7a3",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_0d093f1d",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_14ad9fc1"
+  },
+  "teapot_porcelain": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_f3a06709",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_f1f92007",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_a67c3503"
+  },
+  "teapot_ceramic_crack": {
+    "r19g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung19_l1_lp_all_qkvo_r4_s42_7392f221",
+    "r27g": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_all_qkvo+sa_r4_s42_bb7ac393",
+    "r27mcfm": "/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung27_l1_lp_mcfmv2_D_all_qkvo+sa_r4_s42_0645df51"
+  }
+}
