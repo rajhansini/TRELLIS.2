@@ -19,6 +19,11 @@ case $O in
   # of turning white. Needs its own case: 150 frames not 121, and neither the
   # mesh nor the targets carry the _guan suffix the default branch assumes, so
   # falling through would point at paths that do not exist.
+  # These two carry no _guan suffix on either the mesh or the targets, and run at
+  # 150 frames. The default branch below would point at gt_targets_<obj>_guan/ and
+  # <obj>_render_frame_guan.obj, neither of which exists for them.
+  monster_rainbow|skull_lava)
+                  M=$T2/data/$O/mesh/${O}_render_frame.obj; NF=150; TG=$E/out/gt_targets_${O}/frames;;
   teapot_porcelain_correct|teapot_ceramic_crack_correct)
                   M=$T2/data/$O/mesh/${O}_render_frame.obj; NF=150; TG=$E/out/gt_targets_${O}/frames;;
   *)              M=$T2/data/$O/mesh/${O}_render_frame_guan.obj; NF=121; TG=$E/out/gt_targets_${O}_guan/frames;;

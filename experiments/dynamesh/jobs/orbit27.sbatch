@@ -31,7 +31,7 @@ cd /net/projects/ranalab/rajhansini/TRELLIS.2
 echo "=== $(date) host=$(hostname) RUN=${RUN} TAG=${TAG} TURNS=${TURNS:-1} ==="; nvidia-smi -L
 
 ${PY2} -u "${E}/render_rung27_orbit.py" --run "${RUN}" --sweep both \
-  --n-frames "${NFR:-150}" --n-angles "${NFR:-150}" --turns "${TURNS:-1}" --tag "${TAG}" 2>&1 \
+  --n-frames "${NFR:-150}" --n-angles "${NFR:-150}" --turns "${TURNS:-1}" --yaw0 "${YAW0:-0}" --tag "${TAG}" 2>&1 \
   | stdbuf -oL grep --line-buffered -vE "FutureWarning|UserWarning|warnings.warn"
 
 echo "=== Done $(date) ==="

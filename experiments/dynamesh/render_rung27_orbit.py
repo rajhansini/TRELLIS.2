@@ -64,6 +64,13 @@ ap.add_argument('--n-angles', type=int, default=120)
 ap.add_argument('--elev', type=float, default=15.0)
 ap.add_argument('--radius', type=float, default=2.0)
 ap.add_argument('--res', type=int, default=518)
+ap.add_argument('--mcfm', default=None,
+                help="Override the blend mode instead of taking it from the run's "
+                     "config.json. Needed for the frozen three-mode comparison, "
+                     "where there is no trained checkpoint to read it from: the "
+                     "run dir supplies only mesh/gt_dir/resolution. Accepts the "
+                     "readable names (temporal_only_w3, spatial_then_temporal_w3, "
+                     "joint_spatiotemporal_w3) or the legacy codes.")
 ap.add_argument('--frozen-only', action='store_true',
                 help='render PURE TRELLIS.2 only — no adapter, single panel')
 ap.add_argument('--turns', type=float, default=1.0,
@@ -73,6 +80,30 @@ ap.add_argument('--turns', type=float, default=1.0,
                      'the texture evolution, which is what separates a texture '
                      'that lives on the surface from one painted on at a fixed '
                      'angle.')
+ap.add_argument('--yaw0', type=float, default=0.0,
+                help='CONSTANT yaw added to every frame, in degrees. With '
+                     '--turns 0 this pins the camera at a single azimuth for the '
+                     'whole sequence: --yaw0 0 is the training view, 90/180/270 '
+                     'are views the adapter was never supervised from. That is '
+                     'the comparison a rotating video cannot give you, because in '
+                     'an orbit you cannot tell a texture change from a viewpoint '
+                     'change.')
+ap.add_argument('--texel-metrics', default=None,
+                help="Write Temporal Flickering measured on the TEXELS -- the PBR "
+                     "voxel field the decoder emits -- instead of on rendered "
+                     "pixels. A render puts rasterisation, shading, camera "
+                     "sampling and background compositing between the model and "
+                     "the number, and all of those vary frame to frame for "
+                     "reasons unrelated to the texture. The voxel field IS the "
+                     "texture; UV baking is a downstream export that adds its own "
+                     "interpolation. Voxel COORDINATES are identical every frame "
+                     "because encode_shape_slat is a deterministic function of a "
+                     "fixed mesh -- asserted per frame below, not assumed -- so "
+                     "consecutive fields are differenceable with zero resampling. "
+                     "Only meaningful with --sweep both.")
+ap.add_argument('--skip-render', action='store_true',
+                help='with --texel-metrics, skip rasterisation and the video '
+                     'entirely: the ODE still runs per frame but nothing is drawn.')
 ap.add_argument('--tag', default='rung27_orbit')
 ap.add_argument('--fps', type=int, default=20)
 ARGS = ap.parse_args()
@@ -240,11 +271,61 @@ def main():
         ss_n.coords.shape[0], flow.in_channels - ss_n.feats.shape[1],
         generator=g).to(DEVICE))
 
-    def decode_both(ci):
-        """Run the ODE for the frozen and adapted arms from the SAME noise and
-        the SAME conditioning, so the only difference is the adapter."""
+    # ── MCFM, read from the run's own config ────────────────────────────────
+    # A checkpoint trained with --mcfm learned against BLENDED DINOv3 tokens. If
+    # the render feeds vanilla per-frame tokens, the adapter is evaluated on an
+    # input distribution it never saw and the video does not show what was
+    # trained. Nothing here applied the blend, so every mcfm run rendered through
+    # this file was that mismatch.
+    #
+    # The blend needs a WINDOW (v2_D is [t-1, t, t+1]), not one frame, so conds
+    # cannot be built lazily inside decode_both as they were. They are
+    # precomputed for every frame, blended once, then indexed. 150 DINOv3 encodes
+    # is small against 150 ODE integrations, and ~2 MB per cond is a few hundred
+    # MB held.
+    #
+    # CFG.get('mcfm') is absent for every non-mcfm run, so those take the lazy
+    # path below exactly as before and are byte-identical to previous renders.
+    # ARGS.mcfm wins over the config so a frozen run can select a mode with no
+    # trained checkpoint behind it. Without the override this render would take
+    # CFG's mode -- or None -- and silently produce the wrong arm under the right
+    # label, which is the one failure this comparison cannot survive.
+    _MCFM = ARGS.mcfm or CFG.get('mcfm')
+    if ARGS.mcfm:
+        log(f'[MCFM] mode OVERRIDDEN from the command line: {ARGS.mcfm} '
+            f'(config said {CFG.get("mcfm")})')
+    _CONDS = None
+    if _MCFM:
+        log(f'[MCFM] run trained with --mcfm {_MCFM}; blending conds before render')
+        _n = ARGS.n_frames if ARGS.sweep != 'angle' else CFG['n_frames']
         with torch.no_grad():
-            c = pipe.get_cond([ci], CFG['resolution'])['cond']
+            _CONDS = {i: pipe.get_cond([cond_image(i - 1)], CFG['resolution'])['cond']
+                      for i in range(1, _n + 1)}
+        sys.path.insert(0, str(_HERE))
+        from mcfm_blend import blend_conds
+        _pre = {k: v.clone() for k, v in _CONDS.items()}
+        _CONDS = blend_conds(_CONDS, _MCFM)
+        _d = max(float((_CONDS[k] - _pre[k]).abs().max()) for k in _CONDS)
+        log(f'[MCFM] GATE-blend max|blended-vanilla| = {_d:.5f}  (must be > 0)')
+        assert _d > 0, ('GATE-blend FAILED: the blend returned the vanilla tokens '
+                        'unchanged, so this render would silently be the no-mcfm '
+                        'arm wearing an mcfm label.')
+        del _pre
+
+    def decode_both(ci, fidx=None):
+        """Run the ODE for the frozen and adapted arms from the SAME noise and
+        the SAME conditioning, so the only difference is the adapter.
+
+        fidx is the 1-based frame index, used only to look up a blended cond.
+        Both arms get the SAME cond — the blend is a property of the input, not
+        of the adapter, so the frozen arm must see it too or the comparison
+        would confound the adapter with the conditioning.
+        """
+        with torch.no_grad():
+            if _CONDS is not None and fidx is not None:
+                c = _CONDS[fidx]
+            else:
+                c = pipe.get_cond([ci], CFG['resolution'])['cond']
             a = dec(R.run_ode(flow, noise, c, ss_n, R.T_PAIRS) * tex_std + tex_mean) * 0.5 + 0.5
             if ARGS.frozen_only:
                 return a, None          # no adapter run at all
@@ -259,7 +340,7 @@ def main():
         # frame pinned -> the field never changes -> integrate ONCE, then the
         # angles cost rasterisation only.
         t0 = time.time()
-        pbr_fz, pbr_lo = decode_both(cond_img)
+        pbr_fz, pbr_lo = decode_both(cond_img, 1)   # cond_img is cond_image(0) -> frame 1
         log(f'[FIELD] both arms decoded once in {time.time()-t0:.1f}s — '
             f'{ARGS.n_angles} angles now cost rasterisation only')
 
@@ -298,10 +379,42 @@ def main():
         n = ARGS.n_frames
         items = [(i, i + 1, i * 360.0 * ARGS.turns / n) for i in range(n)]
     yaws = items
+    # TEXEL accumulators. The trace is [T, Nvox, 3] and would be ~1.6 GB at 150
+    # frames, so flicker and jerk are accumulated online against a two-frame
+    # window instead of storing it.
+    _tx = {'prev': None, 'prev2': None, 'first': None, 'coords': None,
+           'flick': [], 'jerk': [], 'n': 0}
     for k, (ci, fr, yaw) in enumerate(items, 1):
+        yaw = yaw + ARGS.yaw0            # constant azimuth offset (see --yaw0)
         ext = orbit_extrinsics(yaw, ARGS.elev, ARGS.radius)
         if ARGS.sweep == 'both':
-            pbr_fz, pbr_lo = decode_both(cond_image(ci))
+            # items are (ci, fr, yaw) with ci 0-based and fr = ci+1, and _CONDS is
+            # keyed 1..n from cond_image(i-1) — so fr indexes the blended cond that
+            # corresponds to exactly this cond_image(ci).
+            pbr_fz, pbr_lo = decode_both(cond_image(ci), fr)
+            if ARGS.texel_metrics:
+                with torch.no_grad():
+                    c_now = pbr_lo.feats[:, :3].float()
+                    if _tx['coords'] is None:
+                        _tx['coords'] = pbr_lo.coords.clone()
+                        _tx['first'] = c_now.clone()
+                    else:
+                        # the whole comparison rests on this: same voxels, every
+                        # frame. A mismatch means the fields are not aligned and
+                        # any difference between them is meaningless.
+                        assert torch.equal(_tx['coords'], pbr_lo.coords), (
+                            f'voxel coords changed at frame {fr} — texel differences '
+                            f'would be comparing different voxels')
+                    if _tx['prev'] is not None:
+                        _tx['flick'].append(float((c_now - _tx['prev']).abs().mean()))
+                    if _tx['prev2'] is not None:
+                        _tx['jerk'].append(float(
+                            (c_now - 2 * _tx['prev'] + _tx['prev2']).abs().mean()))
+                    _tx['prev2'] = _tx['prev']
+                    _tx['prev'] = c_now
+                    _tx['n'] += 1
+        if ARGS.skip_render and ARGS.texel_metrics:
+            continue
         with torch.no_grad():
             a_fz = render_at(ext, pbr_fz)
             a_lo = None if ARGS.frozen_only else render_at(ext, pbr_lo)
@@ -326,6 +439,27 @@ def main():
     # produced RUNG14_T2_BOTH_frozen_vs_xattn.mp4 and scp-ing three of them into
     # one directory silently left you with only the last.
     # turns=0 is the FIXED training view, not '0x360' -- name it for what it is
+    # TEXEL METRICS. Written BEFORE any encoding: with --skip-render there are no
+    # frames on disk, ffmpeg exits non-zero, and anything after it never runs. The
+    # measurement is the point of that mode, so it must not sit downstream of a
+    # video step it deliberately skipped.
+    if ARGS.texel_metrics and _tx['n'] > 2:
+        F = float(np.mean(_tx['flick']))
+        J = float(np.mean(_tx['jerk']))
+        D = float((_tx['prev'] - _tx['first']).abs().mean())
+        rec = {'run': RUN_DIR.name, 'mcfm': CFG.get('mcfm'),
+               'n_frames': _tx['n'], 'n_voxels': int(_tx['coords'].shape[0]),
+               'texel_flicker': F, 'texel_jerk': J, 'texel_drift': D,
+               'flicker_per_frame': _tx['flick'], 'jerk_per_frame': _tx['jerk']}
+        Path(ARGS.texel_metrics).parent.mkdir(parents=True, exist_ok=True)
+        Path(ARGS.texel_metrics).write_text(json.dumps(rec, indent=1))
+        log(f"\n[TEXEL] voxels {rec['n_voxels']:,}   frames {rec['n_frames']}")
+        log(f"[TEXEL] flicker {F:.6f}   jerk {J:.6f}   drift {D:.6f}")
+        log(f"[TEXEL] -> {ARGS.texel_metrics}")
+    if ARGS.skip_render:
+        log('[DONE] --skip-render: no frames drawn, no video encoded')
+        return
+
     _turns = ('sideview' if ARGS.turns == 0
               else f'{ARGS.turns:g}x360'.replace('1x360', '360'))
     # tau belongs in the name too: two rung20 arms differ ONLY by tau, and

@@ -365,16 +365,39 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D'],
+                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D',
+                         'temporal_only_w2', 'temporal_only_w3',
+                         'joint_spatiotemporal_w2', 'joint_spatiotemporal_w3',
+                         'spatial_then_temporal_w2', 'spatial_then_temporal_w3'],
                 help="MCFM temporal token blending, applied to the cached DINOv3 "
                      "conditioning BEFORE training so the flow model never sees "
-                     "vanilla per-frame tokens. v2 blends token i across the "
-                     "window only; v3 pools over time AND space. C=[t,t+1], "
-                     "D=[t-1,t,t+1]. Parameter-free — nothing here is trained. "
+                     "vanilla per-frame tokens. Readable names, preferred: "
+                     "temporal_only_w3 (= v2_D, what we ship) blends token i across "
+                     "the window ONLY, leaving spatial mixing to the model's own "
+                     "cross-attention; joint_spatiotemporal_* (= v3) pools over time "
+                     "AND space and is 1.5-2.6 dB worse; spatial_then_temporal_* "
+                     "(= v2b) is accepted by the parser but raises, because it is "
+                     "implemented only in TRELLIS 1 and has never been run on DINO "
+                     "tokens. w2=[t,t+1], w3=[t-1,t,t+1]. Parameter-free. "
                      "UNSET (the default) is byte-identical to every previous run: "
                      "it is absent from the hash, absent from the label, and the "
                      "blend call returns the dict unchanged.")
 args = ap.parse_args()
+
+# Normalise the readable name to the short code IMMEDIATELY, before anything reads
+# it. args.mcfm feeds both the config hash and the run-directory label, so doing
+# this here means 'temporal_only_w3' and 'v2_D' produce the SAME run directory and
+# can resume from each other's checkpoints. Doing it later would have silently
+# forked every existing run into a new directory.
+if args.mcfm is not None:
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from mcfm_blend import canonical as _mcfm_canonical
+    _typed = args.mcfm
+    args.mcfm = _mcfm_canonical(args.mcfm)          # raises on spatial_then_temporal_*
+    if _typed != args.mcfm:
+        print(f'[MCFM] {_typed} -> {args.mcfm}  (same config hash, same run dir)',
+              flush=True)
 
 # NOTE on --w-lpips: the trellis2 env has no `lpips` package, so the loss here is
 # masked MSE only and this flag is inert. It stays in the config hash so that a

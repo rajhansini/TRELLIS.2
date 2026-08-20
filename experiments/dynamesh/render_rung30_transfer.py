@@ -110,6 +110,15 @@ ap.add_argument('--turns', type=float, default=1.0,
                      'the texture evolution, which is what separates a texture '
                      'that lives on the surface from one painted on at a fixed '
                      'angle.')
+ap.add_argument('--yaw0', type=float, default=0.0,
+                help="CONSTANT azimuth added to every frame, in degrees. With "
+                     "--turns 0 this pins the camera at ONE view for the whole "
+                     "sequence: --yaw0 0 is the training view, 90/180/270 are "
+                     "views the adapter was never supervised from. This is the "
+                     "comparison an orbit cannot give you -- in a rotating video "
+                     "a texture change and a viewpoint change look the same, so "
+                     "you cannot tell whether the texture is ON the surface or "
+                     "painted at one angle. Four fixed cameras answer it.")
 ap.add_argument('--tag', default='rung30_transfer')
 ap.add_argument('--fps', type=int, default=20)
 ARGS = ap.parse_args()
@@ -372,6 +381,7 @@ def main():
         items = [(i, i + 1, i * 360.0 * ARGS.turns / n) for i in range(n)]
     yaws = items
     for k, (ci, fr, yaw) in enumerate(items, 1):
+        yaw = yaw + ARGS.yaw0            # constant azimuth offset (see --yaw0)
         ext = orbit_extrinsics(yaw, ARGS.elev, ARGS.radius)
         if ARGS.sweep == 'both':
             pbr_fz, pbr_lo = decode_both(cond_image(ci))

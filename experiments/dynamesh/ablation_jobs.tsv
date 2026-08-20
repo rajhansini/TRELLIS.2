@@ -1,0 +1,9 @@
+ablation	rung	object	job_ids	state	run_dir	psnr	baseline	delta	notes
+A-baseline	27	spot_lava	—	DONE	rung27_l1_lp_all_qkvo+sa_r4_s42_e2413d94	23.994	—	—	no MCFM; the comparison baseline
+A-baseline	27	skull_lava	—	DONE	rung27_l1_lp_all_qkvo+sa_r4_s42_130f0d41	25.347	—	—	no MCFM; the comparison baseline
+A-baseline	27	pumpkin_rot	—	DONE	rung27_l1_lp_all_qkvo+sa_r4_s42_f9e70449	33.723	—	—	no MCFM; the comparison baseline
+A-baseline	27	hand_rorschach	—	DONE	rung27_l1_lp_all_qkvo+sa_r4_s42_1eef6f88	24.831	—	—	no MCFM; the comparison baseline
+F-temporal-lora	31	pumpkin_rot	2187920-23 +requeue	DONE	rung31_l1_lp_tw3b_all_qkvo+sa_r4_s42_20d41866	33.793	33.723	+0.070	tw=3 branch=both gate_init=0
+F-temporal-lora	31	spot_lava	2187920-23 +requeue	DONE	rung31_l1_lp_tw3b_all_qkvo+sa_r4_s42_54d22a32	24.166	23.994	+0.172	tw=3 branch=both gate_init=0
+F-temporal-lora	31	skull_lava	2187920-23 +requeue	DONE	rung31_l1_lp_tw3b_all_qkvo+sa_r4_s42_57efcc5f	25.628	25.347	+0.281	tw=3 branch=both gate_init=0
+F-temporal-lora	31	hand_rorschach	2187920-23 +requeue	DONE	rung31_l1_lp_tw3b_all_qkvo+sa_r4_s42_b3ff4917	24.956	24.831	+0.125	tw=3 branch=both gate_init=0

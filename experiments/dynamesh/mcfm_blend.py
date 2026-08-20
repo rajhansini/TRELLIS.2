@@ -40,14 +40,73 @@ from typing import Dict, Optional
 
 import torch
 
-MODES = ('v2_C', 'v2_D', 'v3_C', 'v3_D')
+MODES = ('v2_C', 'v2_D', 'v3_C', 'v3_D',
+         'ts_C', 'ts_D',      # temporal -> explicit spatial
+         'st_C', 'st_D')      # explicit spatial -> temporal
 _OFFSETS = {'C': (0, 1), 'D': (-1, 0, 1)}
+
+# ---------------------------------------------------------------- readable names
+# "v2_D" says nothing about what the operator does. These spell it out:
+#
+#   temporal_only            token j attends over token j in neighbouring frames
+#                            ONLY. No spatial term -- spatial mixing is left to the
+#                            model's own cross-attention downstream. (= v2)
+#   joint_spatiotemporal     all W*N tokens pooled into one softmax, so token j can
+#                            be replaced by token i != j from another frame. (= v3)
+#   spatial_then_temporal    spatial self-attention first, then temporal. (= v2b)
+#                            NOT IMPLEMENTED HERE -- it exists only in TRELLIS 1's
+#                            step4_mcfm/mcfm.py and has never been run on DINO
+#                            tokens, so it is listed and rejected rather than
+#                            silently accepted.
+#
+#   _w2  window [t, t+1]        (= C)
+#   _w3  window [t-1, t, t+1]   (= D)
+#
+# ALIASES, not a rename. The short code is what reaches the config and the run
+# directory name, so a run started as "temporal_only_w3" hashes identically to one
+# started as "v2_D" and can resume from its checkpoints. Renaming outright would
+# have changed every hash and orphaned every existing run.
+ALIASES = {
+    'temporal_only_w2':         'v2_C',
+    'temporal_only_w3':         'v2_D',
+    'joint_spatiotemporal_w2':  'v3_C',
+    'joint_spatiotemporal_w3':  'v3_D',
+}
+ALIASES.update({
+    'temporal_then_spatial_w2': 'ts_C',
+    'temporal_then_spatial_w3': 'ts_D',
+    'spatial_then_temporal_w2': 'st_C',
+    'spatial_then_temporal_w3': 'st_D',
+})
+NOT_IMPLEMENTED = {}      # all four orderings are implemented here now
+PRETTY = {v: k for k, v in ALIASES.items()}
+
+
+def canonical(mode):
+    """Map any accepted spelling to the short code used everywhere downstream.
+
+    Call this ONCE at argument-parse time so the config, the run-directory hash and
+    the checkpoint all see the same string no matter which name was typed.
+    """
+    if mode is None:
+        return None
+    if mode in NOT_IMPLEMENTED:
+        raise ValueError(
+            f'{mode!r} (= {NOT_IMPLEMENTED[mode]}) is not implemented here. '
+            f'Spatial-then-temporal exists only in TRELLIS 1 '
+            f'(experiments/dynamic_texture_trellis_pipeline/step4_mcfm/mcfm.py, '
+            f'mcfm_v2b) and has never been run on DINO conditioning tokens. '
+            f'Port it before selecting it, and check its stage-1 self-weight: with '
+            f'large token norms that softmax saturates and v2b degenerates to v2.')
+    return ALIASES.get(mode, mode)
 
 
 def parse_mode(mode: str):
-    """'v2_D' -> ('v2', (-1, 0, 1), 1). Raises on anything unrecognised."""
+    """'v2_D' or 'temporal_only_w3' -> ('v2', (-1, 0, 1), 1)."""
+    mode = canonical(mode)
     if mode not in MODES:
-        raise ValueError(f'--mcfm must be one of {MODES}, got {mode!r}')
+        raise ValueError(
+            f'--mcfm must be one of {MODES} or {tuple(ALIASES)}, got {mode!r}')
     variant, window = mode.split('_')
     offsets = _OFFSETS[window]
     return variant, offsets, offsets.index(0)
@@ -63,6 +122,18 @@ def blend_window(window_toks, t_pos: int, variant: str) -> torch.Tensor:
         q = cur.unsqueeze(1)                                  # (N, 1, D)
         attn = torch.softmax(torch.bmm(q, stack.transpose(1, 2)) * scale, dim=-1)
         return torch.bmm(attn, stack).squeeze(1)              # (N, D)
+    if variant == 'ts':          # temporal, THEN an explicit spatial stage
+        q = cur.unsqueeze(1)
+        at = torch.softmax(torch.bmm(q, stack.transpose(1, 2)) * scale, dim=-1)
+        kv = torch.bmm(at, stack).squeeze(1)                  # (N, D)
+        sp = torch.softmax(torch.mm(cur, kv.T) * scale, dim=-1)
+        return torch.mm(sp, kv)                               # (N, D)
+    if variant == 'st':          # explicit spatial stage, THEN temporal
+        sp = torch.softmax(torch.mm(cur, cur.T) * scale, dim=-1)
+        refined = torch.mm(sp, cur)                           # (N, D)
+        q = refined.unsqueeze(1)
+        at = torch.softmax(torch.bmm(q, stack.transpose(1, 2)) * scale, dim=-1)
+        return torch.bmm(at, stack).squeeze(1)                # (N, D)
     pool = stack.reshape(-1, D)                               # (W*N, D)
     attn = torch.softmax(torch.mm(cur, pool.T) * scale, dim=-1)
     return torch.mm(attn, pool)                               # (N, D)
