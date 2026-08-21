@@ -72,6 +72,69 @@ finding -- it bounds what the method does -- but it is NOT the generalization cl
 the figures must not be captioned as if it were.
 
 
+| **B8** | rorschach + lava | `spot_raurshaw` / `skull_lava` | MCFM v2_D only | 11 fresh Dale meshes | `r35_*` | 2 effects x 11 meshes x 4 yaws | `2191140-2191227` |
+
+### B8 uses raw meshes that had to be fitted first
+
+data/_dale_meshes/*.obj are raw downloads: arbitrary centre, scale and up-axis. The
+transfer renderer uses ONE fixed camera with world Z up, so a Y-up mesh renders on its
+back and all four yaws are wrong together -- 4 wasted jobs per mesh before you find out.
+
+`axis_sheet_cpu2.py` rasterises each mesh at six candidate frames through the identical
+projection, `fit_dale.py` then bakes the chosen rotation + centre + unit scale into
+`data/_dale_fitted/<name>.obj`. Vertex and face counts are asserted unchanged, so the
+mesh in the figure is provably the mesh that was downloaded. Originals untouched.
+
+| mesh | axis | verts / faces |
+|---|---|---|
+| dragons_xyzrgb_dragon | B_y2z | 124,943 / 249,882 |
+| statues_napoleon | B_y2z | 49,501 / 98,998 |
+| thingi10k_wooly_sheep | E_flipz | 42,101 / 84,198 |
+| humanoid_mike_wazowski | B_y2z | 34,066 / 37,822 |
+| aliens_ufo | E_flipz | 30,906 / 26,372 |
+| furnature_chair | B_y2z | 21,896 / 43,796 |
+| thingi10k_octocat | E_flipz | 18,944 / 37,884 |
+| vehicles_tie_fighter | B_y2z | 16,820 / 33,154 |
+| animals_blub | B_y2z | 7,317 / 14,208 |
+| animals_bob | B_y2z | 5,647 / 10,688 |
+| animals_octopus | B_y2z | 2,827 / 5,215 |
+
+Axis choices come from `data/_dale_meshes/axis/*.png`; re-check there before adding meshes.
+
+
+| **B8v2** | rorschach + lava | `spot_raurshaw` / `skull_lava` | MCFM v2_D only | 11 Dale meshes, CORRECTED orientation | `r36_*` | 2 x 11 x 4 | `2192806-2192894` |
+
+### B8 v1 was inverted -- what went wrong and what stops it recurring
+
+`r35_*` rendered every mesh upside down and was deleted. Cause: `axis_sheet_cpu2.py`
+mapped NDC y with an extra `(1 - ...)` flip, so its sheets were a VERTICAL MIRROR of what
+nvdiffrast produces. Every axis chosen from them was therefore inverted.
+
+The coverage gate in place at the time could not catch this -- an upside-down silhouette
+covers exactly the same pixel count. **GATE-updir** replaces it: it projects the highest
+world-Z vertex of a known mesh and asserts the result lands in the top half of the image.
+That fails loudly on a flip.
+
+Confirmed against ground truth before changing anything: world +Z projects to NEGATIVE
+ndc_y, and nvdiffrast row 0 is the top of the image, so no extra flip belongs there.
+
+Corrected axes (all differ from v1):
+
+| mesh | axis |
+|---|---|
+| dragons_xyzrgb_dragon | `C_z2y` |
+| statues_napoleon | `C_z2y` |
+| thingi10k_wooly_sheep | `A_xyz` |
+| humanoid_mike_wazowski | `C_z2y` |
+| aliens_ufo | `C_z2y` |
+| furnature_chair | `C_z2y` |
+| thingi10k_octocat | `A_xyz` |
+| vehicles_tie_fighter | `C_z2y` |
+| animals_blub | `C_z2y` |
+| animals_bob | `C_z2y` |
+| animals_octopus | `C_z2y` |
+
+
 ## Target meshes
 
 | target | mesh | verts / faces |

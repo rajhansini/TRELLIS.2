@@ -312,6 +312,55 @@ def main():
                         'arm wearing an mcfm label.')
         del _pre
 
+    # ── rung32: WIDE CONTEXT WINDOW ──────────────────────────────────────────
+    # A --context-window 3 run trained with cross-attention seeing [f-1, f, f+1]
+    # concatenated (1029 -> 3087 tokens). Its checkpoint has the SAME 300 keys as
+    # a plain rung27 one -- the LoRA A/B matrices act on the feature dim, not the
+    # token count -- so it loads clean and renders plausible frames while being
+    # fed a third of the context it was trained on. No error, no warning, just a
+    # silently wrong arm under the right label. Exactly the MCFM renderer gap
+    # again, so the fix mirrors rung32_wide_context_lora.py:1512-1534 verbatim.
+    _CW = CFG.get('context_window') or 1
+    if _CW > 1:
+        assert _CONDS is None, (
+            'context_window and mcfm are mutually exclusive -- MCFM pre-collapses '
+            'the window this flag exists to hand over intact. A config carrying '
+            'both is not a state the trainer can produce, so refuse it here too.')
+        _n = ARGS.n_frames if ARGS.sweep != 'angle' else CFG['n_frames']
+        with torch.no_grad():
+            _base = {i: pipe.get_cond([cond_image(i - 1)], CFG['resolution'])['cond']
+                     for i in range(1, _n + 1)}
+        _keys = sorted(_base)
+        _lo, _hi = _keys[0], _keys[-1]
+        _half = _CW // 2
+        _off = list(range(-_half, _half + 1))
+        assert len(_off) == _CW, (_off, _CW)
+        _n_img = int(next(iter(_base.values())).shape[-2])
+
+        def _stack(f):
+            ts = [_base[min(max(f + o, _lo), _hi)] for o in _off]
+            return torch.cat(ts, dim=(1 if ts[0].dim() == 3 else 0))
+
+        _CONDS = {f: _stack(f) for f in _keys}
+        _shape = tuple(next(iter(_CONDS.values())).shape)
+        assert _shape[-2] == _n_img * _CW, _shape
+        log(f'[R32] context_window={_CW} offsets={_off}  '
+            f'tokens {_n_img} -> {_shape[-2]}')
+
+        # GATE-window. The CENTRE slice must be frame f byte-for-byte. If the
+        # ordering were off, every frame would render conditioned on a neighbour
+        # and the output would still look like a plausible dynamic texture --
+        # invisible until someone diffs it against training. Checked on an
+        # interior frame so the edge clamp is not what is being tested.
+        _f = _keys[len(_keys) // 2]
+        _c = _CONDS[_f].narrow(-2, _half * _n_img, _n_img)
+        assert torch.equal(_c, _base[_f]), (
+            f'GATE-window FAILED at frame {_f}: the centre slice of the stacked '
+            f'cond is not frame {_f}. Frame ordering is wrong and every render '
+            f'would be conditioned on the wrong neighbour.')
+        log(f'[R32] GATE-window PASSED — centre slice of frame {_f} is frame {_f}')
+        del _base
+
     def decode_both(ci, fidx=None):
         """Run the ODE for the frozen and adapted arms from the SAME noise and
         the SAME conditioning, so the only difference is the adapter.

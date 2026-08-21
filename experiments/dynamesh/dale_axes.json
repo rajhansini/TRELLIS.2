@@ -1,0 +1,13 @@
+{
+  "dragons_xyzrgb_dragon":  ["C_z2y", 35],
+  "statues_napoleon":       ["C_z2y", 35],
+  "thingi10k_wooly_sheep":  ["A_xyz", 35],
+  "humanoid_mike_wazowski": ["C_z2y", 35],
+  "aliens_ufo":             ["C_z2y", 35],
+  "furnature_chair":        ["C_z2y", 35],
+  "thingi10k_octocat":      ["A_xyz", 35],
+  "vehicles_tie_fighter":   ["C_z2y", 35],
+  "animals_blub":           ["C_z2y", 35],
+  "animals_bob":            ["C_z2y", 35],
+  "animals_octopus":        ["C_z2y", 35]
+}

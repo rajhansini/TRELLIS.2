@@ -3,9 +3,9 @@
 #SBATCH --partition=threedle-contrib,threedle-own,general
 #SBATCH --gres=gpu:1
 #SBATCH --constraint="a40|L40S"
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=48G
-#SBATCH --time=00:30:00
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=16G
+#SBATCH --time=00:10:00
 #SBATCH --output=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/out/axdale_%j.log
 #SBATCH --error=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/out/axdale_%j.log
 set -eo pipefail

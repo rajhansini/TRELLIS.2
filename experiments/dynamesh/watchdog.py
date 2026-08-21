@@ -50,7 +50,26 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         'r27_': ('jobs/rung27_hero.sbatch', 'r27hg'),
         'mcf_': ('jobs/rung27_mcfm_hero.sbatch', 'r27hm'),
         'v_':   ('jobs/render_view.sbatch', 'rview'),
-        'g_':   ('jobs/render_view.sbatch', 'rview')}
+        'g_':   ('jobs/render_view.sbatch', 'rview'),
+        # added after five pan_ jobs and seven m3_ jobs sat failed/at-risk with the
+        # watchdog blind to them: a prefix missing from this table is not watched.
+        'm3_':  ('jobs/rung27_mcfm_mode.sbatch', 'r27m3'),
+        'pan_': ('jobs/panels_one.sbatch', 'pan'),
+        'ta2_': ('jobs/ta_t2.sbatch', 'ta2')}
+
+# jobid -> {script, name, export}. Written at SUBMIT time by whoever launched the
+# job. The log header is not always enough: rung27_mcfm_mode.sbatch echoes only
+# OBJ and nfr, so rebuilding its command from the log would silently drop MODE,
+# MESH and GTDIR -- and hand the guan-pipeline objects hero paths. Manifest first,
+# log only as a fallback.
+MANIFEST = E / 'out' / 'job_manifest.json'
+
+
+def manifest_entry(jid):
+    try:
+        return json.loads(MANIFEST.read_text()).get(str(jid))
+    except Exception:
+        return None
 
 
 def sh(c):
@@ -156,6 +175,31 @@ def cycle(st):
             if name not in st['attention']:
                 st['attention'].append(f'{jid} {name} gate')
             continue
+        ent = manifest_entry(jid)
+        if ent:
+            n = st['tries'].get(ent['name'], 0)
+            if n >= A.max_retries:
+                note(f'{jid} {name} {state} — {n} retries already, giving up')
+                st['attention'].append(f'{ent["name"]} exhausted'); continue
+            st['tries'][ent['name']] = n + 1
+            if A.dry_run:
+                note(f'[dry-run] would resubmit {ent["name"]} from manifest'); continue
+            out = sh(f'cd {E} && sbatch --parsable --job-name={ent["name"]} '
+                     f'--export=ALL,{ent["export"]} {ent["script"]}').strip()
+            if out.isdigit():
+                # carry the manifest entry onto the NEW id, or a second timeout
+                # would fall back to the log and lose the parameters after all
+                try:
+                    m = json.loads(MANIFEST.read_text()); m[out] = ent
+                    MANIFEST.write_text(json.dumps(m, indent=1))
+                except Exception:
+                    pass
+                note(f'{jid} {name} {state} -> resubmitted as {out} FROM MANIFEST '
+                     f'(attempt {n+1}/{A.max_retries})')
+            else:
+                note(f'{jid} {name} {state} -> MANIFEST RESUBMIT FAILED: {out[:160]}')
+            continue
+
         got = parse_log(logp)
         if got is None:
             note(f'{jid} {name} {state} — cannot recover params from {logp.name}, skipping')
