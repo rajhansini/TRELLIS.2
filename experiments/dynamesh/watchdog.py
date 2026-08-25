@@ -44,6 +44,7 @@ ap.add_argument('--max-retries', type=int, default=3)
 ap.add_argument('--dry-run', action='store_true')
 A = ap.parse_args()
 
+LIVE = set()
 BAD = {'FAILED', 'TIMEOUT', 'NODE_FAIL', 'PREEMPTED', 'OUT_OF_MEMORY', 'BOOT_FAIL'}
 # jobname prefix -> (sbatch script, log prefix)
 KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
@@ -55,7 +56,48 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # watchdog blind to them: a prefix missing from this table is not watched.
         'm3_':  ('jobs/rung27_mcfm_mode.sbatch', 'r27m3'),
         'pan_': ('jobs/panels_one.sbatch', 'pan'),
-        'ta2_': ('jobs/ta_t2.sbatch', 'ta2')}
+        'ta2_': ('jobs/ta_t2.sbatch', 'ta2'),
+        # The figure matrix. Names are '<rung>_<mode>_<obj>' (e.g. 28_v2_D_spot_lava),
+        # which shares no prefix with anything above -- so before this entry existed
+        # kind_of() returned None and the whole 42-cell matrix ran unwatched.
+        **{f'{r}_': (f'jobs/fig{r}.sbatch', 'FIG') for r in range(27, 35)},
+        # Row (b) of the ablation table: cross-attention-only LoRA. Job names are
+        # '19_<obj>'. range(27,35) above does not cover 19, and a prefix missing
+        # from this table is not watched -- the same blind spot that hid pan_/m3_.
+        '19_': ('jobs/fig19.sbatch', 'FIG'),
+        'rarm_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # The batch-C render fleet. kind_of() matches on startswith and
+        # 'rarm4c_' does NOT start with 'rarm_', so all 392 of these ran
+        # unwatched -- the same blind spot that hid pan_ and m3_.
+        'rarm4c_': ('jobs/render_arm.sbatch', 'RENDER'),
+        'rarm7c_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # GATE-align rescue for the penguins. A prefix missing from this
+        # table is not watched -- the same gap that left pan_ and m3_ blind.
+        'fit_': ('jobs/fit_align.sbatch', 'fit'),
+        # Texel temporal metrics. Job names are 'tex_<obj>_<arm>' and the sbatch
+        # writes out/tex_<jid>.log, so the log prefix is 'tex'. A prefix missing
+        # from this table is not watched -- and texel_any.sbatch has a 2h wall
+        # clock that has already timed out once (2204282, r31mcfm).
+        'tex_': ('jobs/texel_any.sbatch', 'tex'),
+        # Window ablation (W = 1/3/5) and the video-space comparison metrics.
+        # 'texdep_' resolves its run directory at RUNTIME from (RUNG, MODE, OBJ),
+        # so unlike 'tex_' its manifest export carries no RUN= and must not be
+        # rewritten into one. A prefix missing from this table is not watched --
+        # the same blind spot that hid pan_ and m3_.
+        'texdep_': ('jobs/texel_after_train.sbatch', 'texdep'),
+        'fxv_': ('jobs/fixview_arm.sbatch', 'fxv'),
+        # Target building. build_targets_one.sbatch is named 'mkt_one' and
+        # build_targets_obj.sbatch 'mkt_obj', and BOTH start with 'mkt_' -- neither
+        # was in this table, so every target build has run unwatched, the same
+        # blind spot that hid pan_ and m3_. The generalised script is the resubmit
+        # target because it reads OBJ/ORIENT/SUFFIX from --export, which is the
+        # only thing a watchdog resubmit carries forward.
+        'mkt_': ('jobs/build_targets_obj.sbatch', 'mkt'),
+        # Fixed-camera panel renders. gate_then_submit_r32.sh names these 'pv_*'
+        # and they write out/pview_<jid>.log, but 'pv_' was never in this table --
+        # so every panel render has been unwatched. 'pan_' does NOT cover them:
+        # kind_of() matches on startswith and 'pv_' shares no prefix with 'pan_'.
+        'pv_': ('jobs/panel_view.sbatch', 'pview')}
 
 # jobid -> {script, name, export}. Written at SUBMIT time by whoever launched the
 # job. The log header is not always enough: rung27_mcfm_mode.sbatch echoes only
@@ -138,6 +180,24 @@ def satisfied(k, unit):
         return len(list(d.glob('*.png'))) >= want
     if k == 'tgt_':
         return (E / 'out' / f'gt_targets_{unit}' / 'gt_targets.json').exists()
+    if k in {'rarm_', 'rarm4c_', 'rarm7c_'}:
+        # unit is the TAG, e.g. view_pumpkin_rot_29_train -- pull the object name
+        # back out and check against ITS OWN frame count, not a fixed constant.
+        m = re.match(r'view_(.+)_(?:\d+m?)_(?:train|diagA|diagB|diagC|u\d+)$', unit)
+        obj = m.group(1) if m else None
+        want = 150
+        if obj:
+            vids = list(Path('/net/projects/ranalab/rajhansini/TRELLIS.2/data', obj, 'frames_from_video').glob('*.png'))
+            if vids: want = len(vids)
+        d = E / 'out' / unit / 'frames'
+        return d.is_dir() and len(list(d.glob('*.png'))) >= want
+    if k in {f'{r}_' for r in range(27, 35)} | {'19_'}:
+        d = E / 'out' / 'FIGRUNS'
+        if d.is_dir():
+            for q in d.glob(f'{unit}_*.log'):
+                if '[FINAL] rung' in q.read_text(errors='replace'):
+                    return True
+        return False
     if k in ('r27_', 'mcf_'):
         pre = 'r27hg' if k == 'r27_' else 'r27hm'
         for p in (E / 'out').glob(f'{pre}_*.log'):
@@ -145,6 +205,19 @@ def satisfied(k, unit):
             if f'OBJ={unit} ' in t and '[FINAL] rung' in t:
                 return True
     return False
+
+
+def live_names():
+    """Job names currently PENDING or RUNNING. A failed job whose name is back in
+    the queue has already been requeued -- by a human or by an earlier cycle -- and
+    resubmitting it again just burns a GPU on a duplicate."""
+    out = sh("squeue -u rajhansini -h -O 'Name:64,State:12'")
+    names = set()
+    for l in out.splitlines():
+        p = l.split()
+        if len(p) >= 2 and p[1] in ('PENDING', 'RUNNING'):
+            names.add(p[0])
+    return names
 
 
 def gated(logp):
@@ -156,6 +229,8 @@ def gated(logp):
 
 
 def cycle(st):
+    global LIVE
+    LIVE = live_names()
     rows = sh(f"sacct -S {A.since} -X -n -P --format=JobID,JobName,State").strip().splitlines()
     for row in rows:
         parts = row.split('|')
@@ -169,11 +244,21 @@ def cycle(st):
             continue
         st['seen'].append(jid)
         script, pre = KIND[k]
-        logp = E / 'out' / f'{pre}_{jid}.log'
+        if pre == 'FIG':
+            hits = sorted((E / 'out' / 'FIGRUNS').glob(f'*_{jid}.log'))
+            logp = hits[-1] if hits else E / 'out' / 'FIGRUNS' / f'{name}_{jid}.log'
+        elif pre == 'RENDER':
+            hits = sorted((E / 'out' / 'RENDERS').glob(f'*_{jid}.log'))
+            logp = hits[-1] if hits else E / 'out' / 'RENDERS' / f'{name}_{jid}.log'
+        else:
+            logp = E / 'out' / f'{pre}_{jid}.log'
         if gated(logp):
             note(f'{jid} {name} {state} — GATE failure, NOT resubmitting (needs a fix)')
             if name not in st['attention']:
                 st['attention'].append(f'{jid} {name} gate')
+            continue
+        if name in LIVE:
+            note(f'{jid} {name} {state} — already queued/running again, not resubmitting')
             continue
         ent = manifest_entry(jid)
         if ent:
@@ -209,7 +294,7 @@ def cycle(st):
         if satisfied(k, unit):
             note(f'{jid} {name} {state} — output already complete, not resubmitting')
             continue
-        key = f'{k}{unit}'
+        key = name if k in {f'{r}_' for r in range(27, 35)} else f'{k}{unit}'
         n = st['tries'].get(key, 0)
         if n >= A.max_retries:
             note(f'{jid} {name} {state} — {n} retries already, giving up on {key}')

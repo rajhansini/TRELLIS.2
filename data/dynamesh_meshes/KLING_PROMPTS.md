@@ -115,3 +115,32 @@ Static tripod framing; the camera is locked — no pan, tilt, roll, dolly, push-
 ```
 Static tripod framing; the camera is locked — no pan, tilt, roll, dolly, push-in, pull-out, zoom, reframing, or shake. The cow is a single rigid statue: no breathing, swaying, head turn, tail flick, ear movement, limb motion, or micro-jitter; its pose, scale, position and silhouette stay pixel-identical in every frame. The background is flat pure white and never changes — no embers, no heat haze, no glow spill, no particles anywhere outside the object. The effect lives strictly on the surface and never crosses the silhouette edge; nothing drips off, nothing is emitted into the air, nothing lights the white background. The only thing that changes is the colour of the surface itself. Molten lava glows inside deep cracks running across the cow's body — orange-red magma creeping and pulsing along the fissures, flaring to yellow-white at random points then cooling to black crust, new fissures opening unpredictably across the flank, head and legs.
 ```
+
+## 19. vase_floral — cobalt underglaze brushwork (LIMITATION CASE)
+
+Mesh `/net/projects/ranalab/itailang/multi_iSeg/meshes/vase.obj` (genus 1, ONE handle —
+`vase_12.obj` is the two-handle amphora, not this). Kling input rendered at yaw 240 /
+pitch 25 by `guanc/tmp/kling/render_final.py`; that view was chosen by a measured
+exposure sweep (45.9% of the surface visible, handle 52.7% with the loop open).
+Deliberately a STRUCTURED pattern — banded borders and repeating dot rows have global
+alignment that token blending cannot preserve. Compare §12 teapot_ceramic_crack.
+
+Three blocks are FRONT-LOADED and are not optional. Without them Kling floods the
+surface into a solid blue wash instead of drawing a pattern: naming a pigment implies
+a fluid, and a material's implied physics beats a negation (same failure family as the
+drips in the oil/rust prompts). "Fired underglaze brushwork" is the phrasing that works;
+"ink" and "dye" do not.
+
+```
+THE VASE BEGINS COMPLETELY UNDECORATED: the first frame is bare pure-white porcelain with ZERO blue anywhere on it — no tint, no pattern, no faint underdrawing, nothing. Every single mark must appear during the clip.
+
+THE BLUE IS ONLY EVER THIN PAINTED LINES AND SMALL SEPARATE DOTS. It is never a wash, tint, gradient, stain, cloud, haze, glow, bleed, soak or flood-fill. No line ever softens or spreads sideways, and no area is ever filled in solid. Bare white porcelain stays visible between every single stroke for the whole clip.
+
+THE PATTERN DRAWS ITSELF LIKE A BRUSH: every line grows from its own tip, extending a little further each frame; every dot appears whole, one at a time, in sequence. Nothing fades in globally, nothing appears everywhere at once, no motif is there before it is drawn.
+
+THE DECORATION COVERS THE WHOLE VASE BY THE END: the foot, the belly, the shoulder, the neck, the pouring lip, and the handle along its full length all carry pattern. No part is left plain — there is no bare zone, no undecorated side, no skipped region. The pattern wraps around the sides, not just the face toward the camera.
+
+Static tripod framing; the camera is locked — no pan, tilt, roll, dolly, push-in, pull-out, zoom, reframing, or shake. The vase is a single rigid porcelain object: no wobble, no tipping, no rocking on its foot, no deformation, no shattering, no micro-jitter; its pose, scale, position and silhouette stay pixel-identical in every frame. The background is flat pure white and never changes — no ink, no droplets, no particles anywhere outside the object. The effect lives strictly on the surface and never crosses the silhouette edge; nothing is emitted into the air, nothing runs off onto the background, the outline never changes, and the opening inside the handle loop stays flat pure white. The only thing that changes is the colour of the surface itself.
+
+Fired cobalt underglaze brushwork spreads across the bare white porcelain until the whole vase is decorated: hairline outlines creep over the belly and close into floral medallions, petals filled in one short stroke at a time; rows of small evenly spaced dots are laid around the neck and around the foot, dot after dot; fine scrollwork tendrils extend along the handle and the pouring lip, curling further each frame; small repeating leaf and wave motifs fill the shoulder and the gaps between the medallions. The drawing keeps advancing into new bare areas right to the last frame, and by then every part of the vase carries fine blue pattern — but the blue is still only lines and dots, with clean white porcelain showing between all of them.
+```
