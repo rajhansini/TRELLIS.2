@@ -106,6 +106,16 @@ ap.add_argument('--skip-render', action='store_true',
                      'entirely: the ODE still runs per frame but nothing is drawn.')
 ap.add_argument('--tag', default='rung27_orbit')
 ap.add_argument('--fps', type=int, default=20)
+ap.add_argument('--cond-mask', default=None,
+                help="Path to a boolean .npy silhouette used as the CONDITIONING "
+                     "alpha instead of the r.min(axis=2)<245 brightness threshold. "
+                     "That threshold assumes a near-white backdrop; a clip shot on "
+                     "a grey backdrop (penguin_circuits measures 237) puts 99.7%% of "
+                     "the frame above it, the union crop degenerates to the whole "
+                     "image and DINOv3 receives an out-of-distribution input, which "
+                     "renders a BLACK texture. It also picks up contact shadows, "
+                     "which widen the crop even at a corrected threshold. The mesh "
+                     "render mask is exact, shadow-free and identical every frame.")
 ARGS = ap.parse_args()
 
 RUN_DIR = Path(ARGS.run)
@@ -250,7 +260,13 @@ def main():
                 else list(range(1, ARGS.n_frames + 1)))
     _raws = [np.array(Image.open(gt_dir / f'frame_{f:04d}.png').convert('RGB'))
              for f in _fr_list]
-    _als = [R.largest_component(r.min(axis=2) < 245) for r in _raws]
+    if ARGS.cond_mask:
+        _m = np.load(ARGS.cond_mask).astype(bool)
+        assert _m.shape == _raws[0].shape[:2], (_m.shape, _raws[0].shape)
+        _als = [_m for _ in _raws]
+        print(f'[COND-MASK] {ARGS.cond_mask}  fg={100*_m.mean():.1f}%', flush=True)
+    else:
+        _als = [R.largest_component(r.min(axis=2) < 245) for r in _raws]
     _u = np.zeros_like(_als[0])
     for a in _als:
         _u |= a
@@ -433,6 +449,13 @@ def main():
     # window instead of storing it.
     _tx = {'prev': None, 'prev2': None, 'first': None, 'coords': None,
            'flick': [], 'jerk': [], 'n': 0}
+    # The FROZEN arm, measured in the same pass. decode_both already produces it for
+    # every frame, so this costs one tensor diff and no extra ODE work -- and it is
+    # the paper's baseline: pure TRELLIS.2, same mesh, same per-frame conditioning,
+    # no adapter and no temporal term. Measuring it in a separate run would mean
+    # re-solving every frame just to diff a field we already had in hand.
+    _fz = {'prev': None, 'prev2': None, 'first': None,
+           'flick': [], 'jerk': [], 'n': 0}
     for k, (ci, fr, yaw) in enumerate(items, 1):
         yaw = yaw + ARGS.yaw0            # constant azimuth offset (see --yaw0)
         ext = orbit_extrinsics(yaw, ARGS.elev, ARGS.radius)
@@ -462,6 +485,20 @@ def main():
                     _tx['prev2'] = _tx['prev']
                     _tx['prev'] = c_now
                     _tx['n'] += 1
+                    # identical arithmetic on the frozen field. Coords are shared
+                    # with the adapted arm (same mesh, same voxelisation), so the
+                    # coords assert above covers both.
+                    f_now = pbr_fz.feats[:, :3].float()
+                    if _fz['first'] is None:
+                        _fz['first'] = f_now.clone()
+                    if _fz['prev'] is not None:
+                        _fz['flick'].append(float((f_now - _fz['prev']).abs().mean()))
+                    if _fz['prev2'] is not None:
+                        _fz['jerk'].append(float(
+                            (f_now - 2 * _fz['prev'] + _fz['prev2']).abs().mean()))
+                    _fz['prev2'] = _fz['prev']
+                    _fz['prev'] = f_now
+                    _fz['n'] += 1
         if ARGS.skip_render and ARGS.texel_metrics:
             continue
         with torch.no_grad():
@@ -500,6 +537,14 @@ def main():
                'n_frames': _tx['n'], 'n_voxels': int(_tx['coords'].shape[0]),
                'texel_flicker': F, 'texel_jerk': J, 'texel_drift': D,
                'flicker_per_frame': _tx['flick'], 'jerk_per_frame': _tx['jerk']}
+        if _fz['n'] and _fz['flick']:
+            _fF = sum(_fz['flick']) / len(_fz['flick'])
+            _fJ = sum(_fz['jerk']) / len(_fz['jerk']) if _fz['jerk'] else float('nan')
+            _fD = float((_fz['prev'] - _fz['first']).abs().mean())
+            rec.update({'frozen_flicker': _fF, 'frozen_jerk': _fJ, 'frozen_drift': _fD,
+                        'frozen_flicker_per_frame': _fz['flick'],
+                        'frozen_jerk_per_frame': _fz['jerk']})
+            log(f'[TEXEL] frozen  flicker {_fF:.6f}   jerk {_fJ:.6f}   drift {_fD:.6f}')
         Path(ARGS.texel_metrics).parent.mkdir(parents=True, exist_ok=True)
         Path(ARGS.texel_metrics).write_text(json.dumps(rec, indent=1))
         log(f"\n[TEXEL] voxels {rec['n_voxels']:,}   frames {rec['n_frames']}")

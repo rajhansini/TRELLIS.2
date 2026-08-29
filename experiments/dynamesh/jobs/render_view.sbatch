@@ -16,7 +16,10 @@
 #SBATCH --gres=gpu:1
 #SBATCH --constraint="a40|L40S"   # nvdiffrast has no kernel for h100/h200 (CUDA 209)
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --mem=24G   # measured peak RSS 9.2G over 36 completed renders (mean 7.0),
+#                    so 24G is 2.6x headroom. This is inference: no optimiser state,
+#                    no gradient buffers. 64G cost 26 of the group's 1024 billing
+#                    units and capped concurrency at 39; 24G costs 16 and lifts it to 64.
 #SBATCH --time=02:00:00
 #SBATCH --requeue
 #SBATCH --open-mode=append

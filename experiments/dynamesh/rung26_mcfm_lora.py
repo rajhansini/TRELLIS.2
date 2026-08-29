@@ -314,8 +314,12 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help="MCFM temporal token blending applied to the cached DINOv3 "
                      "conditioning BEFORE training. v2 blends token i across the "
                      "window; v3 pools over time AND space. C=[t,t+1], "

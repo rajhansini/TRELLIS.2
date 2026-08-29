@@ -1,0 +1,44 @@
+#!/bin/bash
+# fig31: rung31_dual_attn_lora.py
+# Every path is a PARAMETER. Hardcoding hero paths would silently train the
+# guan-pipeline objects (pumpkin_rot) against the wrong targets at the wrong
+# frame count, complete successfully, and be wrong.
+# One log per run, named by object+arm, not just jobid.
+#SBATCH --job-name=fig31
+#SBATCH --partition=threedle-contrib,threedle-own,general
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="a40|L40S"
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G      # measured peak RSS 15.3G. 96G cost 24 of 34 billing units
+#                      # under the group 1024 TRES cap, capping concurrency at 30.
+#SBATCH --time=04:00:00   # partition MaxTime is 04:00:00 on ALL partitions -- a longer
+#                          # request is REJECTED at submit. 30 epochs takes 3:33-3:52,
+#                          # so timeouts are unavoidable; resume-from-checkpoint covers it.
+#SBATCH --requeue
+#SBATCH --open-mode=append
+#SBATCH --output=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/out/FIGRUNS/%x_%j.log
+#SBATCH --error=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/out/FIGRUNS/%x_%j.log
+set -eo pipefail
+T2=/net/projects/ranalab/rajhansini/TRELLIS.2; E=${T2}/experiments/dynamesh
+PY2=/net/projects/ranalab/rajhansini/conda_envs/trellis2/bin/python
+export PATH="/net/projects/ranalab/rajhansini/conda_envs/trellis2/bin:$PATH"
+export HF_HOME=/net/scratch/rajhansini/.cache/huggingface HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True SPCONV_ALGO=native
+export FLEX_GEMM_AUTOTUNE_CACHE_PATH=/tmp/flex_gemm_${SLURM_JOB_ID}.json
+cp -f "$HOME/.flex_gemm/autotune_cache.json" "$FLEX_GEMM_AUTOTUNE_CACHE_PATH" 2>/dev/null || true
+mkdir -p ${E}/out/FIGRUNS
+cd ${T2}
+echo "=== $(date) host=$(hostname) OBJ=${OBJ} ARM=fig31 MODE=${MODE:-none} nfr=${NFR} ==="
+echo "    MESH=${MESH}"
+echo "    GTDIR=${GTDIR}"
+nvidia-smi -L
+${PY2} -u "${E}/rung31_dual_attn_lora.py" \
+  --mesh "${MESH}" --gt-dir "${T2}/data/${OBJ}/frames_from_video" \
+  --gt-render-dir "${GTDIR}" \
+  --render-res 960 --resolution 512 \
+  --targets qkvo+sa --blocks all --rank 4 \
+  --recon l1 --lpips --w-lpips 0.1 \
+  --epochs 30 --n-frames "${NFR}" --seed 42 --lr 1e-4 \
+  --temporal-window 3 --branch both ${MODE:+--mcfm ${MODE}} 2>&1 \
+  | stdbuf -oL grep --line-buffered -vE "FutureWarning|UserWarning|warnings.warn"
+echo "=== Done $(date) ==="

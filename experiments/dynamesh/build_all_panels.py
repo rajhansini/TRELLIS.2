@@ -57,9 +57,17 @@ ap.add_argument('--jobs', type=int, default=6)
 ap.add_argument('--out', default='out/VIEWS')
 A = ap.parse_args()
 
-OBJS = ['ancient_lady', 'plane_waves', 'teapot_crack', 'hand_rorschach', 'skull_lava',
+_DEFAULT_OBJS = ['ancient_lady', 'plane_waves', 'teapot_crack', 'hand_rorschach', 'skull_lava',
         'monster_lava_2', 'monster_rainbow', 'ancient_statue_clay', 'eagle_blackness',
         'mushroom_glow', 'alien_glow', 'ancient_lady_crack', 'spot_raurshaw']
+# --objs overrides the built-in roster: batches D and E were added later and are not
+# in the list above. Comma separated, or a path to a file of one object per line.
+import os as _os
+_ov = _os.environ.get('OBJS')
+if _ov:
+    OBJS = [x.strip() for x in (open(_ov).read().split() if _os.path.exists(_ov) else _ov.split(',')) if x.strip()]
+else:
+    OBJS = _DEFAULT_OBJS
 NFR = {'ancient_lady': 135}
 
 VIEWS = [('train',    'training view',            True),

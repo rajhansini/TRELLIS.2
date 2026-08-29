@@ -1,6 +1,6 @@
 import sys, math, pathlib, numpy as np
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from voxelize import load_obj, sample_surface, voxelize, rot
+from voxelize import load_obj, rot, voxelize_exact, cull_hidden
 from iso import iso_axes, cube_faces, pts
 from palette import *
 from tokens import union_bbox, frame_cells, tint_cell, ramp_weights
@@ -43,62 +43,65 @@ def blend_grid():
     return f
 
 # ───────────────────────────── voxel Spot ─────────────────────────────────────
+# Every panel draws the SAME cell set. The figure claims the voxel structure is
+# fixed and only appearance changes, so a voxel may never be encoded by fading
+# out — a faded cube on white paper reads as a missing cube, which is the exact
+# opposite of the claim. Response is carried by hue and saturation ONLY.
 SPOT = '/net/projects/ranalab/rajhansini/TRELLIS.2/data/spot_star/mesh/spot.obj'
 _V, _F = load_obj(SPOT)
-VOX, _ = voxelize(sample_surface(_V, _F, 600_000) @ rot(135, 'y').T, 13)
+_P = _V @ rot(135, 'y').T
+VOX_ALL, VOX_DIMS = voxelize_exact(_P, _F, 13)   # 484 cells, no sampling holes
+VOX = cull_hidden(VOX_ALL)                       # 317 the camera can actually see
+
+def _norm(a, full):
+    """Normalise against the FULL cell set so culling cannot shift a ramp."""
+    return (a - full.min()) / (full.max() - full.min())
+
 _d = VOX[:, 0] + VOX[:, 1] + VOX[:, 2]
-DEPTH = (_d - _d.min()) / (_d.max() - _d.min())          # 1 = nearest camera
-_u = VOX[:, 0] - VOX[:, 2]
-UAX = (_u - _u.min()) / (_u.max() - _u.min())            # screen-x, for the hue ramp
-NEUTRAL = (0.745, 0.775, 0.825)
+DEPTH = _norm(_d, VOX_ALL[:, 0] + VOX_ALL[:, 1] + VOX_ALL[:, 2])
+UAX = _norm(VOX[:, 0] - VOX[:, 2], VOX_ALL[:, 0] - VOX_ALL[:, 2])   # screen-x: 0 = head
+JN = _norm(VOX[:, 1].astype(float), VOX_ALL[:, 1].astype(float))    # 0 = hooves, 1 = back
+
+NEUTRAL = (0.700, 0.730, 0.790)     # "no response yet" — light, but never invisible
+SLATE   = (0.615, 0.672, 0.782)     # bare voxel tokens: structure, no appearance
+SHADE   = (1.0, 0.82, 0.63)         # top / right / left face
 
 def smoothstep(a, b, t):
     t = min(1.0, max(0.0, (t - a) / (b - a)))
     return t * t * (3 - 2 * t)
 
-# body axis: UAX = 0 at the HEAD (screen-left at yaw 135), 1 at the REAR
-_j = VOX[:, 1].astype(float)
-JN = (_j - _j.min()) / (_j.max() - _j.min())        # 0 = hooves, 1 = top of head/back
-NEUTRAL = (0.745, 0.775, 0.825)
-GLASS   = (0.62, 0.68, 0.80)
-
 def hue_at(u):
-    """3-colour blend ramp, driven by height so it is independent of the
-    head->rear response ramp."""
+    """3-colour blend ramp driven by HEIGHT, so it stays independent of the
+    head->rear response ramp and the two cannot be read as one signal."""
     w1 = max(0.0, 1 - 2 * u); w3 = max(0.0, 2 * u - 1); w2 = 1 - w1 - w3
     return tuple(w1 * C1[i] + w2 * C2[i] + w3 * C3[i] for i in range(3))
 
 def voxel_svg(x, y, boxw, mode, s=10.0):
     ex, ey, ez = iso_axes(s)
-    order = np.argsort(_d, kind='stable')
+    order = np.argsort(_d, kind='stable')            # painter's: back to front
     poly, xs, ys = [], [], []
     for idx in order:
         i, j, k = VOX[idx]
-        front = 1.0 - UAX[idx]                       # 1 at the head, 0 at the rear
-        col_hue = hue_at(1.0 - JN[idx])              # blue on top -> amber at the legs
         if mode == 'ca':                             # after cross-attention
-            sat = smoothstep(0.25, 0.85, front)
-            a   = 0.26 + 0.50 * sat
-            col = mix(NEUTRAL, col_hue, sat)
-            edge, ew, eo = '#FFFFFF', 0.45, min(1.0, a + 0.20)
+            sat = smoothstep(0.25, 0.85, 1.0 - UAX[idx])     # 1 at the head
+            col = mix(NEUTRAL, hue_at(1.0 - JN[idx]), sat)
+            edge, ew = '#FFFFFF', 0.45
         elif mode == 'sa':                           # after self-attention
-            sat, a = 1.0, 0.76
-            col = col_hue
-            edge, ew, eo = '#FFFFFF', 0.45, 0.95
-        else:                                        # bare voxel tokens: glass
-            sat, a = 0.0, 0.17
-            col = GLASS
-            edge, ew, eo = '#647AA0', 0.55, 0.62
-        for face, sh in zip(cube_faces(i, j, k, ex, ey, ez), (1.0, 0.82, 0.63)):
+            col = hue_at(1.0 - JN[idx])
+            edge, ew = '#FFFFFF', 0.45
+        else:                                        # bare voxel tokens
+            col = SLATE
+            edge, ew = '#FFFFFF', 0.45
+        for face, sh in zip(cube_faces(i, j, k, ex, ey, ez), SHADE):
             c = tuple(min(1.0, v * sh) for v in col)
-            poly.append((pts(face), hexc(c), a, edge, ew, eo))
+            poly.append((pts(face), hexc(c), edge, ew))
             for px, py in face:
                 xs.append(px); ys.append(py)
     x0, y0, x1, y1 = min(xs), min(ys), max(xs), max(ys)
     sc = boxw / (x1 - x0)
-    body = '\n'.join(f'<polygon points="{p}" fill="{c}" fill-opacity="{a:.3f}" '
-                      f'stroke="{e}" stroke-width="{w}" stroke-opacity="{o:.2f}"/>'
-                      for p, c, a, e, w, o in poly)
+    body = '\n'.join(f'<polygon points="{p}" fill="{c}" stroke="{e}" '
+                     f'stroke-width="{w}" stroke-linejoin="round"/>'
+                     for p, c, e, w in poly)
     g = (f'<g transform="translate({x:.1f},{y:.1f}) scale({sc:.4f}) '
          f'translate({-x0:.2f},{-y0:.2f})">{body}</g>')
     return g, (y1 - y0) * sc, (x1 - x0) * sc

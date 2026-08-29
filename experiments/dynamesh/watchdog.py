@@ -48,6 +48,14 @@ LIVE = set()
 BAD = {'FAILED', 'TIMEOUT', 'NODE_FAIL', 'PREEMPTED', 'OUT_OF_MEMORY', 'BOOT_FAIL'}
 # jobname prefix -> (sbatch script, log prefix)
 KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
+        # training-timestep bias experiment (rung27_fastprefix.py copy).
+        'kbias_': ('jobs/kbias_hand.sbatch', 'kbias'),
+        # sequential vs frame-batched inference benchmark.
+        'benchpar_': ('jobs/bench_parallel.sbatch', 'benchpar'),
+        # corrected frozen TRELLIS.2 baseline renders (mesh-mask conditioning,
+        # vanilla tokens). Registered at submit time so it is never an
+        # unwatched prefix.
+        'frzfix_': ('jobs/frozen_condfix.sbatch', 'frzfix'),
         'r27_': ('jobs/rung27_hero.sbatch', 'r27hg'),
         'mcf_': ('jobs/rung27_mcfm_hero.sbatch', 'r27hm'),
         'v_':   ('jobs/render_view.sbatch', 'rview'),
@@ -55,6 +63,13 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # added after five pan_ jobs and seven m3_ jobs sat failed/at-risk with the
         # watchdog blind to them: a prefix missing from this table is not watched.
         'm3_':  ('jobs/rung27_mcfm_mode.sbatch', 'r27m3'),
+        # full-rate Table B fleet; CPU-only, no gres -- added at submit time so it
+        # is never one of the unwatched prefixes that hid pan_ and m3_.
+        'fr_':  ('jobs/fullrate_obj.sbatch', 'fr'),
+        # reversed-ladder temporal+cross-attn fleet (rung26 --targets qkvo).
+        'r26ca_': ('jobs/rung26_mcfm_ca.sbatch', 'r26ca'),
+        # texel for the reversed ladder's temporal+CA row.
+        'tx19_': ('jobs/texel_after_train.sbatch', 'texdep'),
         'pan_': ('jobs/panels_one.sbatch', 'pan'),
         'ta2_': ('jobs/ta_t2.sbatch', 'ta2'),
         # The figure matrix. Names are '<rung>_<mode>_<obj>' (e.g. 28_v2_D_spot_lava),
@@ -86,6 +101,16 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # the same blind spot that hid pan_ and m3_.
         'texdep_': ('jobs/texel_after_train.sbatch', 'texdep'),
         'fxv_': ('jobs/fixview_arm.sbatch', 'fxv'),
+        # Dailies renders. submit_dailies_de.sh names them 'dl_<obj>_<arm>_<view>'
+        # and submits jobs/render_arm.sbatch, whose log prefix is RENDER. 'dl_' shares
+        # no prefix with 'rarm_', so before this entry every dailies render ran
+        # unwatched -- the same blind spot that hid pan_ and m3_.
+        'dl_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # Daily panel composites, one job per object, named 'dv_<obj>'; the sbatch
+        # writes out/dv_<name>_<jid>.log. 'dv_' shares no prefix with 'dl_' or 'pan_',
+        # and a prefix missing from this table is not watched -- the same blind spot
+        # that hid pan_ and m3_.
+        'dv_': ('jobs/daily_video_one.sbatch', 'dv'),
         # Target building. build_targets_one.sbatch is named 'mkt_one' and
         # build_targets_obj.sbatch 'mkt_obj', and BOTH start with 'mkt_' -- neither
         # was in this table, so every target build has run unwatched, the same
@@ -97,7 +122,42 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # and they write out/pview_<jid>.log, but 'pv_' was never in this table --
         # so every panel render has been unwatched. 'pan_' does NOT cover them:
         # kind_of() matches on startswith and 'pv_' shares no prefix with 'pan_'.
-        'pv_': ('jobs/panel_view.sbatch', 'pview')}
+        'pv_': ('jobs/panel_view.sbatch', 'pview'),
+        # rung37 per-position temporal LoRA, submitted as 'r37_<obj>' by
+        # jobs/submit_rung37.sh with log prefix out/r37_<jid>.log. The first pass
+        # ran at a 4h wall and 21 of 42 hit TIMEOUT unnoticed, because 'r37_' was
+        # missing here and a prefix missing from this table is not watched.
+        'r37_': ('jobs/rung37_perpos.sbatch', 'r37'),
+        # W=11 pixel renders for the headline-window switch, submitted as
+        # 'w11_<obj>_<view>' by jobs/submit_w11_renders.sh; log prefix RENDER.
+        'w11_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # W=5 / W=7 pixel renders, submitted as 'w5_<obj>_<view>' and
+        # 'w7_<obj>_<view>' by jobs/submit_w5w7_renders.sh. Same sbatch and log
+        # prefix as w11_; registered here at submit time so the arm is watched
+        # from the first job rather than after a silent TIMEOUT sweep.
+        'w5_': ('jobs/render_arm.sbatch', 'RENDER'),
+        'w7_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # W=11 full-rate pixel metrics, jobs/fullrate_obj_w11.sbatch, log prefix fr.
+        'frw_': ('jobs/fullrate_obj_w11.sbatch', 'fr'),
+        # Window-arm full-rate pixel metrics (W=5 / W=7 / W=11 on the 2D-copy
+        # reference), submitted as 'fw5_<obj>' / 'fw7_<obj>' / 'fw11_<obj>' by
+        # jobs/submit_window_fullrate.sh. CPU-only, log prefix fr. Registered at
+        # submit time so a TIMEOUT cannot pass unnoticed the way r37_ did.
+        'fw5_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        'fw7_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        'fw11_': ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        # BATCH D, the 7-arm supplementary ladder. Registered at SUBMIT time, not
+        # after the first failure, so it is never one of the unwatched prefixes
+        # that hid pan_, m3_, mkt_ and pv_. batch_d_arm.sbatch reads OBJ / NFR /
+        # TARGETS / MODE / MESH / GTDIR from --export, and a resubmit carries only
+        # --job-name and --export, so the manifest entry is what makes it usable;
+        # constraint (a40|L40S) and mem live in the script for the same reason.
+        # 'bd_' DISABLED 2026-08-26 at Raj's request: batch-D objects are not in the
+        # 24-object roster and feed neither the ablation nor the comparison table. It is
+        # listed here so the watchdog does not resubmit them while the submission fixes
+        # (fr_*, rarm_27m_spot_lava) hold the GPU slots. Re-enable by restoring this line.
+        # 'bd_': ('jobs/batch_d_arm.sbatch', 'bd'),
+        }
 
 # jobid -> {script, name, export}. Written at SUBMIT time by whoever launched the
 # job. The log header is not always enough: rung27_mcfm_mode.sbatch echoes only

@@ -57,6 +57,10 @@ ap.add_argument('--pass-iou', type=float, default=0.80, help="the trainer's GATE
 ap.add_argument('--ambiguous', type=float, default=0.02,
                 help='if the runner-up is within this IoU of the winner, flag it')
 ap.add_argument('--out', default='out/orient')
+ap.add_argument('--jobs-file', default=None,
+                help='JSON list of [name, mesh, frames_dir]; REPLACES the JOBS list '
+                     'below. Added for batch D rather than editing that list, which is '
+                     'the record of the batch A-C solve and is referenced downstream.')
 A = ap.parse_args()
 
 DEVICE = 'cuda'
@@ -86,6 +90,10 @@ JOBS = [
     ('teapot_porcelain',     'data/teapot_porcelain/mesh/teapot.obj',
                              'data/teapot_porcelain/frames_from_video'),
 ]
+
+
+if A.jobs_file:
+    JOBS = [tuple(j) for j in json.loads(open(A.jobs_file).read())]
 
 
 def intrinsics_to_projection(intr, near, far):

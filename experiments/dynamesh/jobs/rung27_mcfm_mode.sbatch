@@ -15,9 +15,18 @@
 #SBATCH --job-name=r27m3
 #SBATCH --partition=threedle-contrib,threedle-own,general
 #SBATCH --gres=gpu:1
-#SBATCH --constraint="a40|L40S|a30"
+# a30 REMOVED. Every crashed st_D/v3_D run on disk died with `GLIBC_2.32 not found`
+# importing o_voxel._C -- the trellis2 env is built for a40/L40S only. This must live
+# in the SCRIPT, not on the submit command line: watchdog.py resubmits with only
+# --job-name and --export, so a CLI --constraint is silently dropped on every retry,
+# and 30 epochs against a 4h wall means retries are the normal case, not the rare one.
+#SBATCH --constraint="a40|L40S"
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=96G
+# 96G -> 32G. Same script and same flags as fig27.sbatch, whose measured peak RSS is
+# 15.3G; 96G costs 24 of 34 billing units under the group TRES cap and throttled the
+# fleet to ~30 concurrent for nothing. Also dropped by a watchdog resubmit if it were
+# only a CLI flag, so it belongs here too.
+#SBATCH --mem=32G
 #SBATCH --time=04:00:00
 #SBATCH --requeue
 #SBATCH --open-mode=append

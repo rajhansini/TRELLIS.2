@@ -76,7 +76,13 @@ def video_mask(path, res, thr):
 
 def main():
     import nvdiffrast.torch as dr
-    mesh = trimesh.load(A.mesh, process=False, force='mesh')
+    # file_type is pinned because the pristine input is '<name>.obj.prefit' (see
+    # fit_align.sbatch). trimesh dispatches on the extension and this version raises
+    # NotImplementedError on 'prefit'; the file is plain OBJ, so say so rather than
+    # renaming a convention other objects (the penguins) already depend on.
+    _ft = 'obj' if str(A.mesh).endswith('.prefit') else None
+    mesh = trimesh.load(A.mesh, process=False, force='mesh',
+                        **({'file_type': _ft} if _ft else {}))
     V0 = np.asarray(mesh.vertices, np.float64).copy()
     if not A.raw:
         V0 = normalise(V0)

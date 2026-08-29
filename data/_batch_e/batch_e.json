@@ -1,0 +1,37 @@
+{
+  "ivysaur_petal": {
+    "mesh": "ivysaur",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/ivysaur_petal/mesh/ivysaur.obj",
+    "effect": "falling petals"
+  },
+  "ivysaur_petal_2": {
+    "mesh": "ivysaur",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/ivysaur_petal_2/mesh/ivysaur.obj",
+    "effect": "falling petals, v2"
+  },
+  "blub_raurshaw": {
+    "mesh": "blub",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/blub_raurshaw/mesh/blub.obj",
+    "effect": "Rorschach, sliding blots"
+  },
+  "blub_drying": {
+    "mesh": "blub",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/blub_drying/mesh/blub.obj",
+    "effect": "terracotta drying, thin-first"
+  },
+  "pegasus_shine": {
+    "mesh": "pegaso",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/pegasus_shine/mesh/pegaso.obj",
+    "effect": "burnish / shine"
+  },
+  "pegaso_effect_1": {
+    "mesh": "pegaso",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/pegaso_effect_1/mesh/pegaso.obj",
+    "effect": "effect 1"
+  },
+  "mosaic_painting": {
+    "mesh": "moai",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/mosaic_painting/mesh/moai.obj",
+    "effect": "mosaic, contour rows first"
+  }
+}

@@ -117,8 +117,12 @@ ap.add_argument('--mesh-rot', default=None, choices=['x90','x-90','y90','z90'],
                      "frame, with every gate still passing. Use x90 for a Y-up glb.")
 ap.add_argument('--allow-same-mesh', action='store_true',
                 help='permit --mesh to equal the training mesh (sanity render)')
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help='MCFM temporal token blending on the conditioning, applied '
                      'before the flow model sees it. Must match how the '
                      'checkpoint was trained (GATE-mcfm enforces this). Requires '

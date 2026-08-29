@@ -1,0 +1,200 @@
+[
+  {
+    "mesh": "beetle",
+    "up": "+Y",
+    "yaw": 250,
+    "pitch": 30,
+    "exposed": 0.4465,
+    "verts": 4063,
+    "tris": 7558
+  },
+  {
+    "mesh": "guitar",
+    "up": "+Y",
+    "yaw": 200,
+    "pitch": 5,
+    "exposed": 0.43,
+    "verts": 4036,
+    "tris": 8068
+  },
+  {
+    "mesh": "pegaso",
+    "up": "+Y",
+    "yaw": 10,
+    "pitch": 5,
+    "exposed": 0.3651,
+    "verts": 15319,
+    "tris": 30658
+  },
+  {
+    "mesh": "giraffe",
+    "up": "+Y",
+    "yaw": 290,
+    "pitch": 5,
+    "exposed": 0.3635,
+    "verts": 9239,
+    "tris": 18474
+  },
+  {
+    "mesh": "gargoyle",
+    "up": "-Z",
+    "yaw": 230,
+    "pitch": 30,
+    "exposed": 0.3609,
+    "verts": 3613,
+    "tris": 7222
+  },
+  {
+    "mesh": "goat",
+    "up": "+Y",
+    "yaw": 160,
+    "pitch": 5,
+    "exposed": 0.3545,
+    "verts": 10436,
+    "tris": 20868
+  },
+  {
+    "mesh": "shark",
+    "up": "+Y",
+    "yaw": 180,
+    "pitch": 20,
+    "exposed": 0.3497,
+    "verts": 10054,
+    "tris": 20104
+  },
+  {
+    "mesh": "duck",
+    "up": "+Y",
+    "yaw": 50,
+    "pitch": 30,
+    "exposed": 0.3488,
+    "verts": 7457,
+    "tris": 14910
+  },
+  {
+    "mesh": "blub",
+    "up": "+Y",
+    "yaw": 80,
+    "pitch": 20,
+    "exposed": 0.3477,
+    "verts": 7106,
+    "tris": 14208
+  },
+  {
+    "mesh": "pig",
+    "up": "-X",
+    "yaw": 70,
+    "pitch": 30,
+    "exposed": 0.3475,
+    "verts": 3166,
+    "tris": 6328
+  },
+  {
+    "mesh": "kitten",
+    "up": "+Y",
+    "yaw": 350,
+    "pitch": 20,
+    "exposed": 0.3447,
+    "verts": 3178,
+    "tris": 6356
+  },
+  {
+    "mesh": "bob",
+    "up": "+Y",
+    "yaw": 160,
+    "pitch": 30,
+    "exposed": 0.3325,
+    "verts": 5344,
+    "tris": 10688
+  },
+  {
+    "mesh": "cello",
+    "up": "+Y",
+    "yaw": 210,
+    "pitch": 5,
+    "exposed": 0.3324,
+    "verts": 9113,
+    "tris": 18147
+  },
+  {
+    "mesh": "dog",
+    "up": "+Z",
+    "yaw": 90,
+    "pitch": 30,
+    "exposed": 0.3305,
+    "verts": 3084,
+    "tris": 6164
+  },
+  {
+    "mesh": "dino1",
+    "up": "+Y",
+    "yaw": 160,
+    "pitch": 20,
+    "exposed": 0.3209,
+    "verts": 9058,
+    "tris": 18112
+  },
+  {
+    "mesh": "teddy",
+    "up": "+Y",
+    "yaw": 0,
+    "pitch": 10,
+    "exposed": 0.3176,
+    "verts": 2892,
+    "tris": 5760
+  },
+  {
+    "mesh": "elephant",
+    "up": "+Z",
+    "yaw": 230,
+    "pitch": 30,
+    "exposed": 0.3121,
+    "verts": 11848,
+    "tris": 23704
+  },
+  {
+    "mesh": "car",
+    "up": "-Z",
+    "yaw": 70,
+    "pitch": 30,
+    "exposed": 0.3109,
+    "verts": 15738,
+    "tris": 31812
+  },
+  {
+    "mesh": "moai",
+    "up": "+Y",
+    "yaw": 315,
+    "pitch": 10,
+    "exposed": 0.3042,
+    "verts": 10002,
+    "tris": 20000
+  },
+  {
+    "mesh": "aircraft",
+    "up": "+Y",
+    "yaw": 290,
+    "pitch": 30,
+    "exposed": 0.3038,
+    "verts": 12521,
+    "tris": 24920
+  },
+  {
+    "mesh": "robot",
+    "up": "+Y",
+    "yaw": 320,
+    "pitch": 10,
+    "exposed": 0.2911,
+    "verts": 3136,
+    "tris": 6132
+  },
+  {
+    "mesh": "ivysaur",
+    "up": "+Y",
+    "yaw": 280,
+    "pitch": 30,
+    "exposed": 0.2855,
+    "verts": 11300,
+    "tris": 22496
+  }
+]

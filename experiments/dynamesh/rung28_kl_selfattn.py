@@ -422,8 +422,12 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help="MCFM temporal token blending, applied to the cached DINOv3 "
                      "conditioning BEFORE training so the flow model never sees "
                      "vanilla per-frame tokens. v2 blends token i across the "
@@ -433,6 +437,19 @@ ap.add_argument('--mcfm', default=None,
                      "it is absent from the hash, absent from the label, and the "
                      "blend call returns the dict unchanged.")
 args = ap.parse_args()
+# Normalise the readable MCFM name to its short code at parse time, exactly as
+# rung27 and rung30 do. args.mcfm feeds the config hash and the run-directory
+# label, so doing it HERE means 'spatial_then_temporal_w3' and 'st_D' land in the
+# same run directory. Doing it later would fork every existing run.
+if getattr(args, 'mcfm', None) is not None:
+    import sys as _sys
+    from pathlib import Path as _P
+    _sys.path.insert(0, str(_P(__file__).resolve().parent))
+    from mcfm_blend import canonical as _mc
+    _typed = args.mcfm
+    args.mcfm = _mc(args.mcfm)
+    if _typed != args.mcfm:
+        print(f'[MCFM] {_typed} -> {args.mcfm}  (same config hash, same run dir)', flush=True)
 
 # NOTE on --w-lpips: the trellis2 env has no `lpips` package, so the loss here is
 # masked MSE only and this flag is inert. It stays in the config hash so that a
@@ -505,7 +522,9 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
             # because someone also passed --conf-weight. Kept byte-identical to
             # the _RUNG chain below -- if these two ever disagree, config.json
             # and the directory name describe different experiments.
-            rung=(27 if _HAS_SA
+            rung=(28 if (_HAS_SA and args.kl and args.w_kl > 0
+                        and not args.kl_probe)
+                  else 27 if _HAS_SA
                   else 24 if (args.conf_ramp_qlo >= 0 and args.conf_ramp_qhi >= 0)
                   else 22 if (args.lambda_con > 0 and args.lambda_smo <= 0)
                   else 21 if (args.lambda_con > 0 or args.lambda_smo > 0)
@@ -2321,10 +2340,14 @@ def main():
             with lora_ctx(flow, reg):
                 x_k = run_ode(flow, noise, conds[fi], ss_n, T_PAIRS[:k])
                 _KL['terms'].clear()
+                # ON for the graded forward AND the checkpoint replay inside
+                # backward. Turning it off in between made the recomputed graph
+                # skip the KL ops -- 114 tensors saved on forward, 82 on
+                # recomputation, CheckpointError. It is cleared after backward.
                 _KL['collect'] = bool(args.kl)       # run_ode above ran with it OFF
                 v = flow_eval(flow, x_k, t_k, conds[fi], ss_n)
-                _KL['collect'] = False
-                _kl_terms = list(_KL['terms']); _KL['terms'].clear()
+                _kl_terms = list(_KL['terms'])       # snapshot; replay re-appends
+                _KL['terms'].clear()
                 x0 = pred_to_xstart(x_k, t_k, v)
                 _need_pbr = args.lambda_smooth > 0 or REG_ON
                 _ret = decode_render(x0, clamp=False, return_pbr=_need_pbr)
@@ -2388,6 +2411,9 @@ def main():
 
                 opt.zero_grad(set_to_none=True)
                 (loss * args.loss_scale).backward()
+                # the replay above re-appended; drop it and close the window
+                _KL['collect'] = False
+                _KL['terms'].clear()
             for p in reg.parameters():
                 if p.grad is not None:
                     p.grad.div_(args.loss_scale)

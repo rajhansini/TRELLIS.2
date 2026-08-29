@@ -1,0 +1,57 @@
+{
+  "moai_silver": {
+    "mesh": "moai",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/moai_silver/mesh/moai.obj",
+    "effect": "silver / metallic"
+  },
+  "moai_animated": {
+    "mesh": "moai",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/moai_animated/mesh/moai.obj",
+    "effect": "animated face treatment"
+  },
+  "gargoyle_spiral": {
+    "mesh": "gargoyle",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/gargoyle_spiral/mesh/gargoyle.obj",
+    "effect": "spiral / BZ target waves"
+  },
+  "gargoyle_effect_one": {
+    "mesh": "gargoyle",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/gargoyle_effect_one/mesh/gargoyle.obj",
+    "effect": "effect 1"
+  },
+  "airplane_blub": {
+    "mesh": "aircraft",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/airplane_blub/mesh/aircraft.obj",
+    "effect": "blub"
+  },
+  "airplane_red_cracks": {
+    "mesh": "aircraft",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/airplane_red_cracks/mesh/aircraft.obj",
+    "effect": "red cracks"
+  },
+  "teddy_bleach": {
+    "mesh": "teddy",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/teddy_bleach/mesh/teddy.obj",
+    "effect": "bleach spotting"
+  },
+  "teddy_fusion": {
+    "mesh": "teddy",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/teddy_fusion/mesh/teddy.obj",
+    "effect": "fusion"
+  },
+  "goat_burnt": {
+    "mesh": "goat",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/goat_burnt/mesh/goat.obj",
+    "effect": "scorch / char"
+  },
+  "goat_flower": {
+    "mesh": "goat",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/goat_flower/mesh/goat.obj",
+    "effect": "flower"
+  },
+  "goat_clay": {
+    "mesh": "goat",
+    "mesh_path": "/net/projects/ranalab/rajhansini/TRELLIS.2/data/goat_clay/mesh/goat.obj",
+    "effect": "dried clay / mud"
+  }
+}

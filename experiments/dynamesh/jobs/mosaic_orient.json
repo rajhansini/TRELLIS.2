@@ -1,0 +1,12 @@
+[
+  [
+    "spot_lava [CONTROL]",
+    "data/spot_lava/mesh/spot.obj",
+    "data/spot_lava/frames_from_video"
+  ],
+  [
+    "mosaic_painting",
+    "data/mosaic_painting/mesh/moai.obj",
+    "data/mosaic_painting/frames_from_video"
+  ]
+]

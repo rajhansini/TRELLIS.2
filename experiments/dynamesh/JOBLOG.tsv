@@ -1,0 +1,741 @@
+2026-08-21 23:58:18	2197687	27_st_D_ancient_l	fig27	MODE=st_D	out/FIGRUNS/27_st_D_ancient_l_2197687.log	pass=[FINAL] rung
+2026-08-21 23:58:18	2197688	28_ancient_l	fig28	MODE=none	out/FIGRUNS/28_ancient_l_2197688.log	pass=[FINAL] rung
+2026-08-21 23:58:18	2197689	28_v2_D_ancient_l	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_ancient_l_2197689.log	pass=[FINAL] rung
+2026-08-21 23:58:18	2197690	28_st_D_ancient_l	fig28	MODE=st_D	out/FIGRUNS/28_st_D_ancient_l_2197690.log	pass=[FINAL] rung
+2026-08-21 23:58:18	2197691	28_v3_D_ancient_l	fig28	MODE=v3_D	out/FIGRUNS/28_v3_D_ancient_l_2197691.log	pass=[FINAL] rung
+2026-08-22 00:17:59  cancelled st_D + v3_D arms, keeping temporal-only (v2_D)
+2026-08-22 00:33:01	2197736	tgt_animal_blob_crack	targets_hero	OBJ=animal_blob_crack	out/tgt_2197736.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197737	tgt_animal_blob_orange_crack	targets_hero	OBJ=animal_blob_orange_crack	out/tgt_2197737.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197738	tgt_chair_real_wooden_crack	targets_hero	OBJ=chair_real_wooden_crack	out/tgt_2197738.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197739	tgt_chair_ice	targets_hero	OBJ=chair_ice	out/tgt_2197739.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197740	tgt_chair_moss	targets_hero	OBJ=chair_moss	out/tgt_2197740.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197741	tgt_napolean_teapot_crack	targets_hero	OBJ=napolean_teapot_crack	out/tgt_2197741.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197742	tgt_napolean_waves	targets_hero	OBJ=napolean_waves	out/tgt_2197742.log	pass=gt_targets.json exists
+2026-08-22 00:33:01	2197743	tgt_octopus_tar	targets_hero	OBJ=octopus_tar	out/tgt_2197743.log	pass=gt_targets.json exists
+2026-08-22 00:33:02	2197744	tgt_octopus_sparkle	targets_hero	OBJ=octopus_sparkle	out/tgt_2197744.log	pass=gt_targets.json exists
+2026-08-22 00:33:02	2197745	tgt_octopus_rainbow	targets_hero	OBJ=octopus_rainbow	out/tgt_2197745.log	pass=gt_targets.json exists
+2026-08-22 00:33:02	2197746	tgt_octopus_rust	targets_hero	OBJ=octopus_rust	out/tgt_2197746.log	pass=gt_targets.json exists
+2026-08-22 00:46:57	2197775	nightwatch	nightwatch	-	out/NIGHTWATCH.log	pass=successor queued
+2026-08-22 02:55	2197838	28_spot_lava	fig28	MODE=none	out/FIGRUNS/28_spot_lava_2197838.log	pass=[FINAL] rung
+2026-08-22 02:55	2197839	28_v2_D_spot_lava	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_spot_lava_2197839.log	pass=[FINAL] rung
+2026-08-22 02:55	2197840	28_pumpkin_r	fig28	MODE=none	out/FIGRUNS/28_pumpkin_r_2197840.log	pass=[FINAL] rung
+2026-08-22 02:55	2197841	28_v2_D_pumpkin_r	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_pumpkin_r_2197841.log	pass=[FINAL] rung
+2026-08-22 02:55	2197842	28_hand_rors	fig28	MODE=none	out/FIGRUNS/28_hand_rors_2197842.log	pass=[FINAL] rung
+2026-08-22 02:55	2197843	28_v2_D_hand_rors	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_hand_rors_2197843.log	pass=[FINAL] rung
+2026-08-22 02:55:29	2197850	27_animal_bl	fig27	MODE=none	out/FIGRUNS/27_animal_bl_2197850.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197851	27_v2_D_animal_bl	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_animal_bl_2197851.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197852	28_animal_bl	fig28	MODE=none	out/FIGRUNS/28_animal_bl_2197852.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197853	28_v2_D_animal_bl	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_animal_bl_2197853.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197854	29_animal_bl	fig29	MODE=none	out/FIGRUNS/29_animal_bl_2197854.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197855	29_v2_D_animal_bl	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_animal_bl_2197855.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197856	30_animal_bl	fig30	MODE=none	out/FIGRUNS/30_animal_bl_2197856.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197857	30_v2_D_animal_bl	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_animal_bl_2197857.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197858	31_animal_bl	fig31	MODE=none	out/FIGRUNS/31_animal_bl_2197858.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197859	31_v2_D_animal_bl	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_animal_bl_2197859.log	pass=[FINAL] rung
+2026-08-22 02:55:30	2197860	32_animal_bl	fig32	MODE=none	out/FIGRUNS/32_animal_bl_2197860.log	pass=[FINAL] rung
+2026-08-22 02:55:31	2197861	33_animal_bl	fig33	MODE=none	out/FIGRUNS/33_animal_bl_2197861.log	pass=[FINAL] rung
+2026-08-22 02:55:31	2197862	33_v2_D_animal_bl	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_animal_bl_2197862.log	pass=[FINAL] rung
+2026-08-22 02:55:31	2197863	34_animal_bl	fig34	MODE=none	out/FIGRUNS/34_animal_bl_2197863.log	pass=[FINAL] rung
+2026-08-22 02:57:31	2197864	27_animal_bl	fig27	MODE=none	out/FIGRUNS/27_animal_bl_2197864.log	pass=[FINAL] rung
+2026-08-22 02:57:31	2197865	27_v2_D_animal_bl	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_animal_bl_2197865.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197866	28_animal_bl	fig28	MODE=none	out/FIGRUNS/28_animal_bl_2197866.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197867	28_v2_D_animal_bl	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_animal_bl_2197867.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197868	29_animal_bl	fig29	MODE=none	out/FIGRUNS/29_animal_bl_2197868.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197869	29_v2_D_animal_bl	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_animal_bl_2197869.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197870	30_animal_bl	fig30	MODE=none	out/FIGRUNS/30_animal_bl_2197870.log	pass=[FINAL] rung
+2026-08-22 02:57:32	2197871	30_v2_D_animal_bl	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_animal_bl_2197871.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197872	31_animal_bl	fig31	MODE=none	out/FIGRUNS/31_animal_bl_2197872.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197873	31_v2_D_animal_bl	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_animal_bl_2197873.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197874	32_animal_bl	fig32	MODE=none	out/FIGRUNS/32_animal_bl_2197874.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197875	33_animal_bl	fig33	MODE=none	out/FIGRUNS/33_animal_bl_2197875.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197876	33_v2_D_animal_bl	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_animal_bl_2197876.log	pass=[FINAL] rung
+2026-08-22 02:57:33	2197877	34_animal_bl	fig34	MODE=none	out/FIGRUNS/34_animal_bl_2197877.log	pass=[FINAL] rung
+2026-08-22 02:58:33	2197878	27_chair_real_wooden_crack	fig27	MODE=none	out/FIGRUNS/27_chair_real_wooden_crack_2197878.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197879	27_v2_D_chair_real_wooden_crack	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_chair_real_wooden_crack_2197879.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197880	28_chair_real_wooden_crack	fig28	MODE=none	out/FIGRUNS/28_chair_real_wooden_crack_2197880.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197881	28_v2_D_chair_real_wooden_crack	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_chair_real_wooden_crack_2197881.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197882	29_chair_real_wooden_crack	fig29	MODE=none	out/FIGRUNS/29_chair_real_wooden_crack_2197882.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197883	29_v2_D_chair_real_wooden_crack	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_chair_real_wooden_crack_2197883.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197884	30_chair_real_wooden_crack	fig30	MODE=none	out/FIGRUNS/30_chair_real_wooden_crack_2197884.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197885	30_v2_D_chair_real_wooden_crack	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_chair_real_wooden_crack_2197885.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197886	31_chair_real_wooden_crack	fig31	MODE=none	out/FIGRUNS/31_chair_real_wooden_crack_2197886.log	pass=[FINAL] rung
+2026-08-22 02:58:34	2197887	31_v2_D_chair_real_wooden_crack	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_chair_real_wooden_crack_2197887.log	pass=[FINAL] rung
+2026-08-22 02:58:35	2197888	32_chair_real_wooden_crack	fig32	MODE=none	out/FIGRUNS/32_chair_real_wooden_crack_2197888.log	pass=[FINAL] rung
+2026-08-22 02:58:35	2197889	33_chair_real_wooden_crack	fig33	MODE=none	out/FIGRUNS/33_chair_real_wooden_crack_2197889.log	pass=[FINAL] rung
+2026-08-22 02:58:35	2197890	33_v2_D_chair_real_wooden_crack	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_chair_real_wooden_crack_2197890.log	pass=[FINAL] rung
+2026-08-22 02:58:35	2197891	34_chair_real_wooden_crack	fig34	MODE=none	out/FIGRUNS/34_chair_real_wooden_crack_2197891.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197892	27_chair_ice	fig27	MODE=none	out/FIGRUNS/27_chair_ice_2197892.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197893	27_v2_D_chair_ice	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_chair_ice_2197893.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197894	28_chair_ice	fig28	MODE=none	out/FIGRUNS/28_chair_ice_2197894.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197895	28_v2_D_chair_ice	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_chair_ice_2197895.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197896	29_chair_ice	fig29	MODE=none	out/FIGRUNS/29_chair_ice_2197896.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197897	29_v2_D_chair_ice	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_chair_ice_2197897.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197898	30_chair_ice	fig30	MODE=none	out/FIGRUNS/30_chair_ice_2197898.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197899	30_v2_D_chair_ice	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_chair_ice_2197899.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197900	31_chair_ice	fig31	MODE=none	out/FIGRUNS/31_chair_ice_2197900.log	pass=[FINAL] rung
+2026-08-22 02:59:28	2197901	31_v2_D_chair_ice	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_chair_ice_2197901.log	pass=[FINAL] rung
+2026-08-22 02:59:29	2197902	32_chair_ice	fig32	MODE=none	out/FIGRUNS/32_chair_ice_2197902.log	pass=[FINAL] rung
+2026-08-22 02:59:29	2197903	33_chair_ice	fig33	MODE=none	out/FIGRUNS/33_chair_ice_2197903.log	pass=[FINAL] rung
+2026-08-22 02:59:29	2197904	33_v2_D_chair_ice	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_chair_ice_2197904.log	pass=[FINAL] rung
+2026-08-22 02:59:29	2197905	34_chair_ice	fig34	MODE=none	out/FIGRUNS/34_chair_ice_2197905.log	pass=[FINAL] rung
+2026-08-22 03:00:35	2197906	27_chair_moss	fig27	MODE=none	out/FIGRUNS/27_chair_moss_2197906.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197907	27_v2_D_chair_moss	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_chair_moss_2197907.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197908	28_chair_moss	fig28	MODE=none	out/FIGRUNS/28_chair_moss_2197908.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197909	28_v2_D_chair_moss	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_chair_moss_2197909.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197910	29_chair_moss	fig29	MODE=none	out/FIGRUNS/29_chair_moss_2197910.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197911	29_v2_D_chair_moss	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_chair_moss_2197911.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197912	30_chair_moss	fig30	MODE=none	out/FIGRUNS/30_chair_moss_2197912.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197913	30_v2_D_chair_moss	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_chair_moss_2197913.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197914	31_chair_moss	fig31	MODE=none	out/FIGRUNS/31_chair_moss_2197914.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197915	31_v2_D_chair_moss	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_chair_moss_2197915.log	pass=[FINAL] rung
+2026-08-22 03:00:36	2197916	32_chair_moss	fig32	MODE=none	out/FIGRUNS/32_chair_moss_2197916.log	pass=[FINAL] rung
+2026-08-22 03:00:37	2197917	33_chair_moss	fig33	MODE=none	out/FIGRUNS/33_chair_moss_2197917.log	pass=[FINAL] rung
+2026-08-22 03:00:37	2197918	33_v2_D_chair_moss	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_chair_moss_2197918.log	pass=[FINAL] rung
+2026-08-22 03:00:37	2197919	34_chair_moss	fig34	MODE=none	out/FIGRUNS/34_chair_moss_2197919.log	pass=[FINAL] rung
+2026-08-22 03:01:37	2197920	27_napolean_teapot_crack	fig27	MODE=none	out/FIGRUNS/27_napolean_teapot_crack_2197920.log	pass=[FINAL] rung
+2026-08-22 03:01:37	2197921	27_v2_D_napolean_teapot_crack	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_napolean_teapot_crack_2197921.log	pass=[FINAL] rung
+2026-08-22 03:01:37	2197922	28_napolean_teapot_crack	fig28	MODE=none	out/FIGRUNS/28_napolean_teapot_crack_2197922.log	pass=[FINAL] rung
+2026-08-22 03:01:37	2197923	28_v2_D_napolean_teapot_crack	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_napolean_teapot_crack_2197923.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197924	29_napolean_teapot_crack	fig29	MODE=none	out/FIGRUNS/29_napolean_teapot_crack_2197924.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197925	29_v2_D_napolean_teapot_crack	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_napolean_teapot_crack_2197925.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197926	30_napolean_teapot_crack	fig30	MODE=none	out/FIGRUNS/30_napolean_teapot_crack_2197926.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197927	30_v2_D_napolean_teapot_crack	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_napolean_teapot_crack_2197927.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197928	31_napolean_teapot_crack	fig31	MODE=none	out/FIGRUNS/31_napolean_teapot_crack_2197928.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197929	31_v2_D_napolean_teapot_crack	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_napolean_teapot_crack_2197929.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197930	32_napolean_teapot_crack	fig32	MODE=none	out/FIGRUNS/32_napolean_teapot_crack_2197930.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197931	33_napolean_teapot_crack	fig33	MODE=none	out/FIGRUNS/33_napolean_teapot_crack_2197931.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197932	33_v2_D_napolean_teapot_crack	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_napolean_teapot_crack_2197932.log	pass=[FINAL] rung
+2026-08-22 03:01:38	2197933	34_napolean_teapot_crack	fig34	MODE=none	out/FIGRUNS/34_napolean_teapot_crack_2197933.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197935	27_napolean_waves	fig27	MODE=none	out/FIGRUNS/27_napolean_waves_2197935.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197936	27_v2_D_napolean_waves	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_napolean_waves_2197936.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197937	28_napolean_waves	fig28	MODE=none	out/FIGRUNS/28_napolean_waves_2197937.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197938	28_v2_D_napolean_waves	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_napolean_waves_2197938.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197939	29_napolean_waves	fig29	MODE=none	out/FIGRUNS/29_napolean_waves_2197939.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197940	29_v2_D_napolean_waves	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_napolean_waves_2197940.log	pass=[FINAL] rung
+2026-08-22 03:02:39	2197941	30_napolean_waves	fig30	MODE=none	out/FIGRUNS/30_napolean_waves_2197941.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197942	30_v2_D_napolean_waves	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_napolean_waves_2197942.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197943	31_napolean_waves	fig31	MODE=none	out/FIGRUNS/31_napolean_waves_2197943.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197944	31_v2_D_napolean_waves	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_napolean_waves_2197944.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197945	32_napolean_waves	fig32	MODE=none	out/FIGRUNS/32_napolean_waves_2197945.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197946	33_napolean_waves	fig33	MODE=none	out/FIGRUNS/33_napolean_waves_2197946.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197947	33_v2_D_napolean_waves	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_napolean_waves_2197947.log	pass=[FINAL] rung
+2026-08-22 03:02:40	2197948	34_napolean_waves	fig34	MODE=none	out/FIGRUNS/34_napolean_waves_2197948.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197949	27_octopus_tar	fig27	MODE=none	out/FIGRUNS/27_octopus_tar_2197949.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197950	27_v2_D_octopus_tar	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octopus_tar_2197950.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197951	28_octopus_tar	fig28	MODE=none	out/FIGRUNS/28_octopus_tar_2197951.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197952	28_v2_D_octopus_tar	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octopus_tar_2197952.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197953	29_octopus_tar	fig29	MODE=none	out/FIGRUNS/29_octopus_tar_2197953.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197954	29_v2_D_octopus_tar	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octopus_tar_2197954.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197955	30_octopus_tar	fig30	MODE=none	out/FIGRUNS/30_octopus_tar_2197955.log	pass=[FINAL] rung
+2026-08-22 03:03:41	2197956	30_v2_D_octopus_tar	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octopus_tar_2197956.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197957	31_octopus_tar	fig31	MODE=none	out/FIGRUNS/31_octopus_tar_2197957.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197958	31_v2_D_octopus_tar	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octopus_tar_2197958.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197959	32_octopus_tar	fig32	MODE=none	out/FIGRUNS/32_octopus_tar_2197959.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197960	33_octopus_tar	fig33	MODE=none	out/FIGRUNS/33_octopus_tar_2197960.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197961	33_v2_D_octopus_tar	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octopus_tar_2197961.log	pass=[FINAL] rung
+2026-08-22 03:03:42	2197962	34_octopus_tar	fig34	MODE=none	out/FIGRUNS/34_octopus_tar_2197962.log	pass=[FINAL] rung
+2026-08-22 03:04:42	2197964	27_octopus_sparkle	fig27	MODE=none	out/FIGRUNS/27_octopus_sparkle_2197964.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197965	27_v2_D_octopus_sparkle	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octopus_sparkle_2197965.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197966	28_octopus_sparkle	fig28	MODE=none	out/FIGRUNS/28_octopus_sparkle_2197966.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197967	28_v2_D_octopus_sparkle	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octopus_sparkle_2197967.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197968	29_octopus_sparkle	fig29	MODE=none	out/FIGRUNS/29_octopus_sparkle_2197968.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197969	29_v2_D_octopus_sparkle	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octopus_sparkle_2197969.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197970	30_octopus_sparkle	fig30	MODE=none	out/FIGRUNS/30_octopus_sparkle_2197970.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197971	30_v2_D_octopus_sparkle	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octopus_sparkle_2197971.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197972	31_octopus_sparkle	fig31	MODE=none	out/FIGRUNS/31_octopus_sparkle_2197972.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197973	31_v2_D_octopus_sparkle	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octopus_sparkle_2197973.log	pass=[FINAL] rung
+2026-08-22 03:04:43	2197974	32_octopus_sparkle	fig32	MODE=none	out/FIGRUNS/32_octopus_sparkle_2197974.log	pass=[FINAL] rung
+2026-08-22 03:04:44	2197975	33_octopus_sparkle	fig33	MODE=none	out/FIGRUNS/33_octopus_sparkle_2197975.log	pass=[FINAL] rung
+2026-08-22 03:04:44	2197976	33_v2_D_octopus_sparkle	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octopus_sparkle_2197976.log	pass=[FINAL] rung
+2026-08-22 03:04:44	2197977	34_octopus_sparkle	fig34	MODE=none	out/FIGRUNS/34_octopus_sparkle_2197977.log	pass=[FINAL] rung
+2026-08-22 03:06:44	2197978	27_octopus_rainbow	fig27	MODE=none	out/FIGRUNS/27_octopus_rainbow_2197978.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197979	27_v2_D_octopus_rainbow	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octopus_rainbow_2197979.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197980	28_octopus_rainbow	fig28	MODE=none	out/FIGRUNS/28_octopus_rainbow_2197980.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197981	28_v2_D_octopus_rainbow	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octopus_rainbow_2197981.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197982	29_octopus_rainbow	fig29	MODE=none	out/FIGRUNS/29_octopus_rainbow_2197982.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197983	29_v2_D_octopus_rainbow	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octopus_rainbow_2197983.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197984	30_octopus_rainbow	fig30	MODE=none	out/FIGRUNS/30_octopus_rainbow_2197984.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197985	30_v2_D_octopus_rainbow	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octopus_rainbow_2197985.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197986	31_octopus_rainbow	fig31	MODE=none	out/FIGRUNS/31_octopus_rainbow_2197986.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197987	31_v2_D_octopus_rainbow	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octopus_rainbow_2197987.log	pass=[FINAL] rung
+2026-08-22 03:06:45	2197988	32_octopus_rainbow	fig32	MODE=none	out/FIGRUNS/32_octopus_rainbow_2197988.log	pass=[FINAL] rung
+2026-08-22 03:06:46	2197989	33_octopus_rainbow	fig33	MODE=none	out/FIGRUNS/33_octopus_rainbow_2197989.log	pass=[FINAL] rung
+2026-08-22 03:06:46	2197990	33_v2_D_octopus_rainbow	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octopus_rainbow_2197990.log	pass=[FINAL] rung
+2026-08-22 03:06:46	2197991	34_octopus_rainbow	fig34	MODE=none	out/FIGRUNS/34_octopus_rainbow_2197991.log	pass=[FINAL] rung
+2026-08-22 03:07:46	2197992	27_octopus_rust	fig27	MODE=none	out/FIGRUNS/27_octopus_rust_2197992.log	pass=[FINAL] rung
+2026-08-22 03:07:46	2197993	27_v2_D_octopus_rust	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octopus_rust_2197993.log	pass=[FINAL] rung
+2026-08-22 03:07:46	2197994	28_octopus_rust	fig28	MODE=none	out/FIGRUNS/28_octopus_rust_2197994.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2197995	28_v2_D_octopus_rust	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octopus_rust_2197995.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2197996	29_octopus_rust	fig29	MODE=none	out/FIGRUNS/29_octopus_rust_2197996.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2197997	29_v2_D_octopus_rust	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octopus_rust_2197997.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2197998	30_octopus_rust	fig30	MODE=none	out/FIGRUNS/30_octopus_rust_2197998.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2197999	30_v2_D_octopus_rust	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octopus_rust_2197999.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2198000	31_octopus_rust	fig31	MODE=none	out/FIGRUNS/31_octopus_rust_2198000.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2198001	31_v2_D_octopus_rust	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octopus_rust_2198001.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2198002	32_octopus_rust	fig32	MODE=none	out/FIGRUNS/32_octopus_rust_2198002.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2198003	33_octopus_rust	fig33	MODE=none	out/FIGRUNS/33_octopus_rust_2198003.log	pass=[FINAL] rung
+2026-08-22 03:07:47	2198004	33_v2_D_octopus_rust	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octopus_rust_2198004.log	pass=[FINAL] rung
+2026-08-22 03:07:48	2198005	34_octopus_rust	fig34	MODE=none	out/FIGRUNS/34_octopus_rust_2198005.log	pass=[FINAL] rung
+2026-08-22 03:50:36	2198022	tgt_octocat_clay	targets_hero	OBJ=octocat_clay	out/tgt_2198022.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198023	tgt_octocat_shine	targets_hero	OBJ=octocat_shine	out/tgt_2198023.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198024	tgt_sheep_soil	targets_hero	OBJ=sheep_soil	out/tgt_2198024.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198025	tgt_sheep_mud	targets_hero	OBJ=sheep_mud	out/tgt_2198025.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198026	tgt_dragon_mush	targets_hero	OBJ=dragon_mush	out/tgt_2198026.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198027	tgt_dragon_mush2	targets_hero	OBJ=dragon_mush2	out/tgt_2198027.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198028	tgt_tie_fighter_bw	targets_hero	OBJ=tie_fighter_bw	out/tgt_2198028.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198029	tgt_penguin_ice	targets_hero	OBJ=penguin_ice	out/tgt_2198029.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198030	tgt_penguin_orange_mush	targets_hero	OBJ=penguin_orange_mush	out/tgt_2198030.log	pass=gt_targets.json
+2026-08-22 03:50:36	2198031	tgt_penguin_real	targets_hero	OBJ=penguin_real	out/tgt_2198031.log	pass=gt_targets.json
+2026-08-22 03:50:37	2198032	tgt_fish_glitter	targets_hero	OBJ=fish_glitter	out/tgt_2198032.log	pass=gt_targets.json
+2026-08-22 03:50:37	2198033	tgt_fish_ink	targets_hero	OBJ=fish_ink	out/tgt_2198033.log	pass=gt_targets.json
+2026-08-22 11:45:40	2198500	27_octocat_clay	fig27	MODE=none	out/FIGRUNS/27_octocat_clay_2198500.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198501	27_v2_D_octocat_clay	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octocat_clay_2198501.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198502	28_octocat_clay	fig28	MODE=none	out/FIGRUNS/28_octocat_clay_2198502.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198503	28_v2_D_octocat_clay	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octocat_clay_2198503.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198504	29_octocat_clay	fig29	MODE=none	out/FIGRUNS/29_octocat_clay_2198504.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198505	29_v2_D_octocat_clay	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octocat_clay_2198505.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198506	30_octocat_clay	fig30	MODE=none	out/FIGRUNS/30_octocat_clay_2198506.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198507	30_v2_D_octocat_clay	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octocat_clay_2198507.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198508	31_octocat_clay	fig31	MODE=none	out/FIGRUNS/31_octocat_clay_2198508.log	pass=[FINAL] rung
+2026-08-22 11:45:40	2198509	31_v2_D_octocat_clay	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octocat_clay_2198509.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198510	32_octocat_clay	fig32	MODE=none	out/FIGRUNS/32_octocat_clay_2198510.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198511	33_octocat_clay	fig33	MODE=none	out/FIGRUNS/33_octocat_clay_2198511.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198512	33_v2_D_octocat_clay	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octocat_clay_2198512.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198513	34_octocat_clay	fig34	MODE=none	out/FIGRUNS/34_octocat_clay_2198513.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198514	27_octocat_shine	fig27	MODE=none	out/FIGRUNS/27_octocat_shine_2198514.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198515	27_v2_D_octocat_shine	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_octocat_shine_2198515.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198516	28_octocat_shine	fig28	MODE=none	out/FIGRUNS/28_octocat_shine_2198516.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198517	28_v2_D_octocat_shine	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_octocat_shine_2198517.log	pass=[FINAL] rung
+2026-08-22 11:45:41	2198518	29_octocat_shine	fig29	MODE=none	out/FIGRUNS/29_octocat_shine_2198518.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198519	29_v2_D_octocat_shine	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_octocat_shine_2198519.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198520	30_octocat_shine	fig30	MODE=none	out/FIGRUNS/30_octocat_shine_2198520.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198521	30_v2_D_octocat_shine	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_octocat_shine_2198521.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198522	31_octocat_shine	fig31	MODE=none	out/FIGRUNS/31_octocat_shine_2198522.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198523	31_v2_D_octocat_shine	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_octocat_shine_2198523.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198524	32_octocat_shine	fig32	MODE=none	out/FIGRUNS/32_octocat_shine_2198524.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198525	33_octocat_shine	fig33	MODE=none	out/FIGRUNS/33_octocat_shine_2198525.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198526	33_v2_D_octocat_shine	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_octocat_shine_2198526.log	pass=[FINAL] rung
+2026-08-22 11:45:42	2198527	34_octocat_shine	fig34	MODE=none	out/FIGRUNS/34_octocat_shine_2198527.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198528	27_sheep_soil	fig27	MODE=none	out/FIGRUNS/27_sheep_soil_2198528.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198529	27_v2_D_sheep_soil	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_sheep_soil_2198529.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198530	28_sheep_soil	fig28	MODE=none	out/FIGRUNS/28_sheep_soil_2198530.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198531	28_v2_D_sheep_soil	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_sheep_soil_2198531.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198532	29_sheep_soil	fig29	MODE=none	out/FIGRUNS/29_sheep_soil_2198532.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198533	29_v2_D_sheep_soil	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_sheep_soil_2198533.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198534	30_sheep_soil	fig30	MODE=none	out/FIGRUNS/30_sheep_soil_2198534.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198535	30_v2_D_sheep_soil	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_sheep_soil_2198535.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198536	31_sheep_soil	fig31	MODE=none	out/FIGRUNS/31_sheep_soil_2198536.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198537	31_v2_D_sheep_soil	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_sheep_soil_2198537.log	pass=[FINAL] rung
+2026-08-22 11:45:43	2198538	32_sheep_soil	fig32	MODE=none	out/FIGRUNS/32_sheep_soil_2198538.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198539	33_sheep_soil	fig33	MODE=none	out/FIGRUNS/33_sheep_soil_2198539.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198540	33_v2_D_sheep_soil	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_sheep_soil_2198540.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198541	34_sheep_soil	fig34	MODE=none	out/FIGRUNS/34_sheep_soil_2198541.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198542	27_sheep_mud	fig27	MODE=none	out/FIGRUNS/27_sheep_mud_2198542.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198543	27_v2_D_sheep_mud	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_sheep_mud_2198543.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198544	28_sheep_mud	fig28	MODE=none	out/FIGRUNS/28_sheep_mud_2198544.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198545	28_v2_D_sheep_mud	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_sheep_mud_2198545.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198546	29_sheep_mud	fig29	MODE=none	out/FIGRUNS/29_sheep_mud_2198546.log	pass=[FINAL] rung
+2026-08-22 11:45:44	2198547	29_v2_D_sheep_mud	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_sheep_mud_2198547.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198548	30_sheep_mud	fig30	MODE=none	out/FIGRUNS/30_sheep_mud_2198548.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198549	30_v2_D_sheep_mud	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_sheep_mud_2198549.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198550	31_sheep_mud	fig31	MODE=none	out/FIGRUNS/31_sheep_mud_2198550.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198551	31_v2_D_sheep_mud	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_sheep_mud_2198551.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198552	32_sheep_mud	fig32	MODE=none	out/FIGRUNS/32_sheep_mud_2198552.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198553	33_sheep_mud	fig33	MODE=none	out/FIGRUNS/33_sheep_mud_2198553.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198554	33_v2_D_sheep_mud	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_sheep_mud_2198554.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198555	34_sheep_mud	fig34	MODE=none	out/FIGRUNS/34_sheep_mud_2198555.log	pass=[FINAL] rung
+2026-08-22 11:45:45	2198556	27_dragon_mush	fig27	MODE=none	out/FIGRUNS/27_dragon_mush_2198556.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198557	27_v2_D_dragon_mush	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_dragon_mush_2198557.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198558	28_dragon_mush	fig28	MODE=none	out/FIGRUNS/28_dragon_mush_2198558.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198559	28_v2_D_dragon_mush	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_dragon_mush_2198559.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198560	29_dragon_mush	fig29	MODE=none	out/FIGRUNS/29_dragon_mush_2198560.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198561	29_v2_D_dragon_mush	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_dragon_mush_2198561.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198562	30_dragon_mush	fig30	MODE=none	out/FIGRUNS/30_dragon_mush_2198562.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198563	30_v2_D_dragon_mush	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_dragon_mush_2198563.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198564	31_dragon_mush	fig31	MODE=none	out/FIGRUNS/31_dragon_mush_2198564.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198565	31_v2_D_dragon_mush	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_dragon_mush_2198565.log	pass=[FINAL] rung
+2026-08-22 11:45:46	2198566	32_dragon_mush	fig32	MODE=none	out/FIGRUNS/32_dragon_mush_2198566.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198567	33_dragon_mush	fig33	MODE=none	out/FIGRUNS/33_dragon_mush_2198567.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198568	33_v2_D_dragon_mush	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_dragon_mush_2198568.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198569	34_dragon_mush	fig34	MODE=none	out/FIGRUNS/34_dragon_mush_2198569.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198570	27_dragon_mush2	fig27	MODE=none	out/FIGRUNS/27_dragon_mush2_2198570.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198571	27_v2_D_dragon_mush2	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_dragon_mush2_2198571.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198572	28_dragon_mush2	fig28	MODE=none	out/FIGRUNS/28_dragon_mush2_2198572.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198573	28_v2_D_dragon_mush2	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_dragon_mush2_2198573.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198574	29_dragon_mush2	fig29	MODE=none	out/FIGRUNS/29_dragon_mush2_2198574.log	pass=[FINAL] rung
+2026-08-22 11:45:47	2198575	29_v2_D_dragon_mush2	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_dragon_mush2_2198575.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198576	30_dragon_mush2	fig30	MODE=none	out/FIGRUNS/30_dragon_mush2_2198576.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198577	30_v2_D_dragon_mush2	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_dragon_mush2_2198577.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198578	31_dragon_mush2	fig31	MODE=none	out/FIGRUNS/31_dragon_mush2_2198578.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198579	31_v2_D_dragon_mush2	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_dragon_mush2_2198579.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198580	32_dragon_mush2	fig32	MODE=none	out/FIGRUNS/32_dragon_mush2_2198580.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198581	33_dragon_mush2	fig33	MODE=none	out/FIGRUNS/33_dragon_mush2_2198581.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198582	33_v2_D_dragon_mush2	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_dragon_mush2_2198582.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198583	34_dragon_mush2	fig34	MODE=none	out/FIGRUNS/34_dragon_mush2_2198583.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198584	27_tie_fighter_bw	fig27	MODE=none	out/FIGRUNS/27_tie_fighter_bw_2198584.log	pass=[FINAL] rung
+2026-08-22 11:45:48	2198585	27_v2_D_tie_fighter_bw	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_tie_fighter_bw_2198585.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198586	28_tie_fighter_bw	fig28	MODE=none	out/FIGRUNS/28_tie_fighter_bw_2198586.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198587	28_v2_D_tie_fighter_bw	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_tie_fighter_bw_2198587.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198588	29_tie_fighter_bw	fig29	MODE=none	out/FIGRUNS/29_tie_fighter_bw_2198588.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198589	29_v2_D_tie_fighter_bw	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_tie_fighter_bw_2198589.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198590	30_tie_fighter_bw	fig30	MODE=none	out/FIGRUNS/30_tie_fighter_bw_2198590.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198591	30_v2_D_tie_fighter_bw	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_tie_fighter_bw_2198591.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198592	31_tie_fighter_bw	fig31	MODE=none	out/FIGRUNS/31_tie_fighter_bw_2198592.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198593	31_v2_D_tie_fighter_bw	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_tie_fighter_bw_2198593.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198594	32_tie_fighter_bw	fig32	MODE=none	out/FIGRUNS/32_tie_fighter_bw_2198594.log	pass=[FINAL] rung
+2026-08-22 11:45:49	2198595	33_tie_fighter_bw	fig33	MODE=none	out/FIGRUNS/33_tie_fighter_bw_2198595.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198596	33_v2_D_tie_fighter_bw	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_tie_fighter_bw_2198596.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198597	34_tie_fighter_bw	fig34	MODE=none	out/FIGRUNS/34_tie_fighter_bw_2198597.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198598	27_fish_glitter	fig27	MODE=none	out/FIGRUNS/27_fish_glitter_2198598.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198599	27_v2_D_fish_glitter	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_fish_glitter_2198599.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198600	28_fish_glitter	fig28	MODE=none	out/FIGRUNS/28_fish_glitter_2198600.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198601	28_v2_D_fish_glitter	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_fish_glitter_2198601.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198602	29_fish_glitter	fig29	MODE=none	out/FIGRUNS/29_fish_glitter_2198602.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198603	29_v2_D_fish_glitter	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_fish_glitter_2198603.log	pass=[FINAL] rung
+2026-08-22 11:45:50	2198604	30_fish_glitter	fig30	MODE=none	out/FIGRUNS/30_fish_glitter_2198604.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198605	30_v2_D_fish_glitter	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_fish_glitter_2198605.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198606	31_fish_glitter	fig31	MODE=none	out/FIGRUNS/31_fish_glitter_2198606.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198607	31_v2_D_fish_glitter	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_fish_glitter_2198607.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198608	32_fish_glitter	fig32	MODE=none	out/FIGRUNS/32_fish_glitter_2198608.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198609	33_fish_glitter	fig33	MODE=none	out/FIGRUNS/33_fish_glitter_2198609.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198610	33_v2_D_fish_glitter	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_fish_glitter_2198610.log	pass=[FINAL] rung
+2026-08-22 11:45:51	2198611	34_fish_glitter	fig34	MODE=none	out/FIGRUNS/34_fish_glitter_2198611.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198616	27_fish_ink	fig27	MODE=none	out/FIGRUNS/27_fish_ink_2198616.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198617	27_v2_D_fish_ink	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_fish_ink_2198617.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198618	28_fish_ink	fig28	MODE=none	out/FIGRUNS/28_fish_ink_2198618.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198619	28_v2_D_fish_ink	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_fish_ink_2198619.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198620	29_fish_ink	fig29	MODE=none	out/FIGRUNS/29_fish_ink_2198620.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198621	29_v2_D_fish_ink	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_fish_ink_2198621.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198622	30_fish_ink	fig30	MODE=none	out/FIGRUNS/30_fish_ink_2198622.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198623	30_v2_D_fish_ink	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_fish_ink_2198623.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198624	31_fish_ink	fig31	MODE=none	out/FIGRUNS/31_fish_ink_2198624.log	pass=[FINAL] rung
+2026-08-22 11:51:53	2198625	31_v2_D_fish_ink	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_fish_ink_2198625.log	pass=[FINAL] rung
+2026-08-22 11:51:54	2198626	32_fish_ink	fig32	MODE=none	out/FIGRUNS/32_fish_ink_2198626.log	pass=[FINAL] rung
+2026-08-22 11:51:54	2198627	33_fish_ink	fig33	MODE=none	out/FIGRUNS/33_fish_ink_2198627.log	pass=[FINAL] rung
+2026-08-22 11:51:54	2198628	33_v2_D_fish_ink	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_fish_ink_2198628.log	pass=[FINAL] rung
+2026-08-22 11:51:54	2198629	34_fish_ink	fig34	MODE=none	out/FIGRUNS/34_fish_ink_2198629.log	pass=[FINAL] rung
+2026-08-22 18:36:27	2199525	canary_r33_spot_train	render_arm	RUN=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung33_l1_lp_tw3b_all_qkvo+sa_r4_s42_23515ead	out/RENDERS/canary_r33_spot_train_2199525.log	pass=150 frames
+2026-08-22 18:42:21	2199530	canary2_r33_spot	render_arm	RUN=/net/projects/ranalab/rajhansini/TRELLIS.2/experiments/dynamesh/runs/rung33_l1_lp_tw3b_all_qkvo+sa_r4_s42_23515ead	out/RENDERS/canary2_r33_spot_2199530.log	pass=150 frames
+2026-08-23 07:04:38	2204344	31_sheep_soil	fig31	MODE=none	out/FIGRUNS/31_sheep_soil_2204344.log	pass=[FINAL] rung
+2026-08-23 07:04:39	2204345	31_v2_D_sheep_soil	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_sheep_soil_2204345.log	pass=[FINAL] rung
+2026-08-23 07:04:39	2204346	32_sheep_soil	fig32	MODE=none	out/FIGRUNS/32_sheep_soil_2204346.log	pass=[FINAL] rung
+2026-08-23 07:04:40	2204347	33_sheep_soil	fig33	MODE=none	out/FIGRUNS/33_sheep_soil_2204347.log	pass=[FINAL] rung
+2026-08-23 07:04:40	2204348	33_v2_D_sheep_soil	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_sheep_soil_2204348.log	pass=[FINAL] rung
+2026-08-23 07:04:41	2204349	34_sheep_soil	fig34	MODE=none	out/FIGRUNS/34_sheep_soil_2204349.log	pass=[FINAL] rung
+2026-08-23 07:04:41	2204350	27_sheep_mud	fig27	MODE=none	out/FIGRUNS/27_sheep_mud_2204350.log	pass=[FINAL] rung
+2026-08-23 07:04:42	2204351	27_v2_D_sheep_mud	fig27	MODE=v2_D	out/FIGRUNS/27_v2_D_sheep_mud_2204351.log	pass=[FINAL] rung
+2026-08-23 07:04:43	2204352	28_sheep_mud	fig28	MODE=none	out/FIGRUNS/28_sheep_mud_2204352.log	pass=[FINAL] rung
+2026-08-23 07:04:44	2204353	28_v2_D_sheep_mud	fig28	MODE=v2_D	out/FIGRUNS/28_v2_D_sheep_mud_2204353.log	pass=[FINAL] rung
+2026-08-23 07:04:46	2204354	29_sheep_mud	fig29	MODE=none	out/FIGRUNS/29_sheep_mud_2204354.log	pass=[FINAL] rung
+2026-08-23 07:04:47	2204355	29_v2_D_sheep_mud	fig29	MODE=v2_D	out/FIGRUNS/29_v2_D_sheep_mud_2204355.log	pass=[FINAL] rung
+2026-08-23 07:04:49	2204356	30_sheep_mud	fig30	MODE=none	out/FIGRUNS/30_sheep_mud_2204356.log	pass=[FINAL] rung
+2026-08-23 07:04:50	2204357	30_v2_D_sheep_mud	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_sheep_mud_2204357.log	pass=[FINAL] rung
+2026-08-23 07:04:51	2204358	31_sheep_mud	fig31	MODE=none	out/FIGRUNS/31_sheep_mud_2204358.log	pass=[FINAL] rung
+2026-08-23 07:04:53	2204359	31_v2_D_sheep_mud	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_sheep_mud_2204359.log	pass=[FINAL] rung
+2026-08-23 07:04:54	2204360	32_sheep_mud	fig32	MODE=none	out/FIGRUNS/32_sheep_mud_2204360.log	pass=[FINAL] rung
+2026-08-23 07:04:55	2204361	33_sheep_mud	fig33	MODE=none	out/FIGRUNS/33_sheep_mud_2204361.log	pass=[FINAL] rung
+2026-08-23 07:04:57	2204362	33_v2_D_sheep_mud	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_sheep_mud_2204362.log	pass=[FINAL] rung
+2026-08-23 07:04:58	2204363	34_sheep_mud	fig34	MODE=none	out/FIGRUNS/34_sheep_mud_2204363.log	pass=[FINAL] rung
+2026-08-23 07:05:00	2204364	33_v2_D_dragon_mush	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_dragon_mush_2204364.log	pass=[FINAL] rung
+2026-08-23 16:37:37	2204707	30_fish_ink	fig30	MODE=none	out/FIGRUNS/30_fish_ink_2204707.log	pass=[FINAL] rung
+2026-08-23 16:37:39	2204708	30_v2_D_fish_glitter	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_fish_glitter_2204708.log	pass=[FINAL] rung
+2026-08-23 16:37:41	2204709	30_v2_D_fish_ink	fig30	MODE=v2_D	out/FIGRUNS/30_v2_D_fish_ink_2204709.log	pass=[FINAL] rung
+2026-08-23 16:37:42	2204711	31_fish_glitter	fig31	MODE=none	out/FIGRUNS/31_fish_glitter_2204711.log	pass=[FINAL] rung
+2026-08-23 16:37:44	2204712	31_fish_ink	fig31	MODE=none	out/FIGRUNS/31_fish_ink_2204712.log	pass=[FINAL] rung
+2026-08-23 16:37:45	2204713	31_tie_fighter_bw	fig31	MODE=none	out/FIGRUNS/31_tie_fighter_bw_2204713.log	pass=[FINAL] rung
+2026-08-23 16:37:47	2204714	31_v2_D_fish_glitter	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_fish_glitter_2204714.log	pass=[FINAL] rung
+2026-08-23 16:37:48	2204715	31_v2_D_fish_ink	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_fish_ink_2204715.log	pass=[FINAL] rung
+2026-08-23 16:37:49	2204716	31_v2_D_tie_fighter_bw	fig31	MODE=v2_D	out/FIGRUNS/31_v2_D_tie_fighter_bw_2204716.log	pass=[FINAL] rung
+2026-08-23 16:37:51	2204717	33_fish_glitter	fig33	MODE=none	out/FIGRUNS/33_fish_glitter_2204717.log	pass=[FINAL] rung
+2026-08-23 16:37:52	2204718	33_fish_ink	fig33	MODE=none	out/FIGRUNS/33_fish_ink_2204718.log	pass=[FINAL] rung
+2026-08-23 16:37:54	2204719	33_v2_D_dragon_mush2	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_dragon_mush2_2204719.log	pass=[FINAL] rung
+2026-08-23 16:37:55	2204720	33_v2_D_fish_glitter	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_fish_glitter_2204720.log	pass=[FINAL] rung
+2026-08-23 16:37:57	2204721	33_v2_D_fish_ink	fig33	MODE=v2_D	out/FIGRUNS/33_v2_D_fish_ink_2204721.log	pass=[FINAL] rung
+2026-08-23 16:37:58	2204722	34_fish_glitter	fig34	MODE=none	out/FIGRUNS/34_fish_glitter_2204722.log	pass=[FINAL] rung
+2026-08-23 16:38:00	2204723	34_fish_ink	fig34	MODE=none	out/FIGRUNS/34_fish_ink_2204723.log	pass=[FINAL] rung
+2026-08-23 16:38:01	2204724	34_tie_fighter_bw	fig34	MODE=none	out/FIGRUNS/34_tie_fighter_bw_2204724.log	pass=[FINAL] rung
+2026-08-23 17:25:41	2205072	fit_penguin_ice	fit_align	OBJ=penguin_ice	out/fit_2205072.log	pass=GATE-align PASSED
+2026-08-23 17:25:41	2205073	fit_penguin_orange_mush	fit_align	OBJ=penguin_orange_mush	out/fit_2205073.log	pass=GATE-align PASSED
+2026-08-23 17:25:42	2205074	fit_penguin_real	fit_align	OBJ=penguin_real	out/fit_2205074.log	pass=GATE-align PASSED
+2026-08-23 17:47:51	2205982	v_fish_ink_train	render_view	yaw=0 elev=0	out/view_fish_ink_27m_train/frames	pass=150 png
+2026-08-23 17:47:51	2205983	v_fish_ink_diagA	render_view	yaw=45 elev=25	out/view_fish_ink_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:52	2205984	v_fish_ink_diagB	render_view	yaw=135 elev=-20	out/view_fish_ink_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:52	2205985	v_fish_ink_diagC	render_view	yaw=225 elev=30	out/view_fish_ink_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:52	2205986	v_octocat_clay_train	render_view	yaw=0 elev=0	out/view_octocat_clay_27m_train/frames	pass=150 png
+2026-08-23 17:47:52	2205987	v_octocat_clay_diagA	render_view	yaw=45 elev=25	out/view_octocat_clay_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:53	2205988	v_octocat_clay_diagB	render_view	yaw=135 elev=-20	out/view_octocat_clay_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:53	2205989	v_octocat_clay_diagC	render_view	yaw=225 elev=30	out/view_octocat_clay_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:53	2205990	v_dragon_mush2_train	render_view	yaw=0 elev=0	out/view_dragon_mush2_27m_train/frames	pass=150 png
+2026-08-23 17:47:53	2205991	v_dragon_mush2_diagA	render_view	yaw=45 elev=25	out/view_dragon_mush2_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:54	2205992	v_dragon_mush2_diagB	render_view	yaw=135 elev=-20	out/view_dragon_mush2_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:54	2205993	v_dragon_mush2_diagC	render_view	yaw=225 elev=30	out/view_dragon_mush2_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:54	2205994	v_sheep_mud_train	render_view	yaw=0 elev=0	out/view_sheep_mud_27m_train/frames	pass=150 png
+2026-08-23 17:47:55	2205995	v_sheep_mud_diagA	render_view	yaw=45 elev=25	out/view_sheep_mud_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:55	2205996	v_sheep_mud_diagB	render_view	yaw=135 elev=-20	out/view_sheep_mud_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:55	2205997	v_sheep_mud_diagC	render_view	yaw=225 elev=30	out/view_sheep_mud_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:56	2205998	v_dragon_mush_train	render_view	yaw=0 elev=0	out/view_dragon_mush_27m_train/frames	pass=150 png
+2026-08-23 17:47:56	2205999	v_dragon_mush_diagA	render_view	yaw=45 elev=25	out/view_dragon_mush_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:56	2206000	v_dragon_mush_diagB	render_view	yaw=135 elev=-20	out/view_dragon_mush_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:56	2206001	v_dragon_mush_diagC	render_view	yaw=225 elev=30	out/view_dragon_mush_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:57	2206002	v_octocat_shine_train	render_view	yaw=0 elev=0	out/view_octocat_shine_27m_train/frames	pass=150 png
+2026-08-23 17:47:57	2206003	v_octocat_shine_diagA	render_view	yaw=45 elev=25	out/view_octocat_shine_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:57	2206004	v_octocat_shine_diagB	render_view	yaw=135 elev=-20	out/view_octocat_shine_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:57	2206005	v_octocat_shine_diagC	render_view	yaw=225 elev=30	out/view_octocat_shine_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:58	2206006	v_fish_glitter_train	render_view	yaw=0 elev=0	out/view_fish_glitter_27m_train/frames	pass=150 png
+2026-08-23 17:47:58	2206007	v_fish_glitter_diagA	render_view	yaw=45 elev=25	out/view_fish_glitter_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:58	2206008	v_fish_glitter_diagB	render_view	yaw=135 elev=-20	out/view_fish_glitter_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:58	2206009	v_fish_glitter_diagC	render_view	yaw=225 elev=30	out/view_fish_glitter_27m_diagC/frames	pass=150 png
+2026-08-23 17:47:59	2206010	v_sheep_soil_train	render_view	yaw=0 elev=0	out/view_sheep_soil_27m_train/frames	pass=150 png
+2026-08-23 17:47:59	2206011	v_sheep_soil_diagA	render_view	yaw=45 elev=25	out/view_sheep_soil_27m_diagA/frames	pass=150 png
+2026-08-23 17:47:59	2206012	v_sheep_soil_diagB	render_view	yaw=135 elev=-20	out/view_sheep_soil_27m_diagB/frames	pass=150 png
+2026-08-23 17:47:59	2206013	v_sheep_soil_diagC	render_view	yaw=225 elev=30	out/view_sheep_soil_27m_diagC/frames	pass=150 png
+2026-08-23 17:48:00	2206014	v_tie_fighter_bw_train	render_view	yaw=0 elev=0	out/view_tie_fighter_bw_27m_train/frames	pass=150 png
+2026-08-23 17:48:00	2206015	v_tie_fighter_bw_diagA	render_view	yaw=45 elev=25	out/view_tie_fighter_bw_27m_diagA/frames	pass=150 png
+2026-08-23 17:48:00	2206016	v_tie_fighter_bw_diagB	render_view	yaw=135 elev=-20	out/view_tie_fighter_bw_27m_diagB/frames	pass=150 png
+2026-08-23 17:48:00	2206017	v_tie_fighter_bw_diagC	render_view	yaw=225 elev=30	out/view_tie_fighter_bw_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:03	2206146	v_fish_ink_train	render_view	yaw=0 elev=0	out/view_fish_ink_27m_train/frames	pass=150 png
+2026-08-23 17:57:03	2206147	v_fish_ink_diagA	render_view	yaw=45 elev=25	out/view_fish_ink_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:03	2206148	v_fish_ink_diagB	render_view	yaw=135 elev=-20	out/view_fish_ink_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:04	2206149	v_fish_ink_diagC	render_view	yaw=225 elev=30	out/view_fish_ink_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:04	2206150	v_octocat_clay_train	render_view	yaw=0 elev=0	out/view_octocat_clay_27m_train/frames	pass=150 png
+2026-08-23 17:57:04	2206151	v_octocat_clay_diagA	render_view	yaw=45 elev=25	out/view_octocat_clay_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:05	2206152	v_octocat_clay_diagB	render_view	yaw=135 elev=-20	out/view_octocat_clay_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:05	2206153	v_octocat_clay_diagC	render_view	yaw=225 elev=30	out/view_octocat_clay_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:06	2206154	v_dragon_mush2_train	render_view	yaw=0 elev=0	out/view_dragon_mush2_27m_train/frames	pass=150 png
+2026-08-23 17:57:06	2206155	v_dragon_mush2_diagA	render_view	yaw=45 elev=25	out/view_dragon_mush2_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:07	2206156	v_dragon_mush2_diagB	render_view	yaw=135 elev=-20	out/view_dragon_mush2_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:07	2206157	v_dragon_mush2_diagC	render_view	yaw=225 elev=30	out/view_dragon_mush2_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:07	2206158	v_sheep_mud_train	render_view	yaw=0 elev=0	out/view_sheep_mud_27m_train/frames	pass=150 png
+2026-08-23 17:57:07	2206159	v_sheep_mud_diagA	render_view	yaw=45 elev=25	out/view_sheep_mud_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:08	2206160	v_sheep_mud_diagB	render_view	yaw=135 elev=-20	out/view_sheep_mud_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:08	2206161	v_sheep_mud_diagC	render_view	yaw=225 elev=30	out/view_sheep_mud_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:08	2206162	v_dragon_mush_train	render_view	yaw=0 elev=0	out/view_dragon_mush_27m_train/frames	pass=150 png
+2026-08-23 17:57:09	2206163	v_dragon_mush_diagA	render_view	yaw=45 elev=25	out/view_dragon_mush_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:09	2206164	v_dragon_mush_diagB	render_view	yaw=135 elev=-20	out/view_dragon_mush_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:10	2206165	v_dragon_mush_diagC	render_view	yaw=225 elev=30	out/view_dragon_mush_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:10	2206166	v_octocat_shine_train	render_view	yaw=0 elev=0	out/view_octocat_shine_27m_train/frames	pass=150 png
+2026-08-23 17:57:10	2206167	v_octocat_shine_diagA	render_view	yaw=45 elev=25	out/view_octocat_shine_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:10	2206168	v_octocat_shine_diagB	render_view	yaw=135 elev=-20	out/view_octocat_shine_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:11	2206169	v_octocat_shine_diagC	render_view	yaw=225 elev=30	out/view_octocat_shine_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:11	2206170	v_fish_glitter_train	render_view	yaw=0 elev=0	out/view_fish_glitter_27m_train/frames	pass=150 png
+2026-08-23 17:57:11	2206171	v_fish_glitter_diagA	render_view	yaw=45 elev=25	out/view_fish_glitter_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:12	2206172	v_fish_glitter_diagB	render_view	yaw=135 elev=-20	out/view_fish_glitter_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:12	2206173	v_fish_glitter_diagC	render_view	yaw=225 elev=30	out/view_fish_glitter_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:12	2206174	v_sheep_soil_train	render_view	yaw=0 elev=0	out/view_sheep_soil_27m_train/frames	pass=150 png
+2026-08-23 17:57:13	2206175	v_sheep_soil_diagA	render_view	yaw=45 elev=25	out/view_sheep_soil_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:13	2206176	v_sheep_soil_diagB	render_view	yaw=135 elev=-20	out/view_sheep_soil_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:13	2206177	v_sheep_soil_diagC	render_view	yaw=225 elev=30	out/view_sheep_soil_27m_diagC/frames	pass=150 png
+2026-08-23 17:57:14	2206178	v_tie_fighter_bw_train	render_view	yaw=0 elev=0	out/view_tie_fighter_bw_27m_train/frames	pass=150 png
+2026-08-23 17:57:14	2206179	v_tie_fighter_bw_diagA	render_view	yaw=45 elev=25	out/view_tie_fighter_bw_27m_diagA/frames	pass=150 png
+2026-08-23 17:57:14	2206180	v_tie_fighter_bw_diagB	render_view	yaw=135 elev=-20	out/view_tie_fighter_bw_27m_diagB/frames	pass=150 png
+2026-08-23 17:57:15	2206181	v_tie_fighter_bw_diagC	render_view	yaw=225 elev=30	out/view_tie_fighter_bw_27m_diagC/frames	pass=150 png
+2026-08-24 02:36:28	2207110	rarm4c_34_shp_mud_diagC	render_arm	triton-cache-fix resubmit of 2206498	out/RENDERS/rarm4c_34_shp_mud_diagC_2207110.log	pass=150 png
+2026-08-24 02:36:29	2207111	rarm4c_27_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206499	out/RENDERS/rarm4c_27_drg_mush_train_2207111.log	pass=150 png
+2026-08-24 02:36:30	2207112	rarm4c_27_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206500	out/RENDERS/rarm4c_27_drg_mush_diagA_2207112.log	pass=150 png
+2026-08-24 02:36:30	2207113	rarm4c_27_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206501	out/RENDERS/rarm4c_27_drg_mush_diagB_2207113.log	pass=150 png
+2026-08-24 02:39:36	2207114	rarm4c_27_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206502	out/RENDERS/rarm4c_27_drg_mush_diagC_2207114.log	pass=150 png
+2026-08-24 02:39:36	2207115	rarm4c_27m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206503	out/RENDERS/rarm4c_27m_drg_mush_train_2207115.log	pass=150 png
+2026-08-24 02:39:37	2207116	rarm4c_27m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206504	out/RENDERS/rarm4c_27m_drg_mush_diagA_2207116.log	pass=150 png
+2026-08-24 02:39:37	2207117	rarm4c_27m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206505	out/RENDERS/rarm4c_27m_drg_mush_diagB_2207117.log	pass=150 png
+2026-08-24 02:39:38	2207118	rarm4c_27m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206506	out/RENDERS/rarm4c_27m_drg_mush_diagC_2207118.log	pass=150 png
+2026-08-24 02:39:39	2207119	rarm4c_28_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206507	out/RENDERS/rarm4c_28_drg_mush_train_2207119.log	pass=150 png
+2026-08-24 02:39:40	2207120	rarm4c_28_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206508	out/RENDERS/rarm4c_28_drg_mush_diagA_2207120.log	pass=150 png
+2026-08-24 02:39:41	2207121	rarm4c_28_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206509	out/RENDERS/rarm4c_28_drg_mush_diagB_2207121.log	pass=150 png
+2026-08-24 02:39:41	2207122	rarm4c_28_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206510	out/RENDERS/rarm4c_28_drg_mush_diagC_2207122.log	pass=150 png
+2026-08-24 02:39:41	2207123	rarm4c_28m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206511	out/RENDERS/rarm4c_28m_drg_mush_train_2207123.log	pass=150 png
+2026-08-24 02:39:41	2207124	rarm4c_28m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206512	out/RENDERS/rarm4c_28m_drg_mush_diagA_2207124.log	pass=150 png
+2026-08-24 02:39:42	2207125	rarm4c_28m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206513	out/RENDERS/rarm4c_28m_drg_mush_diagB_2207125.log	pass=150 png
+2026-08-24 02:39:42	2207126	rarm4c_28m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206514	out/RENDERS/rarm4c_28m_drg_mush_diagC_2207126.log	pass=150 png
+2026-08-24 02:39:42	2207127	rarm4c_29_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206515	out/RENDERS/rarm4c_29_drg_mush_train_2207127.log	pass=150 png
+2026-08-24 02:39:43	2207128	rarm4c_29_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206516	out/RENDERS/rarm4c_29_drg_mush_diagA_2207128.log	pass=150 png
+2026-08-24 02:39:43	2207129	rarm4c_29_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206517	out/RENDERS/rarm4c_29_drg_mush_diagB_2207129.log	pass=150 png
+2026-08-24 02:39:43	2207130	rarm4c_29_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206518	out/RENDERS/rarm4c_29_drg_mush_diagC_2207130.log	pass=150 png
+2026-08-24 02:39:44	2207131	rarm4c_29m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206519	out/RENDERS/rarm4c_29m_drg_mush_train_2207131.log	pass=150 png
+2026-08-24 02:39:44	2207132	rarm4c_29m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206520	out/RENDERS/rarm4c_29m_drg_mush_diagA_2207132.log	pass=150 png
+2026-08-24 02:39:44	2207133	rarm4c_29m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206521	out/RENDERS/rarm4c_29m_drg_mush_diagB_2207133.log	pass=150 png
+2026-08-24 02:39:45	2207134	rarm4c_29m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206522	out/RENDERS/rarm4c_29m_drg_mush_diagC_2207134.log	pass=150 png
+2026-08-24 02:39:45	2207135	rarm4c_30_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206523	out/RENDERS/rarm4c_30_drg_mush_train_2207135.log	pass=150 png
+2026-08-24 02:39:45	2207136	rarm4c_30_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206524	out/RENDERS/rarm4c_30_drg_mush_diagA_2207136.log	pass=150 png
+2026-08-24 02:39:46	2207137	rarm4c_30_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206525	out/RENDERS/rarm4c_30_drg_mush_diagB_2207137.log	pass=150 png
+2026-08-24 02:39:46	2207138	rarm4c_30_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206526	out/RENDERS/rarm4c_30_drg_mush_diagC_2207138.log	pass=150 png
+2026-08-24 02:39:46	2207139	rarm4c_30m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206527	out/RENDERS/rarm4c_30m_drg_mush_train_2207139.log	pass=150 png
+2026-08-24 02:39:46	2207140	rarm4c_30m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206528	out/RENDERS/rarm4c_30m_drg_mush_diagA_2207140.log	pass=150 png
+2026-08-24 02:39:47	2207141	rarm4c_30m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206529	out/RENDERS/rarm4c_30m_drg_mush_diagB_2207141.log	pass=150 png
+2026-08-24 02:39:47	2207142	rarm4c_30m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206530	out/RENDERS/rarm4c_30m_drg_mush_diagC_2207142.log	pass=150 png
+2026-08-24 02:39:47	2207143	rarm4c_31_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206531	out/RENDERS/rarm4c_31_drg_mush_train_2207143.log	pass=150 png
+2026-08-24 02:39:48	2207144	rarm4c_31_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206532	out/RENDERS/rarm4c_31_drg_mush_diagA_2207144.log	pass=150 png
+2026-08-24 02:39:48	2207145	rarm4c_31_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206533	out/RENDERS/rarm4c_31_drg_mush_diagB_2207145.log	pass=150 png
+2026-08-24 02:39:48	2207146	rarm4c_31_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206534	out/RENDERS/rarm4c_31_drg_mush_diagC_2207146.log	pass=150 png
+2026-08-24 02:39:48	2207147	rarm4c_31m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206535	out/RENDERS/rarm4c_31m_drg_mush_train_2207147.log	pass=150 png
+2026-08-24 02:39:49	2207148	rarm4c_31m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206536	out/RENDERS/rarm4c_31m_drg_mush_diagA_2207148.log	pass=150 png
+2026-08-24 02:39:49	2207149	rarm4c_31m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206537	out/RENDERS/rarm4c_31m_drg_mush_diagB_2207149.log	pass=150 png
+2026-08-24 02:39:49	2207150	rarm4c_31m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206538	out/RENDERS/rarm4c_31m_drg_mush_diagC_2207150.log	pass=150 png
+2026-08-24 02:39:50	2207151	rarm4c_32_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206539	out/RENDERS/rarm4c_32_drg_mush_train_2207151.log	pass=150 png
+2026-08-24 02:39:50	2207152	rarm4c_32_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206540	out/RENDERS/rarm4c_32_drg_mush_diagA_2207152.log	pass=150 png
+2026-08-24 02:39:50	2207153	rarm4c_32_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206541	out/RENDERS/rarm4c_32_drg_mush_diagB_2207153.log	pass=150 png
+2026-08-24 02:39:51	2207154	rarm4c_32_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206542	out/RENDERS/rarm4c_32_drg_mush_diagC_2207154.log	pass=150 png
+2026-08-24 02:39:51	2207155	rarm4c_33_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206543	out/RENDERS/rarm4c_33_drg_mush_train_2207155.log	pass=150 png
+2026-08-24 02:39:52	2207156	rarm4c_33_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206544	out/RENDERS/rarm4c_33_drg_mush_diagA_2207156.log	pass=150 png
+2026-08-24 02:39:52	2207157	rarm4c_33_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206545	out/RENDERS/rarm4c_33_drg_mush_diagB_2207157.log	pass=150 png
+2026-08-24 02:39:52	2207158	rarm4c_33_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206546	out/RENDERS/rarm4c_33_drg_mush_diagC_2207158.log	pass=150 png
+2026-08-24 02:39:52	2207159	rarm4c_33m_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206547	out/RENDERS/rarm4c_33m_drg_mush_train_2207159.log	pass=150 png
+2026-08-24 02:39:53	2207160	rarm4c_33m_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206548	out/RENDERS/rarm4c_33m_drg_mush_diagA_2207160.log	pass=150 png
+2026-08-24 02:39:53	2207161	rarm4c_33m_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206549	out/RENDERS/rarm4c_33m_drg_mush_diagB_2207161.log	pass=150 png
+2026-08-24 02:39:53	2207162	rarm4c_33m_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206550	out/RENDERS/rarm4c_33m_drg_mush_diagC_2207162.log	pass=150 png
+2026-08-24 02:39:54	2207163	rarm4c_34_drg_mush_train	render_arm	triton-cache-fix resubmit of 2206551	out/RENDERS/rarm4c_34_drg_mush_train_2207163.log	pass=150 png
+2026-08-24 02:39:54	2207164	rarm4c_34_drg_mush_diagA	render_arm	triton-cache-fix resubmit of 2206552	out/RENDERS/rarm4c_34_drg_mush_diagA_2207164.log	pass=150 png
+2026-08-24 02:39:54	2207165	rarm4c_34_drg_mush_diagB	render_arm	triton-cache-fix resubmit of 2206553	out/RENDERS/rarm4c_34_drg_mush_diagB_2207165.log	pass=150 png
+2026-08-24 02:39:54	2207166	rarm4c_34_drg_mush_diagC	render_arm	triton-cache-fix resubmit of 2206554	out/RENDERS/rarm4c_34_drg_mush_diagC_2207166.log	pass=150 png
+2026-08-24 02:39:55	2207167	rarm4c_27_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206555	out/RENDERS/rarm4c_27_drg_mush2_train_2207167.log	pass=150 png
+2026-08-24 02:39:55	2207168	rarm4c_27_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206556	out/RENDERS/rarm4c_27_drg_mush2_diagA_2207168.log	pass=150 png
+2026-08-24 02:39:56	2207169	rarm4c_27_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206557	out/RENDERS/rarm4c_27_drg_mush2_diagB_2207169.log	pass=150 png
+2026-08-24 02:39:56	2207170	rarm4c_27_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206558	out/RENDERS/rarm4c_27_drg_mush2_diagC_2207170.log	pass=150 png
+2026-08-24 02:39:56	2207171	rarm4c_27m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206559	out/RENDERS/rarm4c_27m_drg_mush2_train_2207171.log	pass=150 png
+2026-08-24 02:39:57	2207172	rarm4c_27m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206560	out/RENDERS/rarm4c_27m_drg_mush2_diagA_2207172.log	pass=150 png
+2026-08-24 02:39:57	2207173	rarm4c_27m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206561	out/RENDERS/rarm4c_27m_drg_mush2_diagB_2207173.log	pass=150 png
+2026-08-24 02:39:57	2207174	rarm4c_27m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206562	out/RENDERS/rarm4c_27m_drg_mush2_diagC_2207174.log	pass=150 png
+2026-08-24 02:39:58	2207175	rarm4c_28_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206563	out/RENDERS/rarm4c_28_drg_mush2_train_2207175.log	pass=150 png
+2026-08-24 02:39:59	2207176	rarm4c_28_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206564	out/RENDERS/rarm4c_28_drg_mush2_diagA_2207176.log	pass=150 png
+2026-08-24 02:39:59	2207177	rarm4c_28_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206565	out/RENDERS/rarm4c_28_drg_mush2_diagB_2207177.log	pass=150 png
+2026-08-24 02:39:59	2207178	rarm4c_28_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206566	out/RENDERS/rarm4c_28_drg_mush2_diagC_2207178.log	pass=150 png
+2026-08-24 02:40:00	2207179	rarm4c_28m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206567	out/RENDERS/rarm4c_28m_drg_mush2_train_2207179.log	pass=150 png
+2026-08-24 02:40:00	2207180	rarm4c_28m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206568	out/RENDERS/rarm4c_28m_drg_mush2_diagA_2207180.log	pass=150 png
+2026-08-24 02:40:00	2207181	rarm4c_28m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206569	out/RENDERS/rarm4c_28m_drg_mush2_diagB_2207181.log	pass=150 png
+2026-08-24 02:40:01	2207182	rarm4c_28m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206570	out/RENDERS/rarm4c_28m_drg_mush2_diagC_2207182.log	pass=150 png
+2026-08-24 02:40:01	2207183	rarm4c_29_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206571	out/RENDERS/rarm4c_29_drg_mush2_train_2207183.log	pass=150 png
+2026-08-24 02:40:01	2207184	rarm4c_29_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206572	out/RENDERS/rarm4c_29_drg_mush2_diagA_2207184.log	pass=150 png
+2026-08-24 02:40:01	2207185	rarm4c_29_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206573	out/RENDERS/rarm4c_29_drg_mush2_diagB_2207185.log	pass=150 png
+2026-08-24 02:40:02	2207186	rarm4c_29_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206574	out/RENDERS/rarm4c_29_drg_mush2_diagC_2207186.log	pass=150 png
+2026-08-24 02:40:02	2207187	rarm4c_29m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206575	out/RENDERS/rarm4c_29m_drg_mush2_train_2207187.log	pass=150 png
+2026-08-24 02:40:02	2207188	rarm4c_29m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206576	out/RENDERS/rarm4c_29m_drg_mush2_diagA_2207188.log	pass=150 png
+2026-08-24 02:40:03	2207189	rarm4c_29m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206577	out/RENDERS/rarm4c_29m_drg_mush2_diagB_2207189.log	pass=150 png
+2026-08-24 02:40:03	2207190	rarm4c_29m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206578	out/RENDERS/rarm4c_29m_drg_mush2_diagC_2207190.log	pass=150 png
+2026-08-24 02:40:03	2207191	rarm4c_30_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206579	out/RENDERS/rarm4c_30_drg_mush2_train_2207191.log	pass=150 png
+2026-08-24 02:40:03	2207192	rarm4c_30_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206580	out/RENDERS/rarm4c_30_drg_mush2_diagA_2207192.log	pass=150 png
+2026-08-24 02:40:04	2207193	rarm4c_30_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206581	out/RENDERS/rarm4c_30_drg_mush2_diagB_2207193.log	pass=150 png
+2026-08-24 02:40:04	2207194	rarm4c_30_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206582	out/RENDERS/rarm4c_30_drg_mush2_diagC_2207194.log	pass=150 png
+2026-08-24 02:40:04	2207195	rarm4c_30m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206583	out/RENDERS/rarm4c_30m_drg_mush2_train_2207195.log	pass=150 png
+2026-08-24 02:40:05	2207196	rarm4c_30m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206584	out/RENDERS/rarm4c_30m_drg_mush2_diagA_2207196.log	pass=150 png
+2026-08-24 02:40:05	2207197	rarm4c_30m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206585	out/RENDERS/rarm4c_30m_drg_mush2_diagB_2207197.log	pass=150 png
+2026-08-24 02:40:05	2207198	rarm4c_30m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206586	out/RENDERS/rarm4c_30m_drg_mush2_diagC_2207198.log	pass=150 png
+2026-08-24 02:40:05	2207199	rarm4c_31_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206587	out/RENDERS/rarm4c_31_drg_mush2_train_2207199.log	pass=150 png
+2026-08-24 02:40:06	2207200	rarm4c_31_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206588	out/RENDERS/rarm4c_31_drg_mush2_diagA_2207200.log	pass=150 png
+2026-08-24 02:40:06	2207201	rarm4c_31_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206589	out/RENDERS/rarm4c_31_drg_mush2_diagB_2207201.log	pass=150 png
+2026-08-24 02:40:06	2207202	rarm4c_31_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206590	out/RENDERS/rarm4c_31_drg_mush2_diagC_2207202.log	pass=150 png
+2026-08-24 02:40:07	2207203	rarm4c_31m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206591	out/RENDERS/rarm4c_31m_drg_mush2_train_2207203.log	pass=150 png
+2026-08-24 02:40:07	2207204	rarm4c_31m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206592	out/RENDERS/rarm4c_31m_drg_mush2_diagA_2207204.log	pass=150 png
+2026-08-24 02:40:07	2207205	rarm4c_31m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206593	out/RENDERS/rarm4c_31m_drg_mush2_diagB_2207205.log	pass=150 png
+2026-08-24 02:40:07	2207206	rarm4c_31m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206594	out/RENDERS/rarm4c_31m_drg_mush2_diagC_2207206.log	pass=150 png
+2026-08-24 02:40:08	2207207	rarm4c_32_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206595	out/RENDERS/rarm4c_32_drg_mush2_train_2207207.log	pass=150 png
+2026-08-24 02:40:09	2207208	rarm4c_32_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206596	out/RENDERS/rarm4c_32_drg_mush2_diagA_2207208.log	pass=150 png
+2026-08-24 02:40:09	2207209	rarm4c_32_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206597	out/RENDERS/rarm4c_32_drg_mush2_diagB_2207209.log	pass=150 png
+2026-08-24 02:40:09	2207210	rarm4c_32_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206598	out/RENDERS/rarm4c_32_drg_mush2_diagC_2207210.log	pass=150 png
+2026-08-24 02:40:09	2207211	rarm4c_33_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206599	out/RENDERS/rarm4c_33_drg_mush2_train_2207211.log	pass=150 png
+2026-08-24 02:40:10	2207212	rarm4c_33_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206600	out/RENDERS/rarm4c_33_drg_mush2_diagA_2207212.log	pass=150 png
+2026-08-24 02:40:10	2207213	rarm4c_33_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206601	out/RENDERS/rarm4c_33_drg_mush2_diagB_2207213.log	pass=150 png
+2026-08-24 02:40:10	2207214	rarm4c_33_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206602	out/RENDERS/rarm4c_33_drg_mush2_diagC_2207214.log	pass=150 png
+2026-08-24 02:40:11	2207215	rarm4c_33m_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206603	out/RENDERS/rarm4c_33m_drg_mush2_train_2207215.log	pass=150 png
+2026-08-24 02:40:11	2207216	rarm4c_33m_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206604	out/RENDERS/rarm4c_33m_drg_mush2_diagA_2207216.log	pass=150 png
+2026-08-24 02:40:12	2207217	rarm4c_33m_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206605	out/RENDERS/rarm4c_33m_drg_mush2_diagB_2207217.log	pass=150 png
+2026-08-24 02:40:12	2207218	rarm4c_33m_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206606	out/RENDERS/rarm4c_33m_drg_mush2_diagC_2207218.log	pass=150 png
+2026-08-24 02:40:12	2207219	rarm4c_34_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206607	out/RENDERS/rarm4c_34_drg_mush2_train_2207219.log	pass=150 png
+2026-08-24 02:40:12	2207220	rarm4c_34_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206608	out/RENDERS/rarm4c_34_drg_mush2_diagA_2207220.log	pass=150 png
+2026-08-24 02:40:13	2207221	rarm4c_34_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206609	out/RENDERS/rarm4c_34_drg_mush2_diagB_2207221.log	pass=150 png
+2026-08-24 02:40:13	2207222	rarm4c_34_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206610	out/RENDERS/rarm4c_34_drg_mush2_diagC_2207222.log	pass=150 png
+2026-08-24 02:40:13	2207223	rarm4c_27_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206611	out/RENDERS/rarm4c_27_tie_fght_train_2207223.log	pass=150 png
+2026-08-24 02:40:14	2207224	rarm4c_27_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206612	out/RENDERS/rarm4c_27_tie_fght_diagA_2207224.log	pass=150 png
+2026-08-24 02:40:14	2207225	rarm4c_27_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206613	out/RENDERS/rarm4c_27_tie_fght_diagB_2207225.log	pass=150 png
+2026-08-24 02:40:14	2207226	rarm4c_27_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206614	out/RENDERS/rarm4c_27_tie_fght_diagC_2207226.log	pass=150 png
+2026-08-24 02:40:14	2207227	rarm4c_27m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206615	out/RENDERS/rarm4c_27m_tie_fght_train_2207227.log	pass=150 png
+2026-08-24 02:40:15	2207228	rarm4c_27m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206616	out/RENDERS/rarm4c_27m_tie_fght_diagA_2207228.log	pass=150 png
+2026-08-24 02:40:15	2207229	rarm4c_27m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206617	out/RENDERS/rarm4c_27m_tie_fght_diagB_2207229.log	pass=150 png
+2026-08-24 02:40:15	2207230	rarm4c_27m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206618	out/RENDERS/rarm4c_27m_tie_fght_diagC_2207230.log	pass=150 png
+2026-08-24 02:40:15	2207231	rarm4c_28_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206619	out/RENDERS/rarm4c_28_tie_fght_train_2207231.log	pass=150 png
+2026-08-24 02:40:16	2207232	rarm4c_28_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206620	out/RENDERS/rarm4c_28_tie_fght_diagA_2207232.log	pass=150 png
+2026-08-24 02:40:16	2207233	rarm4c_28_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206621	out/RENDERS/rarm4c_28_tie_fght_diagB_2207233.log	pass=150 png
+2026-08-24 02:40:16	2207234	rarm4c_28_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206622	out/RENDERS/rarm4c_28_tie_fght_diagC_2207234.log	pass=150 png
+2026-08-24 02:40:17	2207235	rarm4c_28m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206623	out/RENDERS/rarm4c_28m_tie_fght_train_2207235.log	pass=150 png
+2026-08-24 02:40:17	2207236	rarm4c_28m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206624	out/RENDERS/rarm4c_28m_tie_fght_diagA_2207236.log	pass=150 png
+2026-08-24 02:40:17	2207237	rarm4c_28m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206625	out/RENDERS/rarm4c_28m_tie_fght_diagB_2207237.log	pass=150 png
+2026-08-24 02:40:18	2207238	rarm4c_28m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206626	out/RENDERS/rarm4c_28m_tie_fght_diagC_2207238.log	pass=150 png
+2026-08-24 02:40:19	2207239	rarm4c_29_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206627	out/RENDERS/rarm4c_29_tie_fght_train_2207239.log	pass=150 png
+2026-08-24 02:40:19	2207240	rarm4c_29_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206628	out/RENDERS/rarm4c_29_tie_fght_diagA_2207240.log	pass=150 png
+2026-08-24 02:40:19	2207241	rarm4c_29_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206629	out/RENDERS/rarm4c_29_tie_fght_diagB_2207241.log	pass=150 png
+2026-08-24 02:40:19	2207242	rarm4c_29_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206630	out/RENDERS/rarm4c_29_tie_fght_diagC_2207242.log	pass=150 png
+2026-08-24 02:40:20	2207243	rarm4c_29m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206631	out/RENDERS/rarm4c_29m_tie_fght_train_2207243.log	pass=150 png
+2026-08-24 02:40:20	2207244	rarm4c_29m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206632	out/RENDERS/rarm4c_29m_tie_fght_diagA_2207244.log	pass=150 png
+2026-08-24 02:40:21	2207245	rarm4c_29m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206633	out/RENDERS/rarm4c_29m_tie_fght_diagB_2207245.log	pass=150 png
+2026-08-24 02:40:21	2207246	rarm4c_29m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206634	out/RENDERS/rarm4c_29m_tie_fght_diagC_2207246.log	pass=150 png
+2026-08-24 02:40:21	2207247	rarm4c_30_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206635	out/RENDERS/rarm4c_30_tie_fght_train_2207247.log	pass=150 png
+2026-08-24 02:40:22	2207248	rarm4c_30_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206636	out/RENDERS/rarm4c_30_tie_fght_diagA_2207248.log	pass=150 png
+2026-08-24 02:40:22	2207249	rarm4c_30_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206637	out/RENDERS/rarm4c_30_tie_fght_diagB_2207249.log	pass=150 png
+2026-08-24 02:40:23	2207250	rarm4c_30_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206638	out/RENDERS/rarm4c_30_tie_fght_diagC_2207250.log	pass=150 png
+2026-08-24 02:40:24	2207251	rarm4c_30m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206639	out/RENDERS/rarm4c_30m_tie_fght_train_2207251.log	pass=150 png
+2026-08-24 02:40:24	2207252	rarm4c_30m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206640	out/RENDERS/rarm4c_30m_tie_fght_diagA_2207252.log	pass=150 png
+2026-08-24 02:40:25	2207253	rarm4c_30m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206641	out/RENDERS/rarm4c_30m_tie_fght_diagB_2207253.log	pass=150 png
+2026-08-24 02:40:25	2207254	rarm4c_30m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206642	out/RENDERS/rarm4c_30m_tie_fght_diagC_2207254.log	pass=150 png
+2026-08-24 02:40:25	2207255	rarm4c_31_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206643	out/RENDERS/rarm4c_31_tie_fght_train_2207255.log	pass=150 png
+2026-08-24 02:40:26	2207256	rarm4c_31_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206644	out/RENDERS/rarm4c_31_tie_fght_diagA_2207256.log	pass=150 png
+2026-08-24 02:40:26	2207257	rarm4c_31_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206645	out/RENDERS/rarm4c_31_tie_fght_diagB_2207257.log	pass=150 png
+2026-08-24 02:40:26	2207258	rarm4c_31_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206646	out/RENDERS/rarm4c_31_tie_fght_diagC_2207258.log	pass=150 png
+2026-08-24 02:40:27	2207259	rarm4c_31m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206647	out/RENDERS/rarm4c_31m_tie_fght_train_2207259.log	pass=150 png
+2026-08-24 02:40:27	2207260	rarm4c_31m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206648	out/RENDERS/rarm4c_31m_tie_fght_diagA_2207260.log	pass=150 png
+2026-08-24 02:40:27	2207261	rarm4c_31m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206649	out/RENDERS/rarm4c_31m_tie_fght_diagB_2207261.log	pass=150 png
+2026-08-24 02:40:28	2207262	rarm4c_31m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206650	out/RENDERS/rarm4c_31m_tie_fght_diagC_2207262.log	pass=150 png
+2026-08-24 02:40:28	2207263	rarm4c_32_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206651	out/RENDERS/rarm4c_32_tie_fght_train_2207263.log	pass=150 png
+2026-08-24 02:40:28	2207264	rarm4c_32_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206652	out/RENDERS/rarm4c_32_tie_fght_diagA_2207264.log	pass=150 png
+2026-08-24 02:40:29	2207265	rarm4c_32_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206653	out/RENDERS/rarm4c_32_tie_fght_diagB_2207265.log	pass=150 png
+2026-08-24 02:40:29	2207266	rarm4c_32_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206654	out/RENDERS/rarm4c_32_tie_fght_diagC_2207266.log	pass=150 png
+2026-08-24 02:40:29	2207267	rarm4c_33_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206655	out/RENDERS/rarm4c_33_tie_fght_train_2207267.log	pass=150 png
+2026-08-24 02:40:30	2207268	rarm4c_33_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206656	out/RENDERS/rarm4c_33_tie_fght_diagA_2207268.log	pass=150 png
+2026-08-24 02:40:30	2207269	rarm4c_33_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206657	out/RENDERS/rarm4c_33_tie_fght_diagB_2207269.log	pass=150 png
+2026-08-24 02:40:30	2207270	rarm4c_33_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206658	out/RENDERS/rarm4c_33_tie_fght_diagC_2207270.log	pass=150 png
+2026-08-24 02:40:31	2207271	rarm4c_33m_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206659	out/RENDERS/rarm4c_33m_tie_fght_train_2207271.log	pass=150 png
+2026-08-24 02:40:31	2207272	rarm4c_33m_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206660	out/RENDERS/rarm4c_33m_tie_fght_diagA_2207272.log	pass=150 png
+2026-08-24 02:40:31	2207273	rarm4c_33m_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206661	out/RENDERS/rarm4c_33m_tie_fght_diagB_2207273.log	pass=150 png
+2026-08-24 02:40:31	2207274	rarm4c_33m_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206662	out/RENDERS/rarm4c_33m_tie_fght_diagC_2207274.log	pass=150 png
+2026-08-24 02:40:32	2207275	rarm4c_34_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206663	out/RENDERS/rarm4c_34_tie_fght_train_2207275.log	pass=150 png
+2026-08-24 02:40:32	2207276	rarm4c_34_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206664	out/RENDERS/rarm4c_34_tie_fght_diagA_2207276.log	pass=150 png
+2026-08-24 02:40:32	2207277	rarm4c_34_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206665	out/RENDERS/rarm4c_34_tie_fght_diagB_2207277.log	pass=150 png
+2026-08-24 02:40:33	2207278	rarm4c_34_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206666	out/RENDERS/rarm4c_34_tie_fght_diagC_2207278.log	pass=150 png
+2026-08-24 02:40:33	2207279	rarm4c_27_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206667	out/RENDERS/rarm4c_27_fsh_glit_train_2207279.log	pass=150 png
+2026-08-24 02:40:33	2207280	rarm4c_27_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206668	out/RENDERS/rarm4c_27_fsh_glit_diagA_2207280.log	pass=150 png
+2026-08-24 02:40:33	2207281	rarm4c_27_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206669	out/RENDERS/rarm4c_27_fsh_glit_diagB_2207281.log	pass=150 png
+2026-08-24 02:40:34	2207282	rarm4c_27_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206670	out/RENDERS/rarm4c_27_fsh_glit_diagC_2207282.log	pass=150 png
+2026-08-24 02:40:34	2207283	rarm4c_27m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206671	out/RENDERS/rarm4c_27m_fsh_glit_train_2207283.log	pass=150 png
+2026-08-24 02:40:34	2207284	rarm4c_27m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206672	out/RENDERS/rarm4c_27m_fsh_glit_diagA_2207284.log	pass=150 png
+2026-08-24 02:40:35	2207285	rarm4c_27m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206673	out/RENDERS/rarm4c_27m_fsh_glit_diagB_2207285.log	pass=150 png
+2026-08-24 02:40:35	2207286	rarm4c_27m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206674	out/RENDERS/rarm4c_27m_fsh_glit_diagC_2207286.log	pass=150 png
+2026-08-24 02:40:35	2207287	rarm4c_28_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206675	out/RENDERS/rarm4c_28_fsh_glit_train_2207287.log	pass=150 png
+2026-08-24 02:40:35	2207288	rarm4c_28_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206676	out/RENDERS/rarm4c_28_fsh_glit_diagA_2207288.log	pass=150 png
+2026-08-24 02:40:36	2207289	rarm4c_28_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206677	out/RENDERS/rarm4c_28_fsh_glit_diagB_2207289.log	pass=150 png
+2026-08-24 02:40:36	2207290	rarm4c_28_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206678	out/RENDERS/rarm4c_28_fsh_glit_diagC_2207290.log	pass=150 png
+2026-08-24 02:40:36	2207291	rarm4c_28m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206679	out/RENDERS/rarm4c_28m_fsh_glit_train_2207291.log	pass=150 png
+2026-08-24 02:40:37	2207292	rarm4c_28m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206680	out/RENDERS/rarm4c_28m_fsh_glit_diagA_2207292.log	pass=150 png
+2026-08-24 02:40:37	2207293	rarm4c_28m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206681	out/RENDERS/rarm4c_28m_fsh_glit_diagB_2207293.log	pass=150 png
+2026-08-24 02:40:37	2207294	rarm4c_28m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206682	out/RENDERS/rarm4c_28m_fsh_glit_diagC_2207294.log	pass=150 png
+2026-08-24 02:40:38	2207295	rarm4c_29_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206683	out/RENDERS/rarm4c_29_fsh_glit_train_2207295.log	pass=150 png
+2026-08-24 02:40:38	2207296	rarm4c_29_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206684	out/RENDERS/rarm4c_29_fsh_glit_diagA_2207296.log	pass=150 png
+2026-08-24 02:40:38	2207297	rarm4c_29_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206685	out/RENDERS/rarm4c_29_fsh_glit_diagB_2207297.log	pass=150 png
+2026-08-24 02:40:39	2207298	rarm4c_29_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206686	out/RENDERS/rarm4c_29_fsh_glit_diagC_2207298.log	pass=150 png
+2026-08-24 02:40:39	2207299	rarm4c_29m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206688	out/RENDERS/rarm4c_29m_fsh_glit_train_2207299.log	pass=150 png
+2026-08-24 02:40:39	2207300	rarm4c_29m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206689	out/RENDERS/rarm4c_29m_fsh_glit_diagA_2207300.log	pass=150 png
+2026-08-24 02:40:40	2207301	rarm4c_29m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206690	out/RENDERS/rarm4c_29m_fsh_glit_diagB_2207301.log	pass=150 png
+2026-08-24 02:40:40	2207302	rarm4c_29m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206691	out/RENDERS/rarm4c_29m_fsh_glit_diagC_2207302.log	pass=150 png
+2026-08-24 02:40:40	2207303	rarm4c_30_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206692	out/RENDERS/rarm4c_30_fsh_glit_train_2207303.log	pass=150 png
+2026-08-24 02:40:40	2207304	rarm4c_30_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206693	out/RENDERS/rarm4c_30_fsh_glit_diagA_2207304.log	pass=150 png
+2026-08-24 02:40:41	2207305	rarm4c_30_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206694	out/RENDERS/rarm4c_30_fsh_glit_diagB_2207305.log	pass=150 png
+2026-08-24 02:40:41	2207306	rarm4c_30_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206695	out/RENDERS/rarm4c_30_fsh_glit_diagC_2207306.log	pass=150 png
+2026-08-24 02:40:41	2207307	rarm4c_30m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206696	out/RENDERS/rarm4c_30m_fsh_glit_train_2207307.log	pass=150 png
+2026-08-24 02:40:42	2207308	rarm4c_30m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206697	out/RENDERS/rarm4c_30m_fsh_glit_diagA_2207308.log	pass=150 png
+2026-08-24 02:40:42	2207309	rarm4c_30m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206698	out/RENDERS/rarm4c_30m_fsh_glit_diagB_2207309.log	pass=150 png
+2026-08-24 02:40:42	2207310	rarm4c_30m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206699	out/RENDERS/rarm4c_30m_fsh_glit_diagC_2207310.log	pass=150 png
+2026-08-24 02:40:42	2207311	rarm4c_31_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206700	out/RENDERS/rarm4c_31_fsh_glit_train_2207311.log	pass=150 png
+2026-08-24 02:40:43	2207312	rarm4c_31_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206701	out/RENDERS/rarm4c_31_fsh_glit_diagA_2207312.log	pass=150 png
+2026-08-24 02:40:43	2207313	rarm4c_31_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206702	out/RENDERS/rarm4c_31_fsh_glit_diagB_2207313.log	pass=150 png
+2026-08-24 02:40:43	2207314	rarm4c_31_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206703	out/RENDERS/rarm4c_31_fsh_glit_diagC_2207314.log	pass=150 png
+2026-08-24 02:40:44	2207315	rarm4c_31m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206704	out/RENDERS/rarm4c_31m_fsh_glit_train_2207315.log	pass=150 png
+2026-08-24 02:40:44	2207316	rarm4c_31m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206705	out/RENDERS/rarm4c_31m_fsh_glit_diagA_2207316.log	pass=150 png
+2026-08-24 02:40:44	2207317	rarm4c_31m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206706	out/RENDERS/rarm4c_31m_fsh_glit_diagB_2207317.log	pass=150 png
+2026-08-24 02:40:45	2207318	rarm4c_31m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206707	out/RENDERS/rarm4c_31m_fsh_glit_diagC_2207318.log	pass=150 png
+2026-08-24 02:40:45	2207319	rarm4c_32_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206708	out/RENDERS/rarm4c_32_fsh_glit_train_2207319.log	pass=150 png
+2026-08-24 02:40:46	2207320	rarm4c_32_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206709	out/RENDERS/rarm4c_32_fsh_glit_diagA_2207320.log	pass=150 png
+2026-08-24 02:40:46	2207321	rarm4c_32_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206710	out/RENDERS/rarm4c_32_fsh_glit_diagB_2207321.log	pass=150 png
+2026-08-24 02:40:46	2207322	rarm4c_32_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206711	out/RENDERS/rarm4c_32_fsh_glit_diagC_2207322.log	pass=150 png
+2026-08-24 02:40:46	2207323	rarm4c_33_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206712	out/RENDERS/rarm4c_33_fsh_glit_train_2207323.log	pass=150 png
+2026-08-24 02:40:47	2207324	rarm4c_33_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206713	out/RENDERS/rarm4c_33_fsh_glit_diagA_2207324.log	pass=150 png
+2026-08-24 02:40:47	2207325	rarm4c_33_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206714	out/RENDERS/rarm4c_33_fsh_glit_diagB_2207325.log	pass=150 png
+2026-08-24 02:40:47	2207326	rarm4c_33_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206715	out/RENDERS/rarm4c_33_fsh_glit_diagC_2207326.log	pass=150 png
+2026-08-24 02:40:48	2207327	rarm4c_33m_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206716	out/RENDERS/rarm4c_33m_fsh_glit_train_2207327.log	pass=150 png
+2026-08-24 02:40:48	2207328	rarm4c_33m_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206717	out/RENDERS/rarm4c_33m_fsh_glit_diagA_2207328.log	pass=150 png
+2026-08-24 02:40:48	2207329	rarm4c_33m_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206718	out/RENDERS/rarm4c_33m_fsh_glit_diagB_2207329.log	pass=150 png
+2026-08-24 02:40:49	2207330	rarm4c_33m_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206719	out/RENDERS/rarm4c_33m_fsh_glit_diagC_2207330.log	pass=150 png
+2026-08-24 02:40:49	2207331	rarm4c_34_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206720	out/RENDERS/rarm4c_34_fsh_glit_train_2207331.log	pass=150 png
+2026-08-24 02:40:49	2207332	rarm4c_34_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206721	out/RENDERS/rarm4c_34_fsh_glit_diagA_2207332.log	pass=150 png
+2026-08-24 02:40:50	2207333	rarm4c_34_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206722	out/RENDERS/rarm4c_34_fsh_glit_diagB_2207333.log	pass=150 png
+2026-08-24 02:40:50	2207334	rarm4c_34_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206723	out/RENDERS/rarm4c_34_fsh_glit_diagC_2207334.log	pass=150 png
+2026-08-24 02:40:50	2207335	rarm4c_27_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206724	out/RENDERS/rarm4c_27_fsh_ink_train_2207335.log	pass=150 png
+2026-08-24 02:40:50	2207336	rarm4c_27_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206725	out/RENDERS/rarm4c_27_fsh_ink_diagA_2207336.log	pass=150 png
+2026-08-24 02:40:51	2207337	rarm4c_27_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206726	out/RENDERS/rarm4c_27_fsh_ink_diagB_2207337.log	pass=150 png
+2026-08-24 02:40:51	2207338	rarm4c_27_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206727	out/RENDERS/rarm4c_27_fsh_ink_diagC_2207338.log	pass=150 png
+2026-08-24 02:40:52	2207339	rarm4c_27m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206728	out/RENDERS/rarm4c_27m_fsh_ink_train_2207339.log	pass=150 png
+2026-08-24 02:40:53	2207340	rarm4c_27m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206729	out/RENDERS/rarm4c_27m_fsh_ink_diagA_2207340.log	pass=150 png
+2026-08-24 02:40:53	2207341	rarm4c_27m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206730	out/RENDERS/rarm4c_27m_fsh_ink_diagB_2207341.log	pass=150 png
+2026-08-24 02:40:53	2207342	rarm4c_27m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206731	out/RENDERS/rarm4c_27m_fsh_ink_diagC_2207342.log	pass=150 png
+2026-08-24 02:40:54	2207343	rarm4c_28_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206732	out/RENDERS/rarm4c_28_fsh_ink_train_2207343.log	pass=150 png
+2026-08-24 02:40:54	2207344	rarm4c_28_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206733	out/RENDERS/rarm4c_28_fsh_ink_diagA_2207344.log	pass=150 png
+2026-08-24 02:40:54	2207345	rarm4c_28_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206734	out/RENDERS/rarm4c_28_fsh_ink_diagB_2207345.log	pass=150 png
+2026-08-24 02:40:55	2207346	rarm4c_28_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206735	out/RENDERS/rarm4c_28_fsh_ink_diagC_2207346.log	pass=150 png
+2026-08-24 02:40:55	2207347	rarm4c_28m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206736	out/RENDERS/rarm4c_28m_fsh_ink_train_2207347.log	pass=150 png
+2026-08-24 02:40:55	2207348	rarm4c_28m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206737	out/RENDERS/rarm4c_28m_fsh_ink_diagA_2207348.log	pass=150 png
+2026-08-24 02:40:55	2207349	rarm4c_28m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206738	out/RENDERS/rarm4c_28m_fsh_ink_diagB_2207349.log	pass=150 png
+2026-08-24 02:40:56	2207350	rarm4c_28m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206739	out/RENDERS/rarm4c_28m_fsh_ink_diagC_2207350.log	pass=150 png
+2026-08-24 02:40:56	2207351	rarm4c_29_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206740	out/RENDERS/rarm4c_29_fsh_ink_train_2207351.log	pass=150 png
+2026-08-24 02:40:56	2207352	rarm4c_29_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206741	out/RENDERS/rarm4c_29_fsh_ink_diagA_2207352.log	pass=150 png
+2026-08-24 02:40:57	2207353	rarm4c_29_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206742	out/RENDERS/rarm4c_29_fsh_ink_diagB_2207353.log	pass=150 png
+2026-08-24 02:40:57	2207354	rarm4c_29_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206743	out/RENDERS/rarm4c_29_fsh_ink_diagC_2207354.log	pass=150 png
+2026-08-24 02:40:57	2207355	rarm4c_29m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206744	out/RENDERS/rarm4c_29m_fsh_ink_train_2207355.log	pass=150 png
+2026-08-24 02:40:57	2207356	rarm4c_29m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206745	out/RENDERS/rarm4c_29m_fsh_ink_diagA_2207356.log	pass=150 png
+2026-08-24 02:40:58	2207357	rarm4c_29m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206746	out/RENDERS/rarm4c_29m_fsh_ink_diagB_2207357.log	pass=150 png
+2026-08-24 02:40:58	2207358	rarm4c_29m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206747	out/RENDERS/rarm4c_29m_fsh_ink_diagC_2207358.log	pass=150 png
+2026-08-24 02:40:58	2207359	rarm4c_30_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206748	out/RENDERS/rarm4c_30_fsh_ink_train_2207359.log	pass=150 png
+2026-08-24 02:40:58	2207360	rarm4c_30_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206749	out/RENDERS/rarm4c_30_fsh_ink_diagA_2207360.log	pass=150 png
+2026-08-24 02:40:59	2207361	rarm4c_30_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206750	out/RENDERS/rarm4c_30_fsh_ink_diagB_2207361.log	pass=150 png
+2026-08-24 02:40:59	2207362	rarm4c_30_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206751	out/RENDERS/rarm4c_30_fsh_ink_diagC_2207362.log	pass=150 png
+2026-08-24 02:40:59	2207363	rarm4c_30m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206752	out/RENDERS/rarm4c_30m_fsh_ink_train_2207363.log	pass=150 png
+2026-08-24 02:41:00	2207364	rarm4c_30m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206753	out/RENDERS/rarm4c_30m_fsh_ink_diagA_2207364.log	pass=150 png
+2026-08-24 02:41:00	2207365	rarm4c_30m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206754	out/RENDERS/rarm4c_30m_fsh_ink_diagB_2207365.log	pass=150 png
+2026-08-24 02:41:00	2207366	rarm4c_30m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206755	out/RENDERS/rarm4c_30m_fsh_ink_diagC_2207366.log	pass=150 png
+2026-08-24 02:41:00	2207367	rarm4c_31_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206756	out/RENDERS/rarm4c_31_fsh_ink_train_2207367.log	pass=150 png
+2026-08-24 02:41:01	2207368	rarm4c_31_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206757	out/RENDERS/rarm4c_31_fsh_ink_diagA_2207368.log	pass=150 png
+2026-08-24 02:41:01	2207369	rarm4c_31_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206758	out/RENDERS/rarm4c_31_fsh_ink_diagB_2207369.log	pass=150 png
+2026-08-24 02:41:01	2207370	rarm4c_31_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206759	out/RENDERS/rarm4c_31_fsh_ink_diagC_2207370.log	pass=150 png
+2026-08-24 02:41:01	2207371	rarm4c_31m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206760	out/RENDERS/rarm4c_31m_fsh_ink_train_2207371.log	pass=150 png
+2026-08-24 02:41:02	2207372	rarm4c_31m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206761	out/RENDERS/rarm4c_31m_fsh_ink_diagA_2207372.log	pass=150 png
+2026-08-24 02:41:02	2207373	rarm4c_31m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206762	out/RENDERS/rarm4c_31m_fsh_ink_diagB_2207373.log	pass=150 png
+2026-08-24 02:41:02	2207374	rarm4c_31m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206763	out/RENDERS/rarm4c_31m_fsh_ink_diagC_2207374.log	pass=150 png
+2026-08-24 02:41:03	2207375	rarm4c_32_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206764	out/RENDERS/rarm4c_32_fsh_ink_train_2207375.log	pass=150 png
+2026-08-24 02:41:03	2207376	rarm4c_32_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206765	out/RENDERS/rarm4c_32_fsh_ink_diagA_2207376.log	pass=150 png
+2026-08-24 02:41:03	2207377	rarm4c_32_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206766	out/RENDERS/rarm4c_32_fsh_ink_diagB_2207377.log	pass=150 png
+2026-08-24 02:41:04	2207378	rarm4c_32_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206767	out/RENDERS/rarm4c_32_fsh_ink_diagC_2207378.log	pass=150 png
+2026-08-24 02:41:04	2207379	rarm4c_33_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206768	out/RENDERS/rarm4c_33_fsh_ink_train_2207379.log	pass=150 png
+2026-08-24 02:41:05	2207380	rarm4c_33_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206769	out/RENDERS/rarm4c_33_fsh_ink_diagA_2207380.log	pass=150 png
+2026-08-24 02:41:05	2207381	rarm4c_33_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206770	out/RENDERS/rarm4c_33_fsh_ink_diagB_2207381.log	pass=150 png
+2026-08-24 02:41:06	2207382	rarm4c_33_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206771	out/RENDERS/rarm4c_33_fsh_ink_diagC_2207382.log	pass=150 png
+2026-08-24 02:41:06	2207383	rarm4c_33m_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206772	out/RENDERS/rarm4c_33m_fsh_ink_train_2207383.log	pass=150 png
+2026-08-24 02:41:06	2207384	rarm4c_33m_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206773	out/RENDERS/rarm4c_33m_fsh_ink_diagA_2207384.log	pass=150 png
+2026-08-24 02:41:07	2207385	rarm4c_33m_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206774	out/RENDERS/rarm4c_33m_fsh_ink_diagB_2207385.log	pass=150 png
+2026-08-24 02:41:07	2207386	rarm4c_33m_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206775	out/RENDERS/rarm4c_33m_fsh_ink_diagC_2207386.log	pass=150 png
+2026-08-24 02:41:07	2207387	rarm4c_34_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206776	out/RENDERS/rarm4c_34_fsh_ink_train_2207387.log	pass=150 png
+2026-08-24 02:41:07	2207388	rarm4c_34_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206777	out/RENDERS/rarm4c_34_fsh_ink_diagA_2207388.log	pass=150 png
+2026-08-24 02:41:08	2207389	rarm4c_34_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206778	out/RENDERS/rarm4c_34_fsh_ink_diagB_2207389.log	pass=150 png
+2026-08-24 02:41:08	2207390	rarm4c_34_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206779	out/RENDERS/rarm4c_34_fsh_ink_diagC_2207390.log	pass=150 png
+2026-08-24 02:52:09	2207397	rarm4c_27_shp_mud_train	render_arm	triton-cache-fix resubmit of 2206443	out/RENDERS/rarm4c_27_shp_mud_train_2207397.log	pass=150 png
+2026-08-24 02:52:10	2207398	rarm4c_27_shp_mud_diagA	render_arm	triton-cache-fix resubmit of 2206444	out/RENDERS/rarm4c_27_shp_mud_diagA_2207398.log	pass=150 png
+2026-08-24 02:52:10	2207399	rarm4c_27_shp_mud_diagB	render_arm	triton-cache-fix resubmit of 2206445	out/RENDERS/rarm4c_27_shp_mud_diagB_2207399.log	pass=150 png
+2026-08-24 02:52:10	2207400	rarm4c_27_shp_mud_diagC	render_arm	triton-cache-fix resubmit of 2206446	out/RENDERS/rarm4c_27_shp_mud_diagC_2207400.log	pass=150 png
+2026-08-24 02:52:10	2207401	rarm4c_27_drg_mush2_train	render_arm	triton-cache-fix resubmit of 2206555	out/RENDERS/rarm4c_27_drg_mush2_train_2207401.log	pass=150 png
+2026-08-24 02:52:11	2207402	rarm4c_27_drg_mush2_diagA	render_arm	triton-cache-fix resubmit of 2206556	out/RENDERS/rarm4c_27_drg_mush2_diagA_2207402.log	pass=150 png
+2026-08-24 02:52:11	2207403	rarm4c_27_drg_mush2_diagB	render_arm	triton-cache-fix resubmit of 2206557	out/RENDERS/rarm4c_27_drg_mush2_diagB_2207403.log	pass=150 png
+2026-08-24 02:52:11	2207404	rarm4c_27_drg_mush2_diagC	render_arm	triton-cache-fix resubmit of 2206558	out/RENDERS/rarm4c_27_drg_mush2_diagC_2207404.log	pass=150 png
+2026-08-24 02:52:12	2207405	rarm4c_27_tie_fght_train	render_arm	triton-cache-fix resubmit of 2206611	out/RENDERS/rarm4c_27_tie_fght_train_2207405.log	pass=150 png
+2026-08-24 02:52:12	2207406	rarm4c_27_tie_fght_diagA	render_arm	triton-cache-fix resubmit of 2206612	out/RENDERS/rarm4c_27_tie_fght_diagA_2207406.log	pass=150 png
+2026-08-24 02:52:12	2207407	rarm4c_27_tie_fght_diagB	render_arm	triton-cache-fix resubmit of 2206613	out/RENDERS/rarm4c_27_tie_fght_diagB_2207407.log	pass=150 png
+2026-08-24 02:52:12	2207408	rarm4c_27_tie_fght_diagC	render_arm	triton-cache-fix resubmit of 2206614	out/RENDERS/rarm4c_27_tie_fght_diagC_2207408.log	pass=150 png
+2026-08-24 02:52:13	2207409	rarm4c_27_fsh_glit_train	render_arm	triton-cache-fix resubmit of 2206667	out/RENDERS/rarm4c_27_fsh_glit_train_2207409.log	pass=150 png
+2026-08-24 02:52:13	2207410	rarm4c_27_fsh_glit_diagA	render_arm	triton-cache-fix resubmit of 2206668	out/RENDERS/rarm4c_27_fsh_glit_diagA_2207410.log	pass=150 png
+2026-08-24 02:52:13	2207411	rarm4c_27_fsh_glit_diagB	render_arm	triton-cache-fix resubmit of 2206669	out/RENDERS/rarm4c_27_fsh_glit_diagB_2207411.log	pass=150 png
+2026-08-24 02:52:14	2207412	rarm4c_27_fsh_glit_diagC	render_arm	triton-cache-fix resubmit of 2206670	out/RENDERS/rarm4c_27_fsh_glit_diagC_2207412.log	pass=150 png
+2026-08-24 02:52:14	2207413	rarm4c_27_fsh_ink_train	render_arm	triton-cache-fix resubmit of 2206724	out/RENDERS/rarm4c_27_fsh_ink_train_2207413.log	pass=150 png
+2026-08-24 02:52:15	2207414	rarm4c_27_fsh_ink_diagA	render_arm	triton-cache-fix resubmit of 2206725	out/RENDERS/rarm4c_27_fsh_ink_diagA_2207414.log	pass=150 png
+2026-08-24 02:52:15	2207415	rarm4c_27_fsh_ink_diagB	render_arm	triton-cache-fix resubmit of 2206726	out/RENDERS/rarm4c_27_fsh_ink_diagB_2207415.log	pass=150 png
+2026-08-24 02:52:15	2207416	rarm4c_27_fsh_ink_diagC	render_arm	triton-cache-fix resubmit of 2206727	out/RENDERS/rarm4c_27_fsh_ink_diagC_2207416.log	pass=150 png
+2026-08-24 02:52:54	2207417	panc_octocat_clay	panels_c4	4 views	out/VIEWS/octocat_clay_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 02:52:54	2207418	panc_octocat_shine	panels_c4	4 views	out/VIEWS/octocat_shine_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 02:52:54	2207419	panc_sheep_soil	panels_c4	4 views	out/VIEWS/sheep_soil_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 02:52:54	2207420	panc_dragon_mush	panels_c4	4 views	out/VIEWS/dragon_mush_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 03:04:38	2207425	panc_dragon_mush2	panels_c4	4 views	out/VIEWS/dragon_mush2_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 03:06:20	2207426	panc_fish_ink	panels_c4	4 views	out/VIEWS/fish_ink_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 03:06:40	2207427	panc_tie_fighter_bw	panels_c4	4 views	out/VIEWS/tie_fighter_bw_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 03:07:01	2207428	panc_fish_glitter	panels_c4	4 views	out/VIEWS/fish_glitter_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4
+2026-08-24 03:09:42	2207500	panc_sheep_mud	panels_c4	4 views	out/VIEWS/sheep_mud_*_GT_frozen_r27_mcfm.mp4	pass=4 mp4

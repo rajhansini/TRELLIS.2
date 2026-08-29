@@ -1,0 +1,160 @@
+% metrics_section.tex -- evaluation protocol. Every formula below was read off the
+% implementation, not off earlier notes:
+%   texel metrics    render_rung27_orbit.py:453-535
+%   PSNR / SSIM      rung27_selfattn_lora.py:993-1008 (psnr_ssim), :1674 (inter_mask)
+%   MCFM             mcfm_blend.py:115-139 (blend_window), :46 (_OFFSETS)
+%   objective        rung27_selfattn_lora.py:2304-2315, :2204-2215
+% NOTE: earlier internal notes wrote the temporal metrics with $\|\cdot\|_1$. The
+% implementation takes a MEAN over all $3V$ entries, not a sum, which is what makes
+% values comparable across objects with different voxel counts. The forms below are
+% the implemented ones.
+
+\section{Evaluation protocol}
+\label{sec:metrics}
+
+\paragraph{Notation.}
+For an object with mesh $M$ and a driving sequence of $T$ frames, the generator emits
+one PBR voxel field per frame. Write $C_t \in [0,1]^{V \times 3}$ for the
+\emph{base-colour} channels of the decoded field at frame $t$, over the $V$ occupied
+voxels, obtained from the decoder output $\mathcal{D}(z_t)$ as
+$C_t = \tfrac{1}{2}\big(\mathcal{D}(z_t)_{0:3} + 1\big)$. Write $\hat{I}_t$ for the
+image rendered from that field through the supervised camera and $I_t$ for the
+corresponding target frame.
+
+\subsection{Temporal metrics in texel space}
+
+All three temporal quantities are computed on $C_t$ --- the field the model
+predicts --- and not on rendered pixels. Two properties follow, and both are the
+reason the numbers are meaningful. First, they are \emph{view-independent}: a
+pixel-space temporal metric confounds texture change with camera motion and can
+therefore only be read at a fixed camera, whereas a texel metric is defined on the
+object and a single number covers the whole surface, including regions no evaluation
+camera ever sees. Second, they observe the quantity the method actually produces;
+rendering is a lossy projection, and shading, occlusion and rasterisation each
+contribute their own frame-to-frame variation.
+
+The definitions presuppose that consecutive frames describe the \emph{same} voxels.
+The implementation asserts this per frame ($\texttt{torch.equal}$ on the coordinate
+tensor); without it, a difference between frames could be comparing distinct points
+in space. Let $\langle \cdot \rangle$ denote the mean over all $3V$ entries of a
+$V \times 3$ matrix.
+
+\paragraph{Texel flicker} is the mean first temporal difference,
+\begin{equation}
+  F \;=\; \frac{1}{T-1}\sum_{t=2}^{T}
+          \Big\langle \big| C_t - C_{t-1} \big| \Big\rangle ,
+  \qquad
+  \big\langle X \big\rangle \;=\; \frac{1}{3V}\sum_{v=1}^{V}\sum_{c=1}^{3} X_{vc}.
+  \label{eq:flicker}
+\end{equation}
+It measures how much the surface changes from one frame to the next. It is a
+\emph{rate}: a texture that evolves quickly has high flicker whether or not it does
+so smoothly, so $F$ alone cannot be read as a quality score.
+
+\paragraph{Texel acceleration} is the mean second temporal difference,
+\begin{equation}
+  A \;=\; \frac{1}{T-2}\sum_{t=3}^{T}
+          \Big\langle \big| C_t - 2C_{t-1} + C_{t-2} \big| \Big\rangle .
+  \label{eq:accel}
+\end{equation}
+It measures how abruptly that rate itself changes, and it is the quantity that
+corresponds to what a viewer calls flickering: a texture evolving quickly but
+\emph{steadily} has high $F$ and low $A$, whereas one that jitters back and forth has
+high $A$ even when its net motion is small. $A$ is therefore the metric that separates
+temporal coherence from temporal speed.
+
+\paragraph{Texel drift} compares the first frame to the last,
+\begin{equation}
+  \Delta \;=\; \Big\langle \big| C_T - C_1 \big| \Big\rangle ,
+  \label{eq:drift}
+\end{equation}
+and is reported as a \textbf{guard, not a score}. Both $F$ and $A$ are minimised by a
+degenerate solution --- a texture that does not move at all --- and $\Delta$ detects
+exactly that failure. It is meaningful only alongside the other two, no best value is
+marked for it in any table, and a reduction in $F$ or $A$ counts only if $\Delta$ is
+held.
+
+\paragraph{On the name.} This second-difference quantity was called \emph{texel jerk}
+in earlier internal results and in the field names of the released measurement files.
+In kinematics \emph{jerk} is the third derivative, while \eqref{eq:accel} is the
+second; we use \emph{texel acceleration} throughout, with \emph{temporal roughness} as
+an acceptable plainer alternative.
+
+\subsection{Fidelity metrics}
+
+PSNR and SSIM are computed at the supervised camera, against a render of the same mesh
+through the same camera, and are restricted to the \emph{intersection mask}
+$\Omega_t = R_t \cap G_t$, where $R_t$ is the set of pixels our render covers and
+$G_t$ the set the target covers. Because the target is a render of the same mesh, the
+two silhouettes agree by construction; what $\Omega_t$ removes is the sliver where a
+covered pixel's triangle carries an unsupervised vertex and therefore has no ground
+truth colour. With $\hat{I}_t, I_t \in [0,1]^{H \times W \times 3}$,
+\begin{equation}
+  \mathrm{MSE}_t \;=\; \frac{1}{3|\Omega_t|}
+    \sum_{p \in \Omega_t} \big\| \hat{I}_t(p) - I_t(p) \big\|_2^2 ,
+  \qquad
+  \mathrm{PSNR}_t \;=\; 10 \log_{10}\!\frac{1}{\mathrm{MSE}_t}.
+  \label{eq:psnr}
+\end{equation}
+For SSIM we compute the full per-pixel SSIM map $S_t$ with a $7{\times}7$ uniform
+window and $\mathrm{data\ range}=1$, then average it over the mask,
+$\mathrm{SSIM}_t = |\Omega_t|^{-1}\sum_{p \in \Omega_t} S_t(p)$. Both are reported as
+means over the $T$ frames.
+
+\paragraph{Why masked.} The background occupies $89.4\%$ of the pixels and is
+byte-identical white in prediction and target, so whole-image SSIM is dominated by it:
+representative objects score $0.985 / 0.983 / 0.980$ over the whole image against
+$0.887 / 0.871 / 0.841$ on the silhouette. \texttt{skimage} provides no masked SSIM
+estimator, so we take the full map from the same estimator and average it over honest
+support.
+
+\paragraph{Scope.} PSNR and SSIM are measured at the supervised view only, whereas
+$F$, $A$ and $\Delta$ are view-independent by construction. PSNR also cannot settle a
+temporal question on its own: it scores each frame against its own target
+independently and is structurally blind to coherence, so two sequences with identical
+per-frame error --- one smooth, one alternating --- receive the same PSNR. The
+temporal metrics carry the claim; PSNR and SSIM are reported alongside to show that
+fidelity is not traded for coherence.
+
+\subsection{Temporal conditioning}
+
+The parameter-free temporal component blends each frame's image-conditioning tokens
+over a short window before the flow model sees them, so neighbouring frames share
+conditioning and cannot drift apart independently. Let $c_t \in \mathbb{R}^{N \times d}$
+be frame $t$'s conditioning tokens ($N = 1029$, $d = 1024$) and
+$\mathcal{W} = \{-1, 0, +1\}$ the window, clamped at the sequence ends. For each token
+index $i$ independently,
+\begin{equation}
+  \tilde{c}_t[i] \;=\; \sum_{o \in \mathcal{W}} \alpha_o \, c_{t+o}[i],
+  \qquad
+  \alpha \;=\; \mathrm{softmax}_{o \in \mathcal{W}}
+    \Big( \tfrac{1}{\sqrt{d}}\, \langle c_t[i],\, c_{t+o}[i] \rangle \Big).
+  \label{eq:mcfm}
+\end{equation}
+Token $i$ attends only over token $i$ in neighbouring frames; spatial mixing is left to
+the model's own attention downstream. Equation~\eqref{eq:mcfm} introduces no learned
+parameters.
+
+\subsection{Training objective}
+
+Adapters are trained with a masked reconstruction term and a perceptual term,
+\begin{equation}
+  \mathcal{L} \;=\; \frac{1}{3|\Omega_t|}\sum_{p \in \Omega_t}
+      \big\| \hat{I}_t(p) - I_t(p) \big\|_1
+    \;+\; \lambda \, \mathrm{LPIPS}\big(\hat{I}_t, I_t\big),
+  \qquad \lambda = 0.1,
+  \label{eq:loss}
+\end{equation}
+with LPIPS on a frozen AlexNet backbone, evaluated on the tight bounding-box crop of
+the silhouette at native resolution --- neither clamped nor downsampled, since
+clamping removes the gradient on out-of-range pixels and downsampling discards the
+high frequencies the term exists to restore.
+
+\subsection{Aggregation and significance}
+
+Each table row may average several arms. We first average a row's arms
+\emph{within} each object, then average over objects, so that a row backed by ten arms
+does not outvote one backed by a single arm. Reported significance is a two-sided sign
+test over the $24$ objects, counting the objects on which one row beats another;
+because it is computed over objects rather than seeds, it speaks to consistency across
+the object set and not to seed variance.

@@ -452,8 +452,12 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help="MCFM temporal token blending, applied to the cached DINOv3 "
                      "conditioning BEFORE training so the flow model never sees "
                      "vanilla per-frame tokens. v2 blends token i across the "
@@ -463,6 +467,20 @@ ap.add_argument('--mcfm', default=None,
                      "it is absent from the hash, absent from the label, and the "
                      "blend call returns the dict unchanged.")
 args = ap.parse_args()
+
+# Normalise the readable MCFM name to its short code at parse time, exactly as
+# rung27 does. args.mcfm feeds the config hash and the run-directory label, so
+# doing it here means 'spatial_then_temporal_w3' and 'st_D' land in the SAME run
+# directory and can resume from each other. Doing it later would fork every run.
+if getattr(args, 'mcfm', None) is not None:
+    import sys as _sys
+    from pathlib import Path as _P
+    _sys.path.insert(0, str(_P(__file__).resolve().parent))
+    from mcfm_blend import canonical as _mc
+    _typed = args.mcfm
+    args.mcfm = _mc(args.mcfm)
+    if _typed != args.mcfm:
+        print(f'[MCFM] {_typed} -> {args.mcfm}  (same config hash, same run dir)', flush=True)
 
 # NOTE on --w-lpips: the trellis2 env has no `lpips` package, so the loss here is
 # masked MSE only and this flag is inert. It stays in the config hash so that a

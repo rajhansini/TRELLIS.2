@@ -1,0 +1,5 @@
+[
+  ["spot_lava [CONTROL]", "data/spot_lava/mesh/spot.obj", "data/spot_lava/frames_from_video"],
+  ["bob_spots", "data/bob_spots/mesh/bob.obj", "data/bob_spots/frames_from_video"],
+  ["bob_spots_slow", "data/bob_spots_slow/mesh/bob.obj", "data/bob_spots_slow/frames_from_video"]
+]

@@ -1,11 +1,16 @@
 # Method figure — MCFM + rung27
 
-`fig_mcfm_rung27.pdf` / `.svg`. Eight schematic elements, left to right:
+`fig_mcfm_rung27.pdf` / `.svg`. Two rows, serpentine, matching the system
+figure's reading order:
 
-    token maps (f-1, f, f+1) -> temporal attention -> blended tokens
-                                                        \
-                              voxel tokens --------------> cross-attention
-                                -> voxels after CA -> self-attention -> voxels after SA
+    row 1   blended tokens  <--  TEMPORAL ATTENTION  <--  f-1  f  f+1
+                   |
+                   v          (blended tokens sits directly above cross-attention)
+    row 2   voxel tokens --> CROSS-ATTN --> after CA --> SELF-ATTN --> after SA
+
+Row 1 runs right-to-left and row 2 left-to-right, so the eye turns once and lands
+on the block the blended tokens actually feed. The previous single-row version
+needed two long curves to reach cross-attention from opposite sides.
 
 ## Build
 
@@ -18,7 +23,7 @@ Inkscape on this cluster is **0.92.5**, so the export flags are `-e` / `-A`,
 dependency from the PDF, so `\includegraphics` is safe on any machine.
 
 `_core.py` holds the shared drawing helpers and the isometric voxel renderer;
-`layout.py` places the eight elements. They share one namespace, so
+`layout.py` places the two rows. They share one namespace, so
 `make_figure.py` execs them in order rather than importing.
 
 No `trimesh` and no `cairosvg` in the default python3 here — the OBJ parser and
@@ -45,6 +50,26 @@ Devices, stated so nobody reads them as measurements:
   **Hue** is on a separate (vertical) axis so the two cannot be confused.
 * Grids are 12x12 for legibility. The real conditioning is 1029 DINOv3 tokens
   (32x32 patches + CLS / registers), D = 1024.
+
+## Why the voxels are drawn opaque
+
+Every panel draws the SAME cell set, opaque, with occlusion culling. Response is
+carried by hue and saturation ONLY — a voxel is never encoded by fading out.
+
+The first draft faded the cross-attention rear to `fill-opacity 0.26`. On white
+paper that reads as a MISSING cube, which is the exact opposite of the figure's
+claim that the voxel structure is fixed and only appearance changes. Guan circled
+it. Do not reintroduce an alpha ramp on the voxels.
+
+`voxelize_exact()` (conservative triangle-box, 13-axis SAT) replaced
+`sample_surface() + voxelize()`. Random surface sampling missed 4 of 484 cells;
+two of them sit at `j = 13`, the top of the head, so one horn was present and the
+matching one was not. Four cells is nothing numerically and very visible in a
+figure whose whole point is a complete, regular structure.
+
+`cull_hidden()` drops the 167 voxels whose +x, +y and +z neighbours are all
+occupied — in this isometric view those three cover a cube's right, top and left
+faces, so nothing of it can be seen. That is what makes opaque rendering cheap.
 
 ## Mesh orientation
 

@@ -1,0 +1,37 @@
+[
+  [
+    "spot_lava [CONTROL]",
+    "data/spot_lava/mesh/spot.obj",
+    "data/spot_lava/frames_from_video"
+  ],
+  [
+    "ivysaur_petal",
+    "data/ivysaur_petal/mesh/ivysaur.obj",
+    "data/ivysaur_petal/frames_from_video"
+  ],
+  [
+    "ivysaur_petal_2",
+    "data/ivysaur_petal_2/mesh/ivysaur.obj",
+    "data/ivysaur_petal_2/frames_from_video"
+  ],
+  [
+    "blub_raurshaw",
+    "data/blub_raurshaw/mesh/blub.obj",
+    "data/blub_raurshaw/frames_from_video"
+  ],
+  [
+    "blub_drying",
+    "data/blub_drying/mesh/blub.obj",
+    "data/blub_drying/frames_from_video"
+  ],
+  [
+    "pegasus_shine",
+    "data/pegasus_shine/mesh/pegaso.obj",
+    "data/pegasus_shine/frames_from_video"
+  ],
+  [
+    "pegaso_effect_1",
+    "data/pegaso_effect_1/mesh/pegaso.obj",
+    "data/pegaso_effect_1/frames_from_video"
+  ]
+]

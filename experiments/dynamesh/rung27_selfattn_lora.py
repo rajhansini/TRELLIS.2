@@ -364,11 +364,12 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D',
-                         'temporal_only_w2', 'temporal_only_w3',
-                         'joint_spatiotemporal_w2', 'joint_spatiotemporal_w3',
-                         'spatial_then_temporal_w2', 'spatial_then_temporal_w3'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help="MCFM temporal token blending, applied to the cached DINOv3 "
                      "conditioning BEFORE training so the flow model never sees "
                      "vanilla per-frame tokens. Readable names, preferred: "
@@ -544,6 +545,26 @@ LABEL  = f'rung{_RUNG}{_RTAG}_{args.blocks}_{args.targets}_r{args.rank}_s{args.s
 OUT    = (args.out_dir or (_HERE / 'runs' / LABEL)).resolve()
 for d in (OUT, OUT / 'logs', OUT / 'ckpts', OUT / 'diag'):
     d.mkdir(parents=True, exist_ok=True)
+
+
+def _atomic_save(obj, path):
+    """torch.save that a SIGKILL cannot leave half-written.
+
+    30 epochs takes ~2.8-4.2h against a 4h partition wall, so these runs are
+    EXPECTED to be killed mid-flight and requeued. A kill that lands inside
+    torch.save leaves a truncated .pt that torch.load cannot read -- and since
+    the resume picks the newest checkpoint, that torn file would be chosen on
+    every retry, failing the job identically until --max-retries is spent.
+
+    Writing to a sibling .tmp and os.replace-ing it makes the swap atomic within
+    the directory: the reader sees either the previous complete checkpoint or the
+    new complete one, never a partial. The glob is 'lora_e*.pt', so a leftover
+    .tmp from a kill is invisible to the resume scan rather than being picked up.
+    """
+    path = Path(path)
+    tmp = path.with_name(path.name + '.tmp')
+    torch.save(obj, tmp)
+    os.replace(tmp, path)
 
 
 class _Tee:
@@ -2194,9 +2215,20 @@ def main():
 
     opt = torch.optim.AdamW(reg.parameters(), lr=args.lr, weight_decay=0.0)
     start_ep, best = 1, -1e9
-    ckpts = sorted((OUT / 'ckpts').glob('lora_e*.pt'))
-    if ckpts:
-        st = torch.load(ckpts[-1], map_location=DEVICE, weights_only=False)
+    # Newest first. A 4h wall-clock kill can land in the middle of a torch.save,
+    # and the newest file is then the ONE that is torn. Taking ckpts[-1] and
+    # letting torch.load raise turns a recoverable timeout into a job that fails
+    # identically on every requeue until --max-retries is spent. So walk down:
+    # the epoch before a torn write is intact, and losing one epoch is nothing.
+    # _atomic_save makes torn files rare; this makes them harmless.
+    ckpts = sorted((OUT / 'ckpts').glob('lora_e*.pt'), reverse=True)
+    for _ck in ckpts:
+        try:
+            st = torch.load(_ck, map_location=DEVICE, weights_only=False)
+        except Exception as _e:
+            print(f'[RESUME] {_ck.name} unreadable ({type(_e).__name__}: {_e}) '
+                  f'-- falling back to the epoch before it', flush=True)
+            continue
         # GATE-resume. Belt to the config hash's braces: a checkpoint may only be
         # inherited by a run using the SAME mesh and the SAME targets. Without
         # this, two runs that hash alike silently continue each other's training
@@ -2206,14 +2238,15 @@ def main():
         for _k in ('mesh', 'gt_render_dir', 'render_res'):
             _a, _b = _prev.get(_k), _CFG.get(_k)
             assert _a is None or _a == _b, (
-                f'GATE-resume FAILED: {ckpts[-1].name} was written by a run whose '
+                f'GATE-resume FAILED: {_ck.name} was written by a run whose '
                 f'{_k} was\n    {_a}\nbut this run uses\n    {_b}\n'
                 f'Refusing to resume — that would continue another experiment\'s '
                 f'adapter on different data. Delete {OUT} or fix the paths.')
         reg.load_state_dict(st['reg']); opt.load_state_dict(st['opt'])
         start_ep, best = st['epoch'] + 1, st['best']
-        print(f'[RESUME] from {ckpts[-1].name}, epoch {start_ep}   '
+        print(f'[RESUME] from {_ck.name}, epoch {start_ep}   '
               f'[GATE-resume] PASSED — same mesh and targets', flush=True)
+        break
     else:
         print('[RESUME] no checkpoint — starting fresh', flush=True)
 
@@ -2364,13 +2397,13 @@ def main():
                      f'{(last_rep or {}).get("per_target",{}).get("sa_out",0):.4e},'
                      f'{(last_rep or {}).get("n_zero",-1)},{dt:.1f}\n')
 
-        torch.save(dict(reg=reg.state_dict(), opt=opt.state_dict(),
-                        epoch=ep, best=best, cfg=_CFG),
-                   OUT / 'ckpts' / f'lora_e{ep:03d}.pt')
+        _atomic_save(dict(reg=reg.state_dict(), opt=opt.state_dict(),
+                          epoch=ep, best=best, cfg=_CFG),
+                     OUT / 'ckpts' / f'lora_e{ep:03d}.pt')
         if ev['psnr_mean'] > best:
             best = ev['psnr_mean']
-            torch.save(dict(reg=reg.state_dict(), epoch=ep, psnr=best, cfg=_CFG),
-                       OUT / 'ckpts' / 'lora_best.pt')
+            _atomic_save(dict(reg=reg.state_dict(), epoch=ep, psnr=best, cfg=_CFG),
+                         OUT / 'ckpts' / 'lora_best.pt')
             print(f'  [CKPT] new best -> lora_best.pt ({best:.3f} dB)', flush=True)
 
         if ep % 5 == 0 or ep == EPOCHS:

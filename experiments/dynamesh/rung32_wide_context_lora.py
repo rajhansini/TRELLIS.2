@@ -371,11 +371,12 @@ ap.add_argument('--context-window', type=int, default=1, choices=[1, 3, 5],
                      "no second attention pass, no gate and no extra adapter -- the "
                      "window is simply a longer key/value bank, and the existing "
                      "rung27 cross-attention LoRA resolves time itself.")
+# Choices come from mcfm_blend, never a copy. A hardcoded list here silently
+# froze at W=2/3 and rejected v2_E at argparse time, after the job had already
+# been allocated a GPU -- the operator supported the window, the CLI did not.
+from mcfm_blend import MODES as _MCFM_MODES, ALIASES as _MCFM_ALIASES
 ap.add_argument('--mcfm', default=None,
-                choices=['v2_C', 'v2_D', 'v3_C', 'v3_D',
-                         'temporal_only_w2', 'temporal_only_w3',
-                         'joint_spatiotemporal_w2', 'joint_spatiotemporal_w3',
-                         'spatial_then_temporal_w2', 'spatial_then_temporal_w3'],
+                choices=list(_MCFM_MODES) + list(_MCFM_ALIASES),
                 help="MCFM temporal token blending, applied to the cached DINOv3 "
                      "conditioning BEFORE training so the flow model never sees "
                      "vanilla per-frame tokens. Readable names, preferred: "
@@ -476,7 +477,8 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
             # because someone also passed --conf-weight. Kept byte-identical to
             # the _RUNG chain below -- if these two ever disagree, config.json
             # and the directory name describe different experiments.
-            rung=(27 if _HAS_SA
+            rung=(32 if _HAS_CW
+                  else 27 if _HAS_SA
                   else 24 if (args.conf_ramp_qlo >= 0 and args.conf_ramp_qhi >= 0)
                   else 22 if (args.lambda_con > 0 and args.lambda_smo <= 0)
                   else 21 if (args.lambda_con > 0 or args.lambda_smo > 0)
@@ -535,7 +537,8 @@ _CFG = dict(variant='trellis2_backproj_lora', loss_region='rendered_gt',
             gt_dir=str(Path(args.gt_dir).resolve()),
             gt_render_dir=str(Path(args.gt_render_dir).resolve()))
 RUN_ID = hashlib.md5(json.dumps(_CFG, sort_keys=True).encode()).hexdigest()[:8]
-_RUNG = (27 if _HAS_SA          # keep byte-identical to _CFG['rung'] above
+_RUNG = (32 if _HAS_CW
+         else 27 if _HAS_SA          # keep byte-identical to _CFG['rung'] above
          else 24 if (args.conf_ramp_qlo >= 0 and args.conf_ramp_qhi >= 0)
          else 22 if (args.lambda_con > 0 and args.lambda_smo <= 0)
          else 21 if (args.lambda_con > 0 or args.lambda_smo > 0)

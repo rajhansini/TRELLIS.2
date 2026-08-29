@@ -1,0 +1,35 @@
+% Generated from sacct COMPLETED jobs, 2026-08-26. Per object, single A40.
+% Fit times: ours from per-epoch checkpoint timestamps over 53 rung27+MCFM(v2_D) runs,
+% which excludes queue and requeue time. Baselines from job Elapsed.
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llcc}
+\toprule
+Method & Adaptation & Per-shape fit & Inference \\
+\midrule
+Frozen TRELLIS.2 \cite{trellis2} & none            & ---              & 15\,min \\
+MeshNCA \cite{meshnca}           & per-shape       & 16\,min          & 2\,min  \\
+L4GM \cite{l4gm}                 & feed-forward    & ---              & 3\,min  \\
+DynaMesh (ours)                  & per-shape LoRA  & \textbf{2.8\,h}  & 15\,min \\
+\midrule
+SV4D 2.0 \cite{sv4d2}            & feed-forward    & ---              & 11\,min \\
+DG4D \cite{dg4d}                 & per-shape       & 8\,min           & $<$1\,min \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Cost per object.} Wall-clock on a single NVIDIA A40, for one object and a
+150-frame sequence. \emph{Per-shape fit} is optimisation performed for that object before
+any output can be produced; a dash means the method is feed-forward and fits nothing.
+\emph{Inference} is generating the full sequence once fitting is complete. Ours fits a
+rank-4 LoRA for 30 epochs --- 2.33M trainable parameters, 0.18\% of the 1.3B texture flow
+--- median 2.8\,h (IQR 2.0--3.4) over 53 runs, measured from per-epoch checkpoint
+timestamps so queue and requeue time are excluded. Baseline figures are job wall-clock
+over 21--27 runs each. Our inference is comparable to the feed-forward baselines; the
+additional cost is the one-time adaptation, and it is what buys a mesh whose geometry is
+provably unchanged across the sequence. The temporal component is parameter-free and adds
+no measurable cost to either column, since the blend is applied to cached conditioning
+tokens before the flow runs. Timings are under normal cluster contention on mixed
+a40/L40S nodes, not isolated benchmarks.}
+\label{tab:timing}
+\end{table}

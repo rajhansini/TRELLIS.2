@@ -40,10 +40,25 @@ from typing import Dict, Optional
 
 import torch
 
-MODES = ('v2_C', 'v2_D', 'v3_C', 'v3_D',
-         'ts_C', 'ts_D',      # temporal -> explicit spatial
-         'st_C', 'st_D')      # explicit spatial -> temporal
-_OFFSETS = {'C': (0, 1), 'D': (-1, 0, 1)}
+MODES = ('v2_C', 'v2_D', 'v2_E', 'v2_F', 'v2_G',
+         'v3_C', 'v3_D', 'v3_E',
+         'ts_C', 'ts_D', 'ts_E',      # temporal -> explicit spatial
+         'st_C', 'st_D', 'st_E')      # explicit spatial -> temporal
+# C/D/E/F/G are WINDOW WIDTHS, 2 / 3 / 5 / 7 / 11 frames. E was added for the window ablation
+# (W = 1, 3, 5): W=1 is no blend at all, i.e. mcfm=None, so it needs no offsets
+# entry. blend_window() reads W from the stacked tensor and never assumes 2 or 3,
+# and blend_conds() clamps out-of-range neighbours to the nearest existing frame,
+# so t-2 at frame 1 resolves to frame 1 exactly as t-1 already did.
+_OFFSETS = {'C': (0, 1), 'D': (-1, 0, 1), 'E': (-2, -1, 0, 1, 2),
+            # F/G added for the window ablation W = 7 / 11. Symmetric like D and E,
+            # so the middle entry is always frame t and blend_conds' clamping at the
+            # sequence ends behaves identically -- only the width changes.
+            'F': (-3, -2, -1, 0, 1, 2, 3),
+            'G': (-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5)}
+# WIDTH IS READ FROM THE TENSOR, NOT FROM THIS TABLE. blend_window stacks the list it
+# is given and never assumes 2/3/5, and blend_conds clamps out-of-range neighbours to
+# the nearest existing frame, so a 7- or 11-frame window at frame 1 resolves exactly
+# the way a 3-frame one already did. Nothing else needed changing to support them.
 
 # ---------------------------------------------------------------- readable names
 # "v2_D" says nothing about what the operator does. These spell it out:
@@ -69,14 +84,20 @@ _OFFSETS = {'C': (0, 1), 'D': (-1, 0, 1)}
 ALIASES = {
     'temporal_only_w2':         'v2_C',
     'temporal_only_w3':         'v2_D',
+    'temporal_only_w5':         'v2_E',
+    'temporal_only_w7':         'v2_F',
+    'temporal_only_w11':        'v2_G',
     'joint_spatiotemporal_w2':  'v3_C',
     'joint_spatiotemporal_w3':  'v3_D',
+    'joint_spatiotemporal_w5':  'v3_E',
 }
 ALIASES.update({
     'temporal_then_spatial_w2': 'ts_C',
     'temporal_then_spatial_w3': 'ts_D',
+    'temporal_then_spatial_w5': 'ts_E',
     'spatial_then_temporal_w2': 'st_C',
     'spatial_then_temporal_w3': 'st_D',
+    'spatial_then_temporal_w5': 'st_E',
 })
 NOT_IMPLEMENTED = {}      # all four orderings are implemented here now
 PRETTY = {v: k for k, v in ALIASES.items()}

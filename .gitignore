@@ -240,3 +240,12 @@ experiments/mcfm/
 # generated experiment output (renders, targets, videos, logs) — reproducible, GB-scale
 experiments/dynamesh/out/
 *.bak.[0-9]*
+
+# LLM-judge credentials, never commit
+.env*
+*.env
+.env.judge
+
+# editor/scratch backups of source files
+*.bak.*
+*.bak[0-9]
