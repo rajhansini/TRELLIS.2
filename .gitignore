@@ -249,3 +249,8 @@ experiments/dynamesh/out/
 # editor/scratch backups of source files
 *.bak.*
 *.bak[0-9]
+
+# Generated supplementary bundles -- regenerable from jobs/build_supp_*.py, ~50 MB each.
+# Keeping them out of history: git stores every version forever and these are rebuilt often.
+dynamesh_supp.zip
+supp_bundle/

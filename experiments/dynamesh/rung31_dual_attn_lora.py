@@ -364,7 +364,13 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
-ap.add_argument('--temporal-window', type=int, default=0, choices=[0, 3, 5],
+# 7/9/11 added for the wide spatio-temporal variant (LoRA over the tokens of N
+# frames). The stacking below is already width-generic -- _half = W//2, offsets
+# -half..+half, and the same end-clamping as mcfm_blend.blend_conds -- so only
+# this choices list stood between the code and a wider window. MEMORY IS NOT:
+# context tokens go 1029*W, i.e. 3,087 at W=3 and 11,319 at W=11, against a
+# measured 24 GiB peak at W=3 on a 48 GiB card. Canary before any fan-out.
+ap.add_argument('--temporal-window', type=int, default=0, choices=[0, 3, 5, 7, 9, 11],
                 help='0 = OFF, byte-identical to rung27. 3 = frames [f-1,f,f+1], '
                      '5 = [f-2..f+2]. When >0 the cross-attention context is the '
                      'stacked window and each block runs a SECOND cross-attention '

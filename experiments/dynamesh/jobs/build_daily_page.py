@@ -90,10 +90,19 @@ def enc(p):
 
 
 def build(obj, title, mesh, effect, gallery_url, extra_rows='', legend_extra='',
-          cols_line=None, eyebrow='Continuation Dailies &middot; round 2', out=None):
+          cols_line=None, eyebrow='Continuation Dailies &middot; round 2', out=None,
+          origin_line=None):
     # The column legend is a PARAMETER because not every object has four columns.
     # Objects trained on the MCFM arm only ship a three-column daily, and a page
     # that says 'four columns' over a three-column video is worse than no legend.
+    # origin_line is a PARAMETER for the same reason cols_line is. The continuation
+    # objects were handed our own round-1 render at frame 150, so their texture is
+    # already there at frame 1; batch G's clips start from the grey mesh and the
+    # texture ARRIVES. Printing the wrong one tells the reader to look for the wrong
+    # thing in the first 20 frames.
+    origin_line = origin_line or ('<b>This object did not start from a grey mesh.</b> '
+        'Kling was handed our own round-1 fitted render at frame 150 and asked to keep '
+        'the texture moving. The driving video is texture in motion, not texture arriving.')
     cols_line = cols_line or ('<b>Four columns</b> &mdash; ground truth, frozen TRELLIS.2, rung27, rung27 + MCFM temporal-only (3-frame window, <span class="mono">v2_D</span>).')
     vids = ''.join(
         f'<video class="panel-video{" active" if i==0 else ""}" id="v-{v}" '
@@ -119,7 +128,7 @@ def build(obj, title, mesh, effect, gallery_url, extra_rows='', legend_extra='',
   <div class="stage">{vids}</div>
   <div class="legend">
     <div>{cols_line}</div>
-    <div><b>This object did not start from a grey mesh.</b> Kling was handed our own round-1 fitted render at frame 150 and asked to keep the texture moving. The driving video is texture in motion, not texture arriving.</div>
+    <div>{origin_line}</div>
     <div><b>Camera</b> &mdash; fixed per clip; every frame-to-frame change is texture, never camera motion.</div>
     <div><b>Ground truth</b> away from the training view shows the driving-video frame dimmed &mdash; there is no ground truth from an angle the camera never shot.</div>
     {legend_extra}

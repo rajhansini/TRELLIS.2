@@ -1,0 +1,42 @@
+[
+ [
+  "spot_lava [CONTROL]",
+  "data/spot_lava/mesh/spot.obj",
+  "data/spot_lava/frames_from_video"
+ ],
+ [
+  "car_effect1",
+  "/net/projects/ranalab/ddecatur/3DHighlighter/data/shapes/nascar.obj",
+  "data/car_effect1/frames_from_video"
+ ],
+ [
+  "car_effect2",
+  "/net/projects/ranalab/ddecatur/3DHighlighter/data/shapes/nascar.obj",
+  "data/car_effect2/frames_from_video"
+ ],
+ [
+  "robot_rust",
+  "/net/projects/ranalab/ddecatur/3DHighlighter/data/shapes/robot.obj",
+  "data/robot_rust/frames_from_video"
+ ],
+ [
+  "pig_rainbow",
+  "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/pig.obj",
+  "data/pig_rainbow/frames_from_video"
+ ],
+ [
+  "pig_red",
+  "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/pig.obj",
+  "data/pig_red/frames_from_video"
+ ],
+ [
+  "unicorn_rainbow",
+  "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/unicorn.obj",
+  "data/unicorn_rainbow/frames_from_video"
+ ],
+ [
+  "unicorn_effect1",
+  "/net/projects/ranalab/rajhansini/multi_iSeg/meshes/meshestotrain/unicorn.obj",
+  "data/unicorn_effect1/frames_from_video"
+ ]
+]

@@ -589,3 +589,589 @@ table only and are not in the full-rate tables above.
 Sources: `out/FULLRATE_CG/<obj>.json` via `jobs/fullrate_metrics_copygt.py`, aggregated
 by `jobs/fullrate_table_scoped.py --dir FULLRATE_CG --objs <list> --label <name>` into
 `out/fullrate_table_batchDE.json` / `_batchALL.json` / `_batchABC.json`.
+
+---
+
+# Supplementary — artifact index (added 2026-08-29)
+
+Every published artifact, with what it is. The rule that splits the list: the main
+paper carries **Table 1** (the baseline comparison) and **Figs. 1–9**. Everything
+else is supplementary.
+
+Artifacts are private until shared from the page's share menu. `/artifacts` in the
+Claude Code terminal lists them; the gallery is at claude.ai/code/artifacts.
+
+## Tables and ablations — supplementary
+
+| artifact | one-liner |
+|---|---|
+| [Window Sweep Table](https://claude.ai/code/artifact/47159615-2807-4e7b-9764-15538b6c7a0c) | **Table 1 source.** All baselines plus ours at W=3/5/7/11, 42 objects, one reference. Baselines and the W=3 row reproduce `fullrate_table_batchALL.json` bit-for-bit. |
+| [Component Ablation](https://claude.ai/code/artifact/93443f39-82c7-4a34-a721-82cfc6722195) | The 4-row ladder at W=11 (frozen → +cross-attn → +self-attn → +temporal), plus where the temporal row lands at each window width. 24 objects, texel-space. |
+| [Temporal Configuration](https://claude.ai/code/artifact/a71a121a-0dc5-4b39-bd11-4c0e6d943cdb) | Two axes crossing at the shipped setting: window width (W=1/3/5/7/11) and blend flavour (temporal-only / spatial→temporal / joint). Shows joint costs 1.08 dB to tie us on flicker. |
+| [Window Ablation](https://claude.ai/code/artifact/65086efd-f633-44e4-a564-35e8441890e7) | Texel-space window sweep W=1/3/5/7/11 over 42 objects, with the `window_ablation.tex` block. |
+| [Learned vs Parameter-Free ⚖️](https://claude.ai/code/artifact/d4857454-ff5a-4dea-a792-ef465eaffe3f) | Rung 37 (learned per-position temporal LoRA) against parameter-free MCFM. Newer of the two. |
+| [Learned vs Parameter-Free ⚔️](https://claude.ai/code/artifact/8d124889-8fcc-405e-ba52-44eea8e4597d) | Earlier version of the same comparison, kept for history. |
+| [Supplementary Ablations](https://claude.ai/code/artifact/12e9de5c-604b-46b0-bd2d-81e44f2bd9fb) | Earlier supplementary ablation collection (S1–S4 territory). |
+| [Dynamesh Ablations](https://claude.ai/code/artifact/9b57c181-bc5d-46ef-ae90-0ebf7eafb0d8) | Earlier rung-ladder ablation page. |
+| [42-Object Comparison](https://claude.ai/code/artifact/ec05e3f8-0476-441d-b314-e976ae846d06) | The published 42-object full-rate comparison, on the 2D-copy reference. |
+| [Dynamesh Comparison Table](https://claude.ai/code/artifact/648154fd-8fb7-4f63-9ed9-2b8ae15ed915) | Earlier comparison table, batch D+E era. |
+| [Window 11 Comparison](https://claude.ai/code/artifact/3cb51284-bce8-4a76-991d-56f01a0166c6) | **Superseded — do not cite.** Built on the raw-frame reference, so its PSNR/SSIM read ~6 dB low (ours 19.07, L4GM 22.20). Its temporal columns are correct and identical to the current table. |
+
+## Figure drafts — main paper
+
+| artifact | one-liner |
+|---|---|
+| [Duck Figure Draft](https://claude.ai/code/artifact/653ae2b0-de4b-4ad2-9be6-892d2fc6a176) | Fig. 7 textured-input figure, later draft. |
+| [Duck Figure Draft](https://claude.ai/code/artifact/53acb957-63b5-46c2-8625-2f53f6574a69) | Fig. 7, earlier draft. |
+| [Duck Trimmed Figure](https://claude.ai/code/artifact/a367d7b4-d82b-4e18-8d45-88adffa394b7) | Fig. 7 with the frame strip trimmed. |
+| [Duck Camera Sheet](https://claude.ai/code/artifact/e8e3d4de-044d-4a60-9a3c-d9ddacb789ba) | Camera angle contact sheet for the duck. |
+| [Duck Camera Options](https://claude.ai/code/artifact/edbb598b-6551-42b0-97fa-692c6cfb526d) | Earlier camera candidates for the same figure. |
+| [Duck Figure Bench](https://claude.ai/code/artifact/7e7a4f55-6a61-465e-89de-d13cf8a07d7d) | Side-by-side bench of duck figure variants. |
+| [Flicker Figure Draft](https://claude.ai/code/artifact/4234e4bd-c467-4973-a88b-0014f8a9ef90) | Fig. 6 flicker figure (chair, moss), frozen vs ours with insets. |
+
+## Per-object result dailies — supplementary
+
+One page per object/effect, our output rendered over the sequence. These are the
+pool the gallery and supplementary result pages draw from.
+
+| artifact | object · effect |
+|---|---|
+| [Bob — Spots](https://claude.ai/code/artifact/8b25ebcf-7fd8-4d03-828c-cb1d6e6c04eb) · [front view](https://claude.ai/code/artifact/95178fa8-506f-4450-8891-6399d7910351) · [slow](https://claude.ai/code/artifact/5ca03ec6-3ef5-40f3-8285-db6cad97a22a) | duck float, gliding spots (three camera/pacing variants) |
+| [Teddy — Bleach](https://claude.ai/code/artifact/d36b17dc-8bea-4dcc-9f72-95550e7e486a) | teddy, bleach spreading |
+| [Teddy — Fusion](https://claude.ai/code/artifact/e100fc81-ff27-4ed4-ad2b-23ae17294af8) | teddy, fusion effect |
+| [TIE Fighter — Monochrome](https://claude.ai/code/artifact/c556ea7c-8588-45ee-8a5e-bfc0af15f2f1) | TIE fighter, monochrome |
+| [Blub — Drying](https://claude.ai/code/artifact/769e5c0a-fb87-454f-b940-b978fae2d278) | blub, drying |
+| [Blub — Rorschach](https://claude.ai/code/artifact/f53edf55-36f3-4bd4-9d51-c1a2cfb3de1b) | blub, Rorschach pattern |
+| [Gargoyle — Spiral](https://claude.ai/code/artifact/cd9f8f14-da7f-4ea7-8b82-584a851b3e4f) | gargoyle, spiral |
+| [Gargoyle — Effect One](https://claude.ai/code/artifact/56d50cb4-635d-46a6-9915-deb8d134e793) | gargoyle, effect one |
+| [Goat — Flower](https://claude.ai/code/artifact/3ef792b0-4d9c-4f7f-993c-69a48a55c0ac) | goat, flowers |
+| [Goat — Burnt](https://claude.ai/code/artifact/78fc9773-3529-472d-abe4-ed5d4d027082) | goat, burnt |
+| [Goat — Clay](https://claude.ai/code/artifact/80391d05-6cba-40cc-ae2c-5b69c8003925) | goat, clay |
+| [Octocat — Clay](https://claude.ai/code/artifact/182b4e85-6f2b-4b27-bb34-add537c5920e) | octocat, clay |
+| [Octocat — Shine](https://claude.ai/code/artifact/a04d7456-2ff3-4eb1-9ffe-c4bdd8a1217e) | octocat, shine |
+| [Moai — Animated](https://claude.ai/code/artifact/f933b248-d6d6-4248-9564-c7365ae756c7) | moai, animated |
+| [Moai — Mosaic](https://claude.ai/code/artifact/1595a396-5385-4a9a-a615-27b08b171fe2) | moai, mosaic |
+| [Moai — Silver](https://claude.ai/code/artifact/8f4e6759-da14-4351-b89e-2c1a5c5fadcc) | moai, silver |
+| [Plane — Hokusai Waves](https://claude.ai/code/artifact/081e4d78-e28d-4d5e-ab25-5fab32582722) | airplane, Hokusai waves — the Fig. 1 effect |
+| [Airplane — Red Cracks](https://claude.ai/code/artifact/4655989d-e245-4c25-a2b3-d784818368d3) | airplane, red cracks — in the Fig. 2 gallery |
+| [Airplane — Blub](https://claude.ai/code/artifact/a5fa6f00-55b3-4e2a-b63e-77e009890752) | airplane, blub |
+| [Fish — Glitter](https://claude.ai/code/artifact/1ab5ce84-0d5a-4a51-ae6d-ee66c428a851) | fish, glitter |
+| [Dragon — Mushrooms](https://claude.ai/code/artifact/456e46ca-c9ef-4c20-9bc1-7bf550727f0e) | dragon, mushrooms |
+| [Sheep — Mud](https://claude.ai/code/artifact/2c2a6846-812a-4f9d-85cb-115d33fa2f5d) | sheep, mud |
+| [Sheep — Soil](https://claude.ai/code/artifact/17308bb4-e284-48cc-8cc7-f0803326df05) | sheep, soil |
+| [Ivysaur — Petals](https://claude.ai/code/artifact/d8271192-1052-4d6b-a33d-fe55285af87b) | ivysaur, petals |
+| [Ivysaur — Petals II](https://claude.ai/code/artifact/7a2212b7-9084-42d5-ab99-d1472803fe36) | ivysaur, petals, second effect |
+| [Pegasus — Shine](https://claude.ai/code/artifact/47ff3926-62e5-4f62-b4d5-918738709a89) | pegasus, shine |
+| [Pegaso — Effect One](https://claude.ai/code/artifact/9c305aa9-cb31-4572-bdf2-c67a886f2410) | pegaso, effect one |
+
+## Rung-ladder comparisons — supplementary
+
+Same object shown across the rung ladder, so the effect of each stage is visible
+rather than only tabulated.
+
+| artifact | object |
+|---|---|
+| [Rung Ladder Dailies](https://claude.ai/code/artifact/42db3ff0-0cc5-4ce7-92e1-0a03fec3b293) | index page across objects |
+| [Octopus — Rust](https://claude.ai/code/artifact/6de0391a-422d-4a00-bcd8-1ec7e20deed9) | octopus, rust |
+| [Octopus — Rainbow](https://claude.ai/code/artifact/b8272859-3623-425c-938f-3eb075b67082) | octopus, rainbow |
+| [Blob — Orange Crack](https://claude.ai/code/artifact/9dcc41c7-d454-47bb-82c8-c887e42c54f7) | animal blob, orange crack |
+| [Blob — Crack](https://claude.ai/code/artifact/31a51b72-7536-452d-a428-5ae9f79fd43a) | animal blob, crack |
+| [Nefertiti — Effect 2](https://claude.ai/code/artifact/c5a2fcb1-cd0d-447e-b6ed-79810269b465) | ancient lady, effect 2 |
+
+## Continuation experiments — supplementary
+
+| artifact | one-liner |
+|---|---|
+| [Continuation Dailies](https://claude.ai/code/artifact/ce01e8b6-5457-48fe-be7c-8c2702e82191) | textured-continuation round 2 results (see the Textured continuation section above). |
+| [Continuation Dailies (earlier)](https://claude.ai/code/artifact/9a9ed214-dcf0-4562-b52e-254c93d0b180) | first round of the same. |
+
+**Caveat.** The artifact listing API returns at most 50 rows and is ordered by last
+update, so pages not touched recently can fall outside it. This index is the union of
+three listings taken on 2026-08-28/29 and is complete as of then; anything published
+earlier and never re-published since may be missing. Re-check with `/artifacts`.
+
+---
+
+# Supplementary — status against Itai's list (2026-08-29)
+
+> **SUPERSEDED.** See *Supplementary status, 2026-08-30 10:30* at the end of
+> this file. Three counts in this section were wrong: r31 needed 40 render jobs
+> rather than ~147 (only 24 of 42 objects were ever trained at rung31), the
+> `view_*_31_*` figure of 21 was objects rather than renders, and the total was
+> 376 jobs rather than 483.
+
+Audited against disk, not memory. "Have" means the data exists and only assembly is
+left; "need" means compute must run first.
+
+## Figures
+
+| item | status | what is missing |
+|---|---|---|
+| **Gallery, 4+ new meshes/effects** | ❌ need | New Kling reference videos + a 30-epoch fit per object. Nothing reusable on disk. |
+| **Comparison, 2+ more** | ⚠️ partial | Renders exist for `27`, `27m`, `27e/f/g` (42 each). Baseline panels exist in `baselines4d/outputs`. Assembling more comparison figures needs no new compute. |
+| **Window graph (flicker left axis, PSNR right, W on x)** | ✅ **have** | `out/window_ablation.json`, 42 objects, W=1/3/5/7/11. Pure plotting, zero compute. |
+| **Window W=13 and W=15** | ❌ need | `mcfm_blend.py` `_OFFSETS` stops at `G` (W=11). Needs `H`/`I` added, then **84 training runs** (42 objects × 2 windows, ~3–6 h each). Biggest single item on the list. |
+| **Existing textures, 1–2 more** | ❌ need | Same as gallery: new textured mesh + video + fit. |
+
+## Tables
+
+| item | status | what is missing |
+|---|---|---|
+| **Components off/on, texel-space** | ✅ **have** | `out/component_ladder_w11.json`, 24 objects. Artifact published. |
+| **Components off/on, video-space** | ⚠️ **1 render batch away** | Needs the `r19` (cross-attn only) arm in pixel space: `view_*_19_*` = **0 on disk**. 168 render jobs (42 obj × 4 views). `27` and `27m` already rendered. |
+| **Temporal attn + LoRA (= rung 37)** | ⚠️ **1 render batch away** | Texel done (42 objects). Pixel: `view_*_37_*` = **0**. 168 render jobs. |
+| **Spatio-temporal attn (= rung 31)** | ⚠️ partial | Texel 24 objects; pixel `view_*_31_*` = **21 of 168**. ~147 render jobs to finish. |
+| **LLM-as-a-judge** | ❌ need | No API key on the cluster (`ANTHROPIC_API_KEY` unset; `/usr/bin/ant` is Apache Ant, not the Anthropic CLI). Frame sampling is CPU-only and can run now; judging waits on a key from console.anthropic.com. Reference protocol: LL3M (ask Sining). |
+| **More implementation detail** | ❌ need | Writing only. |
+
+## Symbol discipline (Itai's note)
+
+The temporal-attention variants must be described using the paper's own symbols:
+`z_t` conditioning tokens, `z̃_t` the blend (Eq. 1), `α_δ^i` the weights (Eq. 2),
+`W' = W + ΔW`, `ΔW = (α/r)BA` (Eq. 3), `S` structured latent, `D` decoder (Eq. 5).
+State per variant which of those is duplicated, which is LoRA-adapted, and over how
+many frames the attention runs.
+
+## Immediate-launch order (no new training, no API key)
+
+1. Window graph — no compute at all
+2. `r19` pixel renders, 168 jobs — unlocks the video-space component table
+3. `r37` pixel renders, 168 jobs — unlocks the temporal-attention table in video space
+4. `r31` pixel renders, ~147 jobs — completes the spatio-temporal variant
+5. LLM-judge contact sheets — CPU only, builds while everything else runs
+
+Deferred because they need training, not just rendering: W=13/15 (84 runs), the new
+gallery objects, and the extra textured-input examples.
+
+## Supplementary run plan: video-space renders (COMPLETE 2026-08-30)
+
+All three arms are in the queue. Submitter is
+`experiments/dynamesh/jobs/submit_arm_renders.sh` (`ARM=r19|r37|r31|r31m`, plus
+`DRY=1`, `ONLY=`, `LIMIT=`, `NICE=`), which drives the existing
+`jobs/render_arm.sbatch`. No training: every job reloads a `lora_best.pt` already on
+disk. One job per (object, view), four fixed cameras (train, diagA, diagB, diagC),
+`turns=0` so the camera never moves and every frame-to-frame change is texture.
+
+| arm | objects | jobs submitted | out tag | unlocks |
+|---|---|---|---|---|
+| `r19` cross-attn only | 42 of 42 | 168 | `view_<obj>_19_<view>` | video-space components off/on table |
+| `r37` per-position temporal LoRA | 42 of 42 | 168 | `view_<obj>_37_<view>` | temporal attn + LoRA table in video space |
+| `r31` spatio-temporal | 24 of 42 | 20 | `view_<obj>_31_<view>` | spatio-temporal row in video space |
+| `r31m` same + MCFM v2_D | 24 of 42 | 20 | `view_<obj>_31m_<view>` | its MCFM counterpart |
+
+**376 jobs, not 483.** Three corrections to the estimate in the section above, all
+found by resolving run directories from `config.json` rather than trusting the
+earlier count:
+
+1. **r31 is 40 jobs, not ~147.** Only 24 objects have a 30-epoch rung31 checkpoint.
+   The 18 batch-D/E objects (`moai_*`, `gargoyle_*`, `airplane_*`, `teddy_*`,
+   `goat_*`, `ivysaur_*`, `blub_*`, `pegasus_shine`, `pegaso_effect_1`,
+   `mosaic_painting`) were never trained at rung31, so the missing renders were
+   never 42 objects' worth. 21 of the 24 were already rendered; the remaining 5
+   objects x 4 views x 2 arms is the whole job. Rendering the other 18 would need
+   training first, which puts them in the same bucket as W=13/15.
+2. **`view_*_31_*` was 21 objects, not 21 renders.** 84 of 96 cells for `31` and 84
+   of 96 for `31m` were already on disk.
+3. **r37 could not be rendered by `render_arm.py` as it stood.** A rung37 checkpoint
+   carries `tmix.*` (the per-position temporal mixer) on top of rung31's `blocks_t.*`
+   and `gates.*`. `render_arm.py` mapped everything outside `{31, 33}` to
+   `rung27_selfattn_lora`, whose registry has no `tmix`, so all 168 jobs would have
+   died at `load_state_dict` before frame 1. Fixed by dispatching the RENDERER by
+   rung as well as the trainer: rung 37 now runs `render_rung37_orbit.py`, which
+   imports `rung37_perpos_temporal_lora` itself and needs no redirect.
+
+### Outcome: all four arms complete, verified
+
+376 of 376 jobs COMPLETED, zero failures, zero retries needed.
+
+| arm | cells | verified |
+|---|---|---|
+| `r19` | 168/168 | every cell full-length; no two views of any object share a frame |
+| `r37` | 168/168 | same check, same result |
+| `r31` | 96/96 | complete |
+| `r31m` | 96/96 | complete |
+
+The second check is the one worth keeping: for each object the four cameras' first
+frames were hashed and compared. Identical hashes across views would mean the cell
+rendered four copies of one camera, which is what an empty `YAW0` produces and which
+a frame COUNT cannot detect. Zero objects showed it on either arm.
+
+So the video-space components table now has its missing `+ cross-attention` row in
+pixels, resolved to the same checkpoint the published texel row used (checked object
+by object against `out/TEXEL/<obj>_<arm>.json`: 42/42 agree for r19 and r37, 24/24 for
+r31), and the temporal-attention table has its rung37 row.
+
+**Duplicate fleet, for the record.** `jobs/submit_ladder_renders.sh` renders the same
+cells into the same directories under `a19_`/`a31_`/`a37_` job names. It carried a
+`C=$(ls "out/${TAG}/frames"/*.png | wc -l)` under `set -eo pipefail`, which exits 2 on
+a missing directory and kills the script printing NOTHING -- the identical trap
+`render_arm.sbatch` documents in its own header. Fixed, and it now also skips any cell
+already queued under an `r19v_`/`r37v_`/`r31v_` name, because two renderers writing one
+frames directory can tear a PNG mid-save.
+
+### How it was launched
+
+r19 and r37 had never been rendered in pixel space, so one canary of each went first
+(`ancient_lady_effect_2`, train view) and the 334-job fan-out was held behind
+`jobs/release_r19_r37_when_canary_ok.sh` until both were drawing frames. That gate is
+the same discipline recorded in `render_arm.py`'s own header, where both of the bugs
+that file exists to prevent were caught by a single canary. Both canaries passed; the
+gate released. r31/r31m went straight out, because 84 cells had already been rendered
+through that exact path.
+
+Registered at submit time, not after the first silent failure: `r19v_`, `r37v_`,
+`r31v_`, `r31mv_` are all four in `watchdog.py`'s `KIND` table (all four, because
+`kind_of()` matches on `startswith` and `r31mv_` does not start with `r31v_`), every
+job is in `out/job_manifest.json` and in `JOBLOG.tsv` with its pass condition, and
+logs land in `out/RENDERS/<jobname>_<jobid>.log`. Re-running the submitter IS the
+resubmit mechanism: it skips any cell whose frame count is already complete and any
+whose job name is still queued.
+
+### Still not launched
+
+* **W=13 and W=15**: 84 training runs, and `_OFFSETS` in `mcfm_blend.py` needs `H`/`I`
+  first. The fidelity curve is already flat from W=5 to W=11 with differences that are
+  not significant, so this most likely extends a flat line; the argument for running it
+  is closing the question rather than leaving a reviewer to ask where the curve turns.
+* **Gallery objects and extra textured inputs**: need new Kling videos and fresh fits.
+* **LLM-as-a-judge**: needs an API key on the cluster. Frame sampling is CPU-only and
+  can run before the key arrives.
+* **Window graph**: needs no cluster at all. `out/window_ablation.json` already holds
+  42 objects at W=1/3/5/7/11, so it is a plotting task of about ten minutes.
+
+## Submitted 2026-08-29 — pixel-space ladder renders
+
+338 render jobs, one per (object, arm, view), job names `a<arm>_<obj>_<view>`,
+script `jobs/render_arm.sbatch`, submitter `jobs/submit_ladder_renders.sh`.
+All logged to `JOBLOG.tsv` and `out/job_manifest.json`; submission record in
+`out/logs/sub_ladder.log`. Renders land in `out/view_<obj>_<arm>_<view>/frames`.
+
+| arm | rung | what it is | submitted | coverage after |
+|---|---|---|---|---|
+| `19` | rung 19 | cross-attention LoRA only | 167 | 42/42 objects |
+| `37` | rung 37 | + learned per-position temporal LoRA | 167 | 42/42 objects |
+| `31` | rung 31 | + joint spatio-temporal attention | 4 | **24/42 objects** |
+
+**Run resolution.** Each arm's checkpoint is read from the same
+`out/TEXEL/<obj>_<arm>.json` the published texel ladder used, not from a glob over
+`runs/`. This matters: rung 19 has **29 objects with more than one 30-epoch run**
+(some `mcfm=None`, some `mcfm=v2_D`), so a glob would have silently picked a
+different checkpoint than the texel row and the two tables would not correspond.
+Verified before submitting: all 42 r19 runs are rung19 / 30 epochs / `mcfm=None`
+with a checkpoint, and all 42 r37 runs are rung37 / 30 epochs.
+
+**rung 31 is short by 18 objects and rendering cannot fix it.** These were never
+trained, so there is no checkpoint to render:
+
+> airplane_blub, airplane_red_cracks, blub_drying, blub_raurshaw,
+> gargoyle_effect_one, gargoyle_spiral, goat_burnt, goat_clay, goat_flower,
+> ivysaur_petal, ivysaur_petal_2, moai_animated, moai_silver, mosaic_painting,
+> pegaso_effect_1, pegasus_shine, teddy_bleach, teddy_fusion
+
+Options: report the spatio-temporal row on its own 24-object common set and say so,
+or train those 18 first (18 runs × ~3–6 h) to put every ladder row on the same 42.
+The first is honest and free; the second is cleaner and costs a day of GPU.
+
+**Next step once these land:** run the full-rate metrics per arm
+(`jobs/fullrate_metrics_arm.py --arm 19|31|37`) into `out/FULLRATE_A19` /
+`_A31` / `_A37`, then aggregate with `jobs/fullrate_table_scoped.py`. That produces
+the video-space component table where the all-components row matches Table 1.
+
+---
+
+# Supplementary status, 2026-08-30 10:30
+
+Supersedes the 2026-08-29 status section above. Everything here was read off disk
+and off `sacct`, not from memory.
+
+## What is finished
+
+| item | state | evidence |
+|---|---|---|
+| Video-space renders, arms r19 / r37 / r31 / r31m | **done** | 376/376 jobs COMPLETED |
+| Video-space metrics for those arms | **done** | 129/129 jobs, `out/FULLRATE_R19` / `_R37` / `_R31` / `_R31M` |
+| W=15 (`v2_I`) training | **done** | 42/42 cells with `final_eval.json` |
+| W=13 (`v2_H`) training | **41/42** | last cell `ivysaur_petal_2` resuming from ckpts |
+| pumpkin_rot renders | **restored** | 4/4 views on all four arms |
+
+Zero genuine failures across all three fleets. The only `FAILED` rows in the window
+are the 12 pumpkin_rot duplicates described below, which are superseded.
+
+## Video-space component and temporal tables (the numbers)
+
+Averaged over the four fixed cameras, all 150 frames, PSNR/SSIM at the training view
+against the 2D copy. Same driver, masks, panel crops and reference as the window arms,
+so these rows and the window rows belong in one table.
+
+| row | n | flicker | accel | drift | PSNR | SSIM |
+|---|---|---|---|---|---|---|
+| frozen | 41 | 0.01807 | 0.02708 | 0.3356 | 12.00 | 0.296 |
+| + cross-attention (r19) | 41 | 0.00767 | 0.01084 | 0.2175 | 23.66 | 0.752 |
+| + self-attention (r27 = W3) | 42 | 0.00613 | 0.00678 | 0.2162 | 24.90 | 0.798 |
+| + temporal (MCFM W=11) | 42 | 0.00545 | 0.00570 | 0.2172 | **24.89** | **0.798** |
+| temporal attn + LoRA (r37) | 41 | 0.00727 | 0.01000 | 0.2112 | 24.81 | 0.798 |
+| spatio-temporal attn (r31) | 23 | 0.00887 | 0.01232 | 0.2371 | 24.21 | 0.809 |
+| r31 + MCFM | 24 | 0.00732 | 0.00794 | 0.2421 | 24.49 | 0.812 |
+
+**The all-components row matches the paper**, which was Itai's stated requirement for
+this table: 24.89 / 0.798 in video space against the published Table 1 reference of
+24.90 / 0.798. Agreement to two decimals also confirms the 2D-copy reference was used
+rather than the raw-frame one, which reads about 6 dB low.
+
+**The ladder reproduces the texel ordering in pixels.** Flicker falls monotonically at
+every step, 0.01807 to 0.00545, a 70% total reduction, with fidelity saturating after
+cross-attention.
+
+**Parameter-free MCFM beats both learned temporal variants in video space**, at equal
+or better fidelity: flicker 0.00545 for W=11 against 0.00727 for temporal attention
+plus LoRA and 0.00887 for spatio-temporal attention. This is the same conclusion the
+texel measurements reached, now on the support where baselines can also be scored.
+
+**Caveat that must appear in the caption:** the r31 rows average over 23 to 24 objects,
+not 42, because the batch D/E objects were never trained at rung31. That row is not
+comparable to the 42-object rows unless the object set is stated.
+
+## W=13 / W=15: what it took
+
+`_OFFSETS` in `mcfm_blend.py` stopped at `G` (W=11), so these windows were not merely
+unrun, they were unrunnable: `parse_mode` would have raised `KeyError` on `H`. Added
+as symmetric tuples, `H` spanning -6..+6 and `I` spanning -7..+7, plus `MODES` and the
+`temporal_only_w13` / `_w15` aliases. Trainers read their `--mcfm` choices from that
+module rather than a copy, so the change propagates without touching them.
+
+Verified on CPU before a single job was submitted: both widths parse with the centre
+at index 0, and `blend_conds` preserves shape and finiteness on a 150-frame sequence,
+a 121-frame one, and an 8-frame one, the last being the real edge case where the
+window is wider than the sequence and every neighbour clamps.
+
+Two canaries then ran first and the other 82 were held behind a gate keyed on the
+trainer's own `[MCFM] GATE-blend max|blended-vanilla| ... (must be > 0)` line plus
+`[GATE-grad] PASSED`. Those land within minutes rather than after 3 to 6 hours, and
+they catch the failure that actually matters here: an offsets tuple that parses but
+does not widen would have trained 84 jobs that were all secretly W=11. The gate
+confirmed the real widths from the logs.
+
+Training took about 8 hours for all 84, not the 10 to 14 estimated. The estimate
+assumed a timed-out cell needed a fresh 4 hour allocation; in practice a resume from
+`ckpts` finished the remaining epochs in 15 to 20 minutes. 31 of 84 cells timed out at
+the 4 hour wall at least once, which is the documented normal path, not a failure.
+
+Early signal, to be held lightly until all 84 are aggregated: on spot_lava, W=13 gives
+24.330 dB and W=15 gives 24.343 dB, within 0.013 dB of each other, which is what the
+already-flat W=5 to W=11 curve predicted.
+
+## The pumpkin_rot incident, and the bug behind it
+
+`jobs/submit_ladder_renders.sh` read the frame count with
+`awk -F"\t" -v o="$OBJ" '$1==o{print $3}'`. Column 1 of `jobs/rung37_objects.tsv` is
+the BATCH LETTER and column 2 is the object, so `$1==o` never matched and NFR fell
+back to 150 for every object. Harmless for the 41 objects that really are 150 frames,
+fatal for pumpkin_rot at 121: the renderer walked off the end of `frames_from_video`
+at `frame_0122`, died, and took the completed frames with it, destroying 12 already
+finished cells at arms 19, 37 and 31. Fixed to `$2==o`, the cells were re-queued with
+`NFR=121`, and all four views are back on all four arms.
+
+The same script also carried `C=$(ls "out/${TAG}/frames"/*.png | wc -l)` under
+`set -eo pipefail`. A missing directory makes `ls` exit 2, pipefail propagates it, and
+`set -e` kills the script **printing nothing**. This is the identical trap
+`render_arm.sbatch` documents in its own header. Fixed, and the script now also skips
+any cell already queued under an `r19v_` / `r37v_` / `r31v_` name, because two
+renderers writing one frames directory can tear a PNG mid-save.
+
+## Still outstanding
+
+| item | blocker |
+|---|---|
+| **Texel metrics for W=13/15** | **84 GPU jobs, not yet submitted.** Training writes PSNR/SSIM only; flicker, accel and drift come from a separate ODE decode over the PBR voxel field. `out/TEXEL/*_w13.json` and `*_w15.json` are empty, so the window graph cannot gain its last two points until this runs. |
+| Full-rate reference for W=13/15 | CPU-only, `fw13_` / `fw15_`, so the new points share the 2D-copy reference with W=3/5/7/11 |
+| Window graph regeneration | needs the two rows above; then it is a ten-minute plot |
+| Video-space table builder | `jobs/build_window_table.py` is the pattern; swap its `WINDOWS` list for the `FULLRATE_R*` dirs |
+| Gallery, 4+ new meshes | new Kling videos plus 30-epoch fits; nothing reusable on disk |
+| Existing textures, 1 to 2 more | same blocker as the gallery |
+| LLM as a judge | no `ANTHROPIC_API_KEY` on the cluster; contact-sheet sampling is CPU-only and could build now |
+| Variant text and paper symbols | writing only, nothing blocking |
+| More implementation detail | writing only |
+
+## Scripts added this session
+
+| file | what it does |
+|---|---|
+| `jobs/submit_arm_renders.sh` | video-space renders for r19/r37/r31/r31m, one job per (object, view) |
+| `jobs/submit_ladder_fullrate.sh` | video-space metrics for those arms, CPU-only |
+| `jobs/submit_window_hi.sh` | W=13/15 training across all 42 objects |
+| `jobs/release_r19_r37_when_canary_ok.sh` | canary gate for the render fan-out |
+| `jobs/release_window_hi_when_canary_ok.sh` | canary gate for the W=13/15 fan-out |
+| `jobs/watch_arm_renders.py` | render-fleet failure monitor with idempotent self-heal |
+| `jobs/watch_window_hi.py` | training-fleet monitor; TIMEOUT counted, never announced |
+
+`render_arm.py` also gained renderer dispatch by rung: a rung37 checkpoint carries
+`tmix.*` on top of rung31's `blocks_t.*` and `gates.*`, and everything outside
+`{31, 33}` was mapped to `rung27_selfattn_lora`, whose registry has no `tmix`. All 168
+r37 jobs would have died at `load_state_dict` before frame 1. rung 37 now dispatches
+to `render_rung37_orbit.py`, which imports `rung37_perpos_temporal_lora` itself.
+
+All new job-name prefixes are registered in `watchdog.py`'s `KIND` table at submit
+time: `r19v_`, `r37v_`, `r31v_`, `r31mv_`, `fr19_`, `fr37_`, `fr31_`, `fr31m_`. Each
+is spelled out rather than shortened, because `kind_of()` matches on `startswith` and
+`fr31m_` does not start with `fr31_`, the same way `rarm4c_` slipped past `rarm_`.
+
+## Temporal-attention ablation: which rung is which, and the 11-frame gap
+
+Itai's two variants map to two rungs. Both descriptions below are what the code
+actually does, read from `config.json`, not from the run-directory name.
+
+| Itai's wording | rung | what it does | window on disk | trained |
+|---|---|---|---|---|
+| "temporal attention with LoRA, weights duplicated from the TRELLIS cross-attention weights" | **37** | a second cross-attention branch initialised as a copy of the frozen TRELLIS cross-attention, LoRA-adapted, attending token j to token j across the window (`temporal_geometry: per_position`) | **W=3** | 42/42 |
+| "spatio-temporal attention, TRELLIS cross-attention weights with LoRA applied to the tokens of 11 frames" | **31** | one dual-branch registry pooling all W x N tokens into a single softmax over time and space, LoRA on the cross-attention weights | **W=3** | 24/42 |
+
+`rung33` is rung31 plus KL, also W=3, 24/42. `rung31+MCFM` is rung31 with the
+parameter-free `v2_D` blend on top, also W=3, 24/42.
+
+### The discrepancy
+
+Itai specifies **11 frames** for the spatio-temporal variant. **Every temporal-attention
+run on disk is a 3-frame window** -- rung31, rung31+MCFM, rung33 and rung37 alike.
+Nothing at `temporal_window >= 5` exists anywhere in `runs/`. The 11 in the paper
+belongs to **MCFM's** window (`v2_G`), which is the parameter-free operator, not the
+learned attention. So the published W=11 number and the learned spatio-temporal
+variant were never the same window, and the text must not imply they were.
+
+### W=11 was unrunnable, not merely unrun
+
+`rung31_dual_attn_lora.py:367` declared `--temporal-window ... choices=[0, 3, 5]`, so
+`--temporal-window 11` exited at argument parsing. Same shape of problem as MCFM's
+`_OFFSETS` stopping at `G`. The stacking underneath was always width-generic
+(`_half = W // 2`, offsets `-half..+half`, end-clamping identical to
+`mcfm_blend.blend_conds`), so the fix was the choices list plus making
+`jobs/fig31.sbatch` take `${TW:-3}`, which leaves every existing W=3 path untouched.
+
+Verified on CPU before any job was submitted:
+
+```
+W= 3: offsets [-1,0,1]     tokens 1029 ->  3087  centre=frame f OK  ends clamp OK
+W=11: offsets [-5,...,+5]  tokens 1029 -> 11319  centre=frame f OK  ends clamp OK
+```
+
+The centre-slice check is the one that matters: the trainer's own `GATE-window`
+asserts the middle slice is frame f byte-for-byte, and a wrong offset list would break
+the spatial branch silently rather than loudly.
+
+### Status: submitted 2026-08-30 10:45, canary-gated on MEMORY
+
+`jobs/submit_rung31_w11.sh`, 42 cells, job names `31_w11_<obj>` (which start with
+`31_`, so `watchdog.py` already watches them and resubmits through `fig31.sbatch`
+with `TW=11` preserved in the manifest export). Run dirs land as
+`rung31_l1_lp_tw11b_*`, distinct from `tw3b`, so nothing can resume across windows.
+
+Canary `31_w11_spot_lava` first, the other 41 held behind
+`jobs/release_r31w11_when_canary_ok.sh`.
+
+**This gate checks VRAM, which the W=13/15 gate did not need to.** MCFM's blend is
+precomputed once over the cached conditioning, so a wider window costs setup and
+nothing per step. rung31 is the opposite: the context tensor itself grows 3.67x, and
+W=3 already peaks at **24 GiB of a 48 GiB card**. The gate refuses to release unless
+it sees the `[R31] window=11 ... tokens 1029 -> 11319` line, a passing GATE-window,
+and a measured peak under 42 GiB across at least 20 readings. A blind fan-out could
+have been 42 simultaneous CUDA OOMs.
+
+If the gate fails on memory, the fallback is W=7 or W=9; the trainer now accepts
+`[0, 3, 5, 7, 9, 11]`.
+
+### Open decision, for Itai
+
+Two readings of the 11, and they cost very differently:
+
+1. He means the learned spatio-temporal variant really should be 11 frames. That is
+   the 42 runs now submitted, plus the question of whether rung37 should match.
+2. He is recalling MCFM's W=11 and the learned variants were always meant to be W=3.
+   Then the fix is one sentence stating W=3 explicitly, and the 42 runs are a bonus
+   data point rather than a requirement.
+
+**Also still open:** the 18 batch-D/E objects have no rung31 run at ANY window, so the
+W=3 spatio-temporal row averages over 24 objects while every other row averages over
+42. Either say so in the caption, or train those 18.
+
+---
+
+# Meshes suggested by Itai (2026-08-30)
+
+Itai wants **a car result in the submission**: "Try also rust on a car. Or other cool
+effect on a car." He pointed at `nascar.obj` in
+<https://github.com/eladrich/latent-nerf/tree/main/shapes>, and separately at Dale's
+robot: "Rust on this robot would be cool (look for it under Dale's folder)."
+
+## Both meshes are already on the cluster
+
+The whole `eladrich/latent-nerf/shapes` folder is mirrored locally, so nothing needs
+downloading. `nascar.obj` there is **byte-identical** to the GitHub file (md5 `28f1c7c1`).
+
+| mesh | local path | verts | tris | boundary edges | watertight |
+|---|---|---|---|---|---|
+| **nascar** | `ddecatur/latent-nerf/shapes/nascar.obj` | 3,750 | 7,500 | **0** | **YES** |
+| **robot** | `ddecatur/3DHighlighter/data/shapes/robot.obj` | 3,136 | 6,132 | **0** | **YES** |
+
+The same `shapes/` folder also carries blub, bob, bunny, camel, cabin, desk_chair, dog,
+giraffe, hand, lego_minifig, penguin, person, potion and spot, several of which are
+already in our 42. Copies of the robot exist in four places under `ddecatur/`; three are
+byte-identical (md5 `ea5f96bd`) and all four are watertight.
+
+Local copy for convenience: `supplementary_meshes/OBJ/robot_dale.obj`.
+
+## Why the car we already had could not be used
+
+`supplementary_meshes/OBJ/car.obj` is the **same file** as
+`itailang/mesh_feature_fields/meshes/car.obj` — identical counts — and it carries **409
+open boundary edges**. Those are the white slivers on the hood, roof and flank in
+`front/car.png`. Kling paints through holes, so it would have produced pattern showing
+through the body. Every other vehicle mesh in the lab is worse:
+
+| mesh | tris | boundary edges |
+|---|---|---|
+| `ddecatur/latent-nerf/shapes/nascar.obj` | 7,500 | **0** |
+| `itailang/mesh_feature_fields/meshes/car.obj` (= ours) | 31,812 | 409 |
+| `itailang/.../truck.obj` | 32,725 | 412 |
+| `itailang/geocap/meshes/cars/car.obj` | 1,500 | 796 |
+| `ddecatur/analysis-via-synthesis/.../car_2.obj` | 98,752 | 72,432 |
+
+Searched: the ranalab filesystem (itailang, ddecatur, danielfu, guanc, sininglu, brian)
+and the full 800K-object Objaverse index via its metadata cache at
+`/net/projects2/ranalab/objaverse`. The nascar is the only clean vehicle.
+
+## Rendered inputs and prompts, ready to shoot
+
+| object | input image | camera | prompt |
+|---|---|---|---|
+| nascar | `out/MESH_CANDIDATES/nascar.png` | yaw 60, pitch 36, 84% exposed | see note below |
+| robot | `out/MESH_CANDIDATES/robot_dale.png` | yaw 330, pitch 8, 70% exposed | `supplementary_meshes/KLING_PROMPTS_ROBOT.md` |
+| car (holey, superseded) | `supplementary_meshes/front/car.png` | up −Z, yaw 70, pitch 30 | `supplementary_meshes/KLING_PROMPTS_CAR.md` |
+
+The car prompt was written against the holey mesh and needs re-pointing at nascar before
+use; its ordering block (seams, sill, arch lips, stone chips) still applies, but nascar
+is a smoother body with fewer panel joins.
+
+## Which effect for the car
+
+Rust is the obvious answer and it is a good one, but note the tradeoff. Rust needs
+**nucleation sites** to look like a process rather than an optimisation, and nascar's
+smooth low-poly body offers fewer than a panelled car would: the wheel arches and the
+lower sill are the strongest it has. The robot, by contrast, offers feet and ankles,
+every joint, panel edges and fastener recesses, which is why the rust prompt written for
+it can state a much stronger causal order — corrosion climbing **up** from the feet and
+**out** from the joints, head and upper chest last.
+
+So the plan is: **rust on the robot** as the strong result, and for the car either rust
+concentrated on arches and sill, or an effect that does not depend on seams. Candidates
+for the latter, none of them used yet in any round:
+
+* **anodised heat tint** — straw to bronze to purple to blue sweeping across the panels
+  as a temperature front. Directional, irreversible, and the colour order is the clock.
+* **dust and desert patina** settling on upward-facing surfaces first, which makes
+  gravity the ordering principle instead of seams.
+
+Both fit a smooth body better than rust does.
+
+## Status
+
+Meshes located, audited for watertightness, rendered at solved best views, prompts
+written. **Blocked on Kling videos** — one per object, then a 30-epoch fit each.

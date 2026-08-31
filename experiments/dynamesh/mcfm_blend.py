@@ -40,11 +40,11 @@ from typing import Dict, Optional
 
 import torch
 
-MODES = ('v2_C', 'v2_D', 'v2_E', 'v2_F', 'v2_G',
+MODES = ('v2_C', 'v2_D', 'v2_E', 'v2_F', 'v2_G', 'v2_H', 'v2_I',
          'v3_C', 'v3_D', 'v3_E',
          'ts_C', 'ts_D', 'ts_E',      # temporal -> explicit spatial
          'st_C', 'st_D', 'st_E')      # explicit spatial -> temporal
-# C/D/E/F/G are WINDOW WIDTHS, 2 / 3 / 5 / 7 / 11 frames. E was added for the window ablation
+# C..I are WINDOW WIDTHS, 2 / 3 / 5 / 7 / 11 / 13 / 15 frames. E was added for the window ablation
 # (W = 1, 3, 5): W=1 is no blend at all, i.e. mcfm=None, so it needs no offsets
 # entry. blend_window() reads W from the stacked tensor and never assumes 2 or 3,
 # and blend_conds() clamps out-of-range neighbours to the nearest existing frame,
@@ -54,7 +54,15 @@ _OFFSETS = {'C': (0, 1), 'D': (-1, 0, 1), 'E': (-2, -1, 0, 1, 2),
             # so the middle entry is always frame t and blend_conds' clamping at the
             # sequence ends behaves identically -- only the width changes.
             'F': (-3, -2, -1, 0, 1, 2, 3),
-            'G': (-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5)}
+            'G': (-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5),
+            # H/I added for the W = 13 / 15 extension of the same ablation. Symmetric
+            # like D..G, so offsets.index(0) is still the middle and blend_conds'
+            # end-clamping is unchanged. At W=15 a 150-frame sequence still has 143
+            # interior frames whose window needs no clamping at all, so the curve is
+            # not dominated by edge effects; the 121-frame object (pumpkin_rot) has
+            # 114. Only the width changes.
+            'H': (-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6),
+            'I': (-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7)}
 # WIDTH IS READ FROM THE TENSOR, NOT FROM THIS TABLE. blend_window stacks the list it
 # is given and never assumes 2/3/5, and blend_conds clamps out-of-range neighbours to
 # the nearest existing frame, so a 7- or 11-frame window at frame 1 resolves exactly
@@ -87,6 +95,8 @@ ALIASES = {
     'temporal_only_w5':         'v2_E',
     'temporal_only_w7':         'v2_F',
     'temporal_only_w11':        'v2_G',
+    'temporal_only_w13':        'v2_H',
+    'temporal_only_w15':        'v2_I',
     'joint_spatiotemporal_w2':  'v3_C',
     'joint_spatiotemporal_w3':  'v3_D',
     'joint_spatiotemporal_w5':  'v3_E',

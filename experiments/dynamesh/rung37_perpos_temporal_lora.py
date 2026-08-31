@@ -259,7 +259,11 @@ ap.add_argument('--spconv-algo', default='implicit_gemm_splitk',
                      "with 'flip_cuda not implemented for UInt32'; masked_*_splitk raises a "
                      "Triton CompilationError; implicit_gemm_splitk WORKS (17.07 GiB, "
                      "sub-second per step once Triton has compiled).")
-ap.add_argument('--temporal-window', type=int, default=0, choices=[0, 3, 5],
+# 7/9/11 added for the 11-frame arm. The per-position mixer is width-generic
+# (fold to (W,N,D), softmax over the W axis) and the cross-attn context stays
+# 1029 tokens after the collapse, so W=11 is STRICTLY CHEAPER than rung31's
+# tw11, which attends over all 11,319. Only the stacked cond tensor grows.
+ap.add_argument('--temporal-window', type=int, default=0, choices=[0, 3, 5, 7, 9, 11],
                 help='0 = OFF, byte-identical to rung27. 3 = frames [f-1,f,f+1], '
                      '5 = [f-2..f+2]. When >0 the cross-attention context is the '
                      'stacked window and each block runs a SECOND cross-attention '

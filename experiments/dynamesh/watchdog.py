@@ -81,6 +81,10 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # from this table is not watched -- the same blind spot that hid pan_/m3_.
         '19_': ('jobs/fig19.sbatch', 'FIG'),
         'rarm_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # batch F/G pixel renders. kind_of() matches on startswith and these are
+        # named 'rfg_<obj>_<arm>_<view>', which shares no prefix with 'rarm_' --
+        # registered at submit time so they are never an unwatched fleet.
+        'rfg_': ('jobs/render_arm.sbatch', 'RENDER'),
         # The batch-C render fleet. kind_of() matches on startswith and
         # 'rarm4c_' does NOT start with 'rarm_', so all 392 of these ran
         # unwatched -- the same blind spot that hid pan_ and m3_.
@@ -111,6 +115,10 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # and a prefix missing from this table is not watched -- the same blind spot
         # that hid pan_ and m3_.
         'dv_': ('jobs/daily_video_one.sbatch', 'dv'),
+        # batch F/G dailies: arm-generic composite (view_<obj>_<arm>_<view> tags),
+        # submitted as 'dva_<obj>'. Logs land as out/dva_dva_<obj>_<jid>.log because
+        # the sbatch --output pattern is dva_%x_%j and %x is already 'dva_<obj>'.
+        'dva_': ('jobs/daily_video_arms.sbatch', 'dva'),
         # Target building. build_targets_one.sbatch is named 'mkt_one' and
         # build_targets_obj.sbatch 'mkt_obj', and BOTH start with 'mkt_' -- neither
         # was in this table, so every target build has run unwatched, the same
@@ -128,6 +136,12 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # ran at a 4h wall and 21 of 42 hit TIMEOUT unnoticed, because 'r37_' was
         # missing here and a prefix missing from this table is not watched.
         'r37_': ('jobs/rung37_perpos.sbatch', 'r37'),
+        # rung37 at a WIDER window, submitted as '37_w<W>_<obj>' by
+        # jobs/submit_rung37_w11.sh against jobs/fig37.sbatch, logging to
+        # out/FIGRUNS/%x_%j.log like the rung31 w11 arm. range(27,35) above
+        # stops at 34, so '37_' is NOT covered by it and must be listed here or
+        # a TIMEOUT passes unnoticed -- the exact failure 'r37_' already cost.
+        '37_': ('jobs/fig37.sbatch', 'FIG'),
         # W=11 pixel renders for the headline-window switch, submitted as
         # 'w11_<obj>_<view>' by jobs/submit_w11_renders.sh; log prefix RENDER.
         'w11_': ('jobs/render_arm.sbatch', 'RENDER'),
@@ -137,6 +151,17 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # from the first job rather than after a silent TIMEOUT sweep.
         'w5_': ('jobs/render_arm.sbatch', 'RENDER'),
         'w7_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # VIDEO-SPACE renders of the r19 / r37 / r31 arms, submitted as
+        # '<arm>v_<obj>_<view>' by jobs/submit_arm_renders.sh; same sbatch and log
+        # prefix as w11_. Registered HERE AT SUBMIT TIME, before the fleet lands,
+        # rather than after a silent TIMEOUT sweep -- that is what r37_ cost.
+        # All four are listed: kind_of() matches on startswith, and 'r31mv_' does
+        # NOT start with 'r31v_', so one entry would leave the mcfm arm unwatched
+        # the same way 'rarm4c_' slipped past 'rarm_'.
+        'r19v_':  ('jobs/render_arm.sbatch', 'RENDER'),
+        'r37v_':  ('jobs/render_arm.sbatch', 'RENDER'),
+        'r31v_':  ('jobs/render_arm.sbatch', 'RENDER'),
+        'r31mv_': ('jobs/render_arm.sbatch', 'RENDER'),
         # W=11 full-rate pixel metrics, jobs/fullrate_obj_w11.sbatch, log prefix fr.
         'frw_': ('jobs/fullrate_obj_w11.sbatch', 'fr'),
         # Window-arm full-rate pixel metrics (W=5 / W=7 / W=11 on the 2D-copy
@@ -146,6 +171,35 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         'fw5_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
         'fw7_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
         'fw11_': ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        # Video-space metrics for the ABLATION-LADDER arms, submitted as
+        # 'fr19_<obj>' / 'fr37_<obj>' / 'fr31_<obj>' / 'fr31m_<obj>' by
+        # jobs/submit_ladder_fullrate.sh. Same sbatch and 'fr' log prefix as the fw*
+        # window arms. Registered at SUBMIT time, which is the whole lesson of the
+        # r37_ entry above. All four spelled out: kind_of() matches on startswith and
+        # 'fr31m_' does NOT start with 'fr31_', the same way 'rarm4c_' slipped past
+        # 'rarm_'. None of them collides with the existing 'frw_'.
+        # Batch F renders (doorknob_spinodal, doorknob_bz, bunny_shine) at the four
+        # fixed cameras, submitted as 'bf_<obj>_<view>'. Registered at submit time.
+        # 'bfr_' is the CORRECTED batch F resubmit. The first 'bf_' round carried a RUN
+        # path missing its 'runs/' component, so all 12 died on render_arm.sbatch's
+        # preflight and the watchdog faithfully retried each 3 times -- 48 failures from
+        # one wrong string. The manifest export is what a retry replays, so a bad export
+        # is retried verbatim; the preflight is what stopped it rendering a wrong arm.
+        'bfr_':   ('jobs/render_arm.sbatch', 'RENDER'),
+        'bf_':    ('jobs/render_arm.sbatch', 'RENDER'),
+        'fr19_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        'fr37_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        'fr31_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        'fr31m_': ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        # 'fr27_' is the +self-attention / temporal-OFF row of the video-space
+        # ladder: arm 27, the non-MCFM rung27 run. It is the only ladder row that
+        # had no FULLRATE dir. Spelled out for the same startswith reason as above;
+        # 'fr27_' does not collide with 'fr31_', 'fr37_' or 'frw_'.
+        'fr27_':  ('jobs/fullrate_obj_arm.sbatch', 'fr'),
+        # 'r27v_' re-renders the arm-27 (MCFM off) panels. The Aug-22 frames for
+        # spot_lava disagreed with their own 30-epoch checkpoint by 4.6 dB and no
+        # log accounts for them. Registered at submit time like the rest.
+        'r27v_': ('jobs/render_arm.sbatch', 'RENDER'),
         # BATCH D, the 7-arm supplementary ladder. Registered at SUBMIT time, not
         # after the first failure, so it is never one of the unwatched prefixes
         # that hid pan_, m3_, mkt_ and pv_. batch_d_arm.sbatch reads OBJ / NFR /
@@ -191,7 +245,7 @@ def load():
             return json.loads(STATE.read_text())
         except Exception:
             pass
-    return {'tries': {}, 'seen': [], 'attention': []}
+    return {'tries': {}, 'seen': [], 'attention': [], 'epochs': {}}
 
 
 def kind_of(name):
@@ -199,6 +253,28 @@ def kind_of(name):
         if name.startswith(p):
             return p
     return None
+
+
+def last_epoch(logp):
+    """Highest epoch this attempt reached, from the trainer's own '[EPOCH n/N]' line.
+
+    A 30-epoch run at a 4h wall does NOT fit in one slice -- rung37 at W=11 was at
+    epoch 12 after 2h11 -- so a TIMEOUT is the normal way these jobs end, not a
+    failure. The trainer resumes from ckpts/lora_e*.pt, so each slice adds epochs.
+    Counting those against --max-retries retires a healthy run after 3 slices and
+    leaves it at epoch ~20 forever, which is exactly the silent stall this function
+    exists to prevent. Returns None for jobs that print no epoch line (renders,
+    target builds), and those keep the old counting unchanged.
+    """
+    if not logp.exists():
+        return None
+    try:
+        eps = re.findall(r'\[EPOCH (\d+)/(\d+)\]', logp.read_text(errors='replace'))
+    except Exception:
+        return None
+    if not eps:
+        return None
+    return max(int(a) for a, _ in eps), int(eps[-1][1])
 
 
 def parse_log(logp):
@@ -322,11 +398,25 @@ def cycle(st):
             continue
         ent = manifest_entry(jid)
         if ent:
+            # PROGRESS IS NOT A RETRY. See last_epoch(): a resuming trainer ends every
+            # slice but the last in TIMEOUT, and each slice adds epochs. Charge the
+            # budget only when the attempt gained nothing.
+            prog = last_epoch(logp) if state == 'TIMEOUT' else None
+            free = False
+            if prog:
+                ep, tot = prog
+                seen_ep = st.setdefault('epochs', {}).get(ent['name'], 0)
+                if ep > seen_ep:
+                    st['epochs'][ent['name']] = ep
+                    free = True
+                    note(f'{jid} {name} TIMEOUT at epoch {ep}/{tot} (was {seen_ep}) '
+                         f'— progress made, not charged against --max-retries')
             n = st['tries'].get(ent['name'], 0)
-            if n >= A.max_retries:
+            if not free and n >= A.max_retries:
                 note(f'{jid} {name} {state} — {n} retries already, giving up')
                 st['attention'].append(f'{ent["name"]} exhausted'); continue
-            st['tries'][ent['name']] = n + 1
+            if not free:
+                st['tries'][ent['name']] = n + 1
             if A.dry_run:
                 note(f'[dry-run] would resubmit {ent["name"]} from manifest'); continue
             out = sh(f'cd {E} && sbatch --parsable --job-name={ent["name"]} '

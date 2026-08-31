@@ -86,11 +86,26 @@ DUAL_RUNGS = {31, 33}                     # 510 tensors, carry `gates`
 IS_DUAL = rung in DUAL_RUNGS
 TRAINER = 'rung31_dual_attn_lora' if IS_DUAL else 'rung27_selfattn_lora'
 
+# WHICH RENDERER. rung37 is a THIRD checkpoint shape, not a variant of the other two:
+# on top of rung31's blocks_t.* and gates.* it carries tmix.* (the per-position
+# temporal mixer, which IS rung37). rung31_dual_attn_lora's registry has no tmix, so
+# the redirect above cannot rescue it either -- load_state_dict raises "Unexpected
+# key(s)" before a frame is drawn. render_rung37_orbit.py imports
+# rung37_perpos_temporal_lora itself and passes dual=bool(config.temporal_window), so
+# it needs NO redirect and NO registry subclass from here: it is dispatched whole.
+RENDERER = 'render_rung37_orbit.py' if rung == 37 else 'render_rung27_orbit.py'
+
 print(f'[ARM] run={RUN.name}', flush=True)
 print(f'[ARM] rung={rung}  mcfm={CFG.get("mcfm")}  '
       f'context_window={CFG.get("context_window")}  '
       f'temporal_window={CFG.get("temporal_window")}  dual={IS_DUAL}', flush=True)
-print(f'[ARM] registry from {TRAINER}', flush=True)
+# For rung37 the registry does NOT come from TRAINER: render_rung37_orbit.py imports
+# rung37_perpos_temporal_lora itself, so printing TRAINER here would name a module
+# this run never touches and send the next reader of the log down the wrong file.
+print(f'[ARM] registry from '
+      f'{"rung37_perpos_temporal_lora (built by the renderer)" if rung == 37 else TRAINER}',
+      flush=True)
+print(f'[ARM] renderer {RENDERER}', flush=True)
 
 
 class _RedirectLoader(importlib.abc.Loader):
@@ -151,7 +166,7 @@ if IS_DUAL:
 # The renderer parses THIS argv at its own module scope, then builds its own fake
 # argv for the trainer import. Do not import the trainer here.
 sys.argv = [
-    'render_rung27_orbit.py',
+    RENDERER,
     '--run', str(RUN),
     '--ckpt', A.ckpt,
     '--sweep', 'both',
@@ -164,4 +179,4 @@ sys.argv = [
     '--tag', A.tag,
 ] + rest
 
-runpy.run_path(str(_HERE / 'render_rung27_orbit.py'), run_name='__main__')
+runpy.run_path(str(_HERE / RENDERER), run_name='__main__')

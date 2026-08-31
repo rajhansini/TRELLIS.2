@@ -184,6 +184,109 @@ Training is **54/54 complete** across r19, r27 and r27+MCFM for all 18 objects, 
 **no texel measurements exist**, so neither paper table can include D or E yet. Renders
 for the dailies are submitted (`dl_*`); the texel pass is separate and not submitted.
 
+### Batch F — three new objects (2026-08-30)
+
+Three new Kling clips, added to widen the effect roster: the draft carries nine distinct
+effects (lava x2, clay patterns, bioluminescence, crackle glaze, golden crackle, fungi,
+sprinkling water, caustics, gold leaf), which is three crack-family and two glow-family
+out of nine.
+
+| object | mesh | effect | frames | GATE-align uncovered | align IoU |
+|---|---|---|---|---|---|
+| `doorknob_spinodal` | doorknob | two-phase labyrinth, coarsening in place | 150 | 0.26% | 89.8% |
+| `doorknob_bz` | doorknob | expanding ring waves from fixed centres | 150 | 0.25% | 89.9% |
+| `bunny_shine` | bunny | thin-film iridescence sweeping the body | 150 | 0.77% | 93.5% |
+
+**Targets** built by `build_targets_hero.py --res 960`, jobs 2235672-4, all COMPLETED.
+`white_px_inside` is 0 on all three and at least 97.3% of every target is copied straight
+from the video rather than filled. Poses were solved on CPU through `cpu_align_check.py`'s
+camera rather than on the queue: the doorknob follows analytically from yaw 30 / pitch 8,
+but **the bunny needed a solved +32 deg yaw and +7 deg roll**, so the still that went to
+Kling was not the `best_views` render for that mesh. Note also that
+`out/MESH_CANDIDATES/best_views.json` was overwritten on 2026-08-30 by a later single-object
+run, so the 34-object table it held is gone; the values used here are recorded above.
+
+**Training: all seven supplementary arms submitted 2026-08-30**, one job per (object, arm),
+21 jobs. The arm list is the union of what `jobs/build_supp_tables.py` and
+`jobs/build_config_ablation.py` read, not a choice made here.
+
+| tag | run | sbatch | jobs |
+|---|---|---|---|
+| `r19` | `--targets qkvo`, no blend | `jobs/fig19.sbatch` | 2235760, 2235766, 2235772 |
+| `r19mcfm` | `--targets qkvo` + `--mcfm v2_D` | `jobs/rung26_mcfm_ca.sbatch` | 2235761, 2235767, 2235773 |
+| `r27` | `--targets qkvo+sa`, no blend | `jobs/rung27_hero.sbatch` | 2235762, 2235768, 2235774 |
+| `r27mcfm` | `qkvo+sa` + `--mcfm v2_D` | `jobs/rung27_mcfm_hero.sbatch` | 2235726-8 |
+| `w5` | `qkvo+sa` + `--mcfm v2_E` | `jobs/rung27_mcfm_mode.sbatch` | 2235763, 2235769, 2235775 |
+| `stD` | `qkvo+sa` + `--mcfm st_D` | same | 2235764, 2235770, 2235776 |
+| `v3D` | `qkvo+sa` + `--mcfm v3_D` | same | 2235765, 2235771, 2235777 |
+
+`r19` supplies the frozen row of both ladders through its `frozen_*` fields, and `r19mcfm`
+supplies the reversed ladder's frozen-under-blend row the same way, so neither needs a
+separate frozen run.
+
+**Still outstanding.** One texel pass per (object, arm), 21 in total, through
+`jobs/texel_any.sbatch`; they can only run after each training run exists, since they take
+`RUN=runs/<run>`. And a row per object in `out/texel_r19_params.tsv`, which both generators
+read as their object roster: without it these three do not appear in any table however many
+runs finish. That tsv names each object's r19 run, so it cannot be written until the r19 jobs
+land. This is exactly where batches D and E stalled.
+
+**Naming caveat.** The two doorknob clips appear to carry each other's effect: the file named
+`spinodal` shows the ring waves and the file named `bz` shows the labyrinth. Rename before
+either goes into a figure or a table.
+
+QC artifact (frames, fill maps, gate numbers):
+https://claude.ai/code/artifact/2a8328b6-cf47-4cd6-b514-abffff2862ae
+
+### Batch G — seven new clips (2026-08-31), two usable
+
+Uploaded 2026-08-31, all 150 frames at 960^2 / 30 fps. Every clip is STABLE: silhouette
+IoU against its own frame 1 stays 0.976-0.996 across the clip (`unicorn_effect1` is the
+loosest at 0.939), area within 1.3%. The videos are fine; the problem is alignment.
+
+Orientation solved by `jobs/batch_g_orient.sbatch` (job 2236923, `solve_orientation.py`,
+24 cube rotations then coordinate descent). GATE-solve control `spot_lava` returned
+0.9913 -> 0.9913, so the search is sound and the failures below are real.
+
+| clip | mesh | solved IoU | + best scale fit | uncovered | status |
+|---|---|---|---|---|---|
+| `unicorn_rainbow` | unicorn | **0.948** | 0.975 | 1.0% | SUBMITTED, no correction needed |
+| `unicorn_effect1` | unicorn | **0.947** | 0.976 | 1.0% | SUBMITTED, no correction needed |
+| `car_effect1` | nascar | 0.773 | 0.897 | 5.2% | BLOCKED on a decision, see below |
+| `car_effect2` | nascar | 0.773 | 0.896 | 5.2% | BLOCKED on a decision |
+| `pig_rainbow` | pig | 0.711 | 0.825 | 13.2% | REJECT, silhouette redrawn |
+| `pig_red` | pig | 0.711 | 0.824 | 13.1% | REJECT, silhouette redrawn |
+| `robot_rust` | robot | 0.612 | 0.752 | 12.3% | REJECT, silhouette redrawn |
+
+Meshes: `unicorn.obj` and `pig.obj` from `multi_iSeg/meshes/meshestotrain`,
+`nascar.obj` and `robot.obj` from `ddecatur/3DHighlighter/data/shapes` (note `nascar.obj`
+exists in ten places under `ddecatur/`; the candidate render used that one).
+
+**Two distinct failure modes, and they need different fixes.**
+
+*The cars are a camera error, recoverable.* The pose is right; the still that went to Kling
+was rendered closer than the training camera, so the video car is 1.24x the area of our
+render and sits concentrically around it. One similarity (scale 0.900, dx +9, dy -11)
+lifts IoU 0.777 -> 0.897 and uncovered to 5.2%, inside the 10% gate. Applying it means
+resampling all 150 frames of each clip, which changes the supervision data, so it is held
+pending an explicit decision rather than done quietly.
+
+*The pig and the robot are not.* After the best possible scale and shift they still sit at
+0.825 and 0.752, and the disagreement is spread around the whole outline rather than being
+a uniform halo: Kling redrew the shape (the robot's limbs, the pig's ears and snout). 0.752
+is the number `gargoyle` failed at in batch D/E. These three need regenerating with a
+stronger rigid-silhouette lock, not post-hoc correction.
+
+**Submitted for the two unicorns**, 16 jobs, jobs 2236926-2236941: one
+`jobs/targets_hero.sbatch` per object, then all seven supplementary arms
+(`r19`, `r19mcfm`, `r27`, `r27mcfm`, `w5`, `stD`, `v3D`) each held on
+`--dependency=afterok` of its own target build, so nothing trains unless GATE-align passes
+first. Texel passes follow per arm as in batch F.
+
+**Roster.** Same open question as batch F: `out/texel_r19_params.tsv` is the object roster
+both generators read, and adding batch F and G rows moves every published table off the
+24 objects the paper prints.
+
 ### Batches A, B, C — the two paper tables
 
 Complete and unaffected by any of the above: r19, r27, r27mcfm all 24/24, plus the
@@ -605,3 +708,8 @@ produces plausible-looking targets.
 | **C** | `tie_fighter_bw` | vehicles_tie_fighter_black_and _white.mp4 |
 | **C** | `fish_glitter` | fish_glitter.mp4 |
 | **C** | `fish_ink` | fish_ink.mp4 |
+
+Batches D, E and F are listed in their own sections above; batch F is
+`doorknob_spinodal`, `doorknob_bz`, `bunny_shine`. Batch G is `unicorn_rainbow` and
+`unicorn_effect1` (submitted), with `car_effect1`/`car_effect2` held and
+`pig_rainbow`/`pig_red`/`robot_rust` rejected on alignment.

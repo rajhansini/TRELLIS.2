@@ -1,0 +1,391 @@
+
+<title>Rung Ladder Dailies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+
+:root{
+  --bg:#f7f5f1; --surface:#ffffff; --surface-2:#eeece6; --border:#ddd9d0;
+  --text:#1c1d22; --text-dim:#5c5f6b; --text-faint:#8b8d98;
+  --accent:#b9762c; --accent-ink:#ffffff; --accent-soft:#f1e2ce;
+  --shadow: 0 1px 2px rgba(20,18,14,.06), 0 8px 24px rgba(20,18,14,.06);
+  --radius: 10px;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15161b; --surface:#1c1e25; --surface-2:#262933; --border:#34384a;
+    --text:#eceef2; --text-dim:#9195a3; --text-faint:#6b6f7d;
+    --accent:#d9974f; --accent-ink:#1a1200; --accent-soft:#3a2c17;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15161b; --surface:#1c1e25; --surface-2:#262933; --border:#34384a;
+  --text:#eceef2; --text-dim:#9195a3; --text-faint:#6b6f7d;
+  --accent:#d9974f; --accent-ink:#1a1200; --accent-soft:#3a2c17;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+}
+a{color:inherit}
+.wrap{max-width:1040px; margin:0 auto; padding:0 28px 96px;}
+header.top{
+  padding:40px 28px 28px; border-bottom:1px solid var(--border);
+  display:flex; flex-direction:column; gap:6px; background:var(--surface);
+}
+header.top .inner{max-width:1040px; margin:0 auto; width:100%; display:flex; flex-direction:column; gap:8px;}
+.eyebrow{
+  font-family:var(--mono); font-size:12px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--accent); font-weight:600;
+}
+h1{font-size:30px; font-weight:700; margin:0; letter-spacing:-.01em; text-wrap:balance;}
+.sub{color:var(--text-dim); font-size:15px; margin:0; max-width:64ch;}
+.backlink{
+  font-family:var(--mono); font-size:12.5px; color:var(--text-dim); text-decoration:none;
+  display:inline-flex; align-items:center; gap:6px; margin-top:4px;
+}
+.backlink:hover{color:var(--accent)}
+
+.grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; margin-top:28px;
+}
+.card{
+  display:flex; flex-direction:column; gap:6px; padding:20px; text-decoration:none;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); transition:transform .15s, border-color .15s;
+}
+.card:hover{transform:translateY(-2px); border-color:var(--accent);}
+.card-name{font-size:17px; font-weight:600; color:var(--text);}
+.card-meta{font-family:var(--mono); font-size:12px; color:var(--text-dim);}
+.card.pending{opacity:.5; cursor:default; box-shadow:none;}
+.card.pending:hover{transform:none; border-color:var(--border);}
+.card-go{font-family:var(--mono); font-size:12px; color:var(--accent); margin-top:8px;}
+.note{
+  margin-top:32px; padding:18px 20px; background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); font-size:14px; color:var(--text-dim); line-height:1.65; max-width:70ch;
+}
+.note b{color:var(--text)}
+
+.sechead{
+  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  margin:38px 0 2px; padding-top:26px; border-top:1px solid var(--border);
+}
+.sechead:first-of-type{border-top:0; padding-top:0; margin-top:28px;}
+.sechead h2{font-size:19px; font-weight:700; margin:0; letter-spacing:-.01em;}
+.sechead .count{font-family:var(--mono); font-size:12px; color:var(--accent); font-weight:600;}
+.sechead p{width:100%; margin:2px 0 0; color:var(--text-dim); font-size:14px; max-width:70ch;}
+</style>
+<header class="top">
+  <div class="inner">
+    <span class="eyebrow">3DV &apos;27 &middot; DynaMesh</span>
+    <h1>Rung Ladder Dailies</h1>
+    <p class="sub">47 objects at the training view and 3 unseen diagonals. Batches A and B carry
+    every trained arm in one 16-tile grid; batches C through G carry the single arm that was run for them.
+    Ground truth and the frozen baseline sit alongside the adapted result in every clip.</p>
+  </div>
+</header>
+<main class="wrap">
+  <div class="sechead">
+    <h2>Batches A &amp; B &mdash; the full ladder</h2><span class="count">15 objects &middot; 14 arms each</span>
+    <p>Every rung from 27 to 34, each with and without MCFM temporal-only, tiled with ground
+    truth and the frozen model into one 16-tile grid per camera.</p>
+  </div>
+  <div class="grid">
+        <a class="card" href="https://claude.ai/code/artifact/c5a2fcb1-cd0d-447e-b6ed-79810269b465">
+          <div class="card-name">Nefertiti — Effect 2</div>
+          <div class="card-meta">nefertiti bust &middot; effect 2</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/adc850b0-f62c-4ba6-be21-dc3b75941145">
+          <div class="card-name">Spot — Lava</div>
+          <div class="card-meta">spot &middot; emerging lava cracks</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/efde77aa-ef19-4581-bc83-61ea2e71af13">
+          <div class="card-name">Pumpkin — Rot</div>
+          <div class="card-meta">pumpkin &middot; rot</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/79d563d3-d9b9-4566-bdcd-3b347fd7a820">
+          <div class="card-name">Hand — Rorschach</div>
+          <div class="card-meta">hand &middot; rorschach</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/31a51b72-7536-452d-a428-5ae9f79fd43a">
+          <div class="card-name">Blob — Crack</div>
+          <div class="card-meta">animals_bob &middot; crack</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/9dcc41c7-d454-47bb-82c8-c887e42c54f7">
+          <div class="card-name">Blob — Orange Crack</div>
+          <div class="card-meta">animals_bob &middot; orange crack</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/bf9859a7-5c3d-4c9b-8240-41d7fbf27dc9">
+          <div class="card-name">Chair — Wooden Crack</div>
+          <div class="card-meta">furnature_chair &middot; wooden crack</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/96907e0e-5515-410b-bc67-2b9d490672b4">
+          <div class="card-name">Chair — Moss</div>
+          <div class="card-meta">furnature_chair &middot; moss</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/52bb5caf-b7b9-49ce-b012-2b730834fb61">
+          <div class="card-name">Chair — Ice</div>
+          <div class="card-meta">furnature_chair &middot; ice</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/18d23743-0b0b-41ec-b708-669d242f6e0a">
+          <div class="card-name">Napoleon — Teapot Crack</div>
+          <div class="card-meta">napoleon bust &middot; teapot crack</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/005b583e-4fd4-48cc-8a6f-0697637a4794">
+          <div class="card-name">Napoleon — Waves</div>
+          <div class="card-meta">napoleon bust &middot; waves</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/43e3368b-7ceb-45a7-a93b-34d72d5b221e">
+          <div class="card-name">Octopus — Tar</div>
+          <div class="card-meta">octopus &middot; tar</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/c2bccd71-c9e7-430d-80e8-5b66632566dd">
+          <div class="card-name">Octopus — Sparkle</div>
+          <div class="card-meta">octopus &middot; sparkle</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/b8272859-3623-425c-938f-3eb075b67082">
+          <div class="card-name">Octopus — Rainbow</div>
+          <div class="card-meta">octopus &middot; rainbow</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/6de0391a-422d-4a00-bcd8-1ec7e20deed9">
+          <div class="card-name">Octopus — Rust</div>
+          <div class="card-meta">octopus &middot; rust</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a></div>
+  <div class="sechead">
+    <h2>Batch C &mdash; rung27 + MCFM temporal-only</h2><span class="count">9 objects &middot; 1 arm each</span>
+    <p>These nine were trained on the full ladder but only one arm was rendered: rung27 with MCFM
+    temporal-only (3-frame window, <code>v2_D</code>). So they carry the four-column
+    GT &middot; frozen &middot; rung27 &middot; rung27+MCFM panel rather than a grid of mostly-empty tiles.
+    The three penguins of batch C are absent: their mesh failed GATE-align at 42.6% uncovered,
+    so no targets were ever built for them.</p>
+  </div>
+  <div class="grid">
+        <a class="card" href="https://claude.ai/code/artifact/182b4e85-6f2b-4b27-bb34-add537c5920e">
+          <div class="card-name">Octocat — Clay</div>
+          <div class="card-meta">thingi10k_octocat &middot; clay</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/a04d7456-2ff3-4eb1-9ffe-c4bdd8a1217e">
+          <div class="card-name">Octocat — Shine</div>
+          <div class="card-meta">thingi10k_octocat &middot; shine</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/17308bb4-e284-48cc-8cc7-f0803326df05">
+          <div class="card-name">Sheep — Soil</div>
+          <div class="card-meta">thingi10k_wooly_sheep &middot; soil</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/2c2a6846-812a-4f9d-85cb-115d33fa2f5d">
+          <div class="card-name">Sheep — Mud</div>
+          <div class="card-meta">thingi10k_wooly_sheep &middot; mud</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/456e46ca-c9ef-4c20-9bc1-7bf550727f0e">
+          <div class="card-name">Dragon — Mushrooms</div>
+          <div class="card-meta">dragons_xyzrgb_dragon &middot; mushroom growth</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/4802eaf1-80d7-45d4-a841-4567a24bba5a">
+          <div class="card-name">Dragon — Mushrooms II</div>
+          <div class="card-meta">dragons_xyzrgb_dragon &middot; mushroom growth, variant</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/c556ea7c-8588-45ee-8a5e-bfc0af15f2f1">
+          <div class="card-name">TIE Fighter — Monochrome</div>
+          <div class="card-meta">vehicles_tie_fighter &middot; black and white</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/1ab5ce84-0d5a-4a51-ae6d-ee66c428a851">
+          <div class="card-name">Fish — Glitter</div>
+          <div class="card-meta">animals_blub &middot; glitter</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/b476748f-4add-4bab-8560-49fc7181393a">
+          <div class="card-name">Fish — Ink</div>
+          <div class="card-meta">animals_blub &middot; ink</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        </div>
+  <div class="sechead">
+    <h2>Batch D &mdash; rung27 + MCFM temporal-only</h2><span class="count">11 objects &middot; 1 arm each</span>
+    <p>Eleven objects added after the batch-A&ndash;C roster closed: five meshes (moai, gargoyle, aircraft, teddy, goat) carrying two or three effects each. Same single arm as batch C &mdash; rung27 with MCFM temporal-only (3-frame window, <code>v2_D</code>) &mdash; so the same four-column GT &middot; frozen &middot; rung27 &middot; rung27+MCFM panel.</p>
+  </div>
+  <div class="grid">
+        <a class="card" href="https://claude.ai/code/artifact/8f4e6759-da14-4351-b89e-2c1a5c5fadcc">
+          <div class="card-name">Moai &mdash; Silver</div>
+          <div class="card-meta">moai &middot; silver plating</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/f933b248-d6d6-4248-9564-c7365ae756c7">
+          <div class="card-name">Moai &mdash; Animated</div>
+          <div class="card-meta">moai &middot; animated surface</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/cd9f8f14-da7f-4ea7-8b82-584a851b3e4f">
+          <div class="card-name">Gargoyle &mdash; Spiral</div>
+          <div class="card-meta">gargoyle &middot; spiral pattern</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/56d50cb4-635d-46a6-9915-deb8d134e793">
+          <div class="card-name">Gargoyle &mdash; Effect One</div>
+          <div class="card-meta">gargoyle &middot; effect one</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/a5fa6f00-55b3-4e2a-b63e-77e009890752">
+          <div class="card-name">Airplane &mdash; Blub</div>
+          <div class="card-meta">aircraft &middot; blub</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/4655989d-e245-4c25-a2b3-d784818368d3">
+          <div class="card-name">Airplane &mdash; Red Cracks</div>
+          <div class="card-meta">aircraft &middot; red cracks</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/d36b17dc-8bea-4dcc-9f72-95550e7e486a">
+          <div class="card-name">Teddy &mdash; Bleach</div>
+          <div class="card-meta">teddy &middot; bleach</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/e100fc81-ff27-4ed4-ad2b-23ae17294af8">
+          <div class="card-name">Teddy &mdash; Fusion</div>
+          <div class="card-meta">teddy &middot; fusion</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/78fc9773-3529-472d-abe4-ed5d4d027082">
+          <div class="card-name">Goat &mdash; Burnt</div>
+          <div class="card-meta">goat &middot; burnt</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/3ef792b0-4d9c-4f7f-993c-69a48a55c0ac">
+          <div class="card-name">Goat &mdash; Flower</div>
+          <div class="card-meta">goat &middot; flowers</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/80391d05-6cba-40cc-ae2c-5b69c8003925">
+          <div class="card-name">Goat &mdash; Clay</div>
+          <div class="card-meta">goat &middot; clay</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+  </div>
+
+  <div class="sechead">
+    <h2>Batch E &mdash; rung27 + MCFM temporal-only</h2><span class="count">7 objects &middot; 1 arm each</span>
+    <p>Seven more on four meshes (ivysaur, blub, pegaso, moai), including the two effects whose prompts were rewritten to stop the blue flood. Same single arm and the same four-column panel as batches C and D.</p>
+  </div>
+  <div class="grid">
+        <a class="card" href="https://claude.ai/code/artifact/d8271192-1052-4d6b-a33d-fe55285af87b">
+          <div class="card-name">Ivysaur &mdash; Petals</div>
+          <div class="card-meta">ivysaur &middot; falling petals</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/7a2212b7-9084-42d5-ab99-d1472803fe36">
+          <div class="card-name">Ivysaur &mdash; Petals II</div>
+          <div class="card-meta">ivysaur &middot; falling petals, v2</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/f53edf55-36f3-4bd4-9d51-c1a2cfb3de1b">
+          <div class="card-name">Blub &mdash; Rorschach</div>
+          <div class="card-meta">blub &middot; Rorschach, sliding blots</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/769e5c0a-fb87-454f-b940-b978fae2d278">
+          <div class="card-name">Blub &mdash; Drying</div>
+          <div class="card-meta">blub &middot; terracotta drying, thin-first</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/47ff3926-62e5-4f62-b4d5-918738709a89">
+          <div class="card-name">Pegasus &mdash; Shine</div>
+          <div class="card-meta">pegaso &middot; burnish / shine</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/9c305aa9-cb31-4572-bdf2-c67a886f2410">
+          <div class="card-name">Pegaso &mdash; Effect One</div>
+          <div class="card-meta">pegaso &middot; effect 1</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        <a class="card" href="https://claude.ai/code/artifact/1595a396-5385-4a9a-a615-27b08b171fe2">
+          <div class="card-name">Moai &mdash; Mosaic</div>
+          <div class="card-meta">moai &middot; mosaic, contour rows first</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+  </div>
+
+
+  <div class="sechead">
+    <h2>Batch F &mdash; rung27 + MCFM temporal-only</h2><span class="count">3 objects &middot; 1 arm each</span>
+    <p>Three new clips added to widen the effect roster beyond the crack- and glow-heavy draft:
+    two reaction&ndash;diffusion patterns on the doorknob and a thin-film sweep on the bunny. Same
+    single arm as batches C, D and E. These three were trained on the MCFM arm only, so their
+    dailies are the three-column GT &middot; frozen &middot; rung27+MCFM panel rather than four.</p>
+  </div>
+  <div class="grid">
+        <a class="card" href="https://claude.ai/code/artifact/b79a7157-b402-4041-b622-a0892f47a123">
+          <div class="card-name">Doorknob &mdash; Spinodal</div>
+          <div class="card-meta">doorknob &middot; two-phase labyrinth, coarsening in place</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        </div>
+        <a class="card" href="https://claude.ai/code/artifact/2186ac8e-ce65-4ec7-822b-ef4238cedb40">
+          <div class="card-name">Doorknob &mdash; BZ Waves</div>
+          <div class="card-meta">doorknob &middot; expanding ring waves from fixed centres</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        </div>
+        <a class="card" href="https://claude.ai/code/artifact/dfe2c348-c3f0-494e-9cba-70d80eec81e9">
+          <div class="card-name">Bunny &mdash; Shine</div>
+          <div class="card-meta">bunny &middot; thin-film iridescence sweeping the body</div>
+          <div class="card-go">open dailies &rarr;</div>
+        </a>
+        </div>
+  </div>
+
+
+  <div class="sechead">
+    <h2>Batch G &mdash; rung27 + MCFM temporal-only</h2><span class="count">2 objects &middot; 1 arm each</span>
+    <p>Two survivors of a seven-clip upload. The other five were rejected at the alignment
+    gate: the two car clips need a scale correction before they qualify, and the pig and robot
+    clips came back with the silhouette redrawn, which no correction fixes. These two solved
+    cleanly at IoU 0.948 with 0.11% of the mesh falling outside the video, the best alignment
+    of any object this round. Renders are running.</p>
+  </div>
+  <div class="grid">
+        <div class="card pending">
+          <div class="card-name">Unicorn &mdash; Rainbow</div>
+          <div class="card-meta">unicorn bust &middot; rainbow</div>
+          <div class="card-go">renders in progress</div>
+        </div>
+        <div class="card pending">
+          <div class="card-name">Unicorn &mdash; Effect 1</div>
+          <div class="card-meta">unicorn bust &middot; effect 1</div>
+          <div class="card-go">renders in progress</div>
+        </div>
+  </div>
+
+  <div class="note">
+    <b>Reading the grid.</b> Row 1: ground truth &middot; frozen TRELLIS.2 &middot; run27 &middot; run27+MCFM.
+    Rows 2&ndash;4 continue through run28&ndash;34, KL variants, the dual branch, and wide context.
+    A grey &ldquo;not trained&rdquo; tile means that arm has no checkpoint for this object.
+    Camera is fixed within each clip &mdash; only texture moves, which is what the flicker metric needs.
+  </div>
+
+</main>
