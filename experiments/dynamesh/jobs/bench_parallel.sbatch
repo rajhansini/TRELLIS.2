@@ -34,13 +34,18 @@ COND=${COND:-${T2}/data/hand_rorschach/frames_from_video}
 # so VIEWS=0,90,180,270 silently reached the script as just "0" and the first
 # smoke run rendered one view instead of four.
 NF=${NF:-150}; VIEWS=${VIEWS:-0:90:180:270}; VIEWS=${VIEWS//:/,}
+# MCFM is the blend mode (v2_D=W3, E=W5, F=W7, G=W11, H=W13, I=W15). Leave it EMPTY
+# for the W=1 arm: that adapter was trained without MCFM, and passing the flag anyway
+# would trip the trainer's own GATE-mcfm train/test-mismatch check.
+MCFM=${MCFM-v2_D}
 TAGBASE=${TAGBASE:-bench_alien}
 echo "=== $(date) host=$(hostname) job=${SLURM_JOB_ID} NF=${NF} BATCHES='${BATCHES}' ==="
 nvidia-smi -L
 for B in ${BATCHES:-1 8}; do
   echo "--- batch=${B} ---"
   ${PY2} -u "${E}/bench_transfer_parallel.py" \
-    --run "${RUN}" --mesh "${MESH}" --cond-dir "${COND}" --mcfm v2_D \
+    --run "${RUN}" --mesh "${MESH}" --cond-dir "${COND}" \
+    ${MCFM:+--mcfm ${MCFM}} \
     --sweep both --turns 0 --n-frames "${NF}" --res 518 \
     --views "${VIEWS}" --batch "${B}" \
     ${SHARD_I:+--shard-idx ${SHARD_I}} ${SHARD_N:+--shard-n ${SHARD_N}} \

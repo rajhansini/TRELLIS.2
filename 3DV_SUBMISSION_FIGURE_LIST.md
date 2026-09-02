@@ -1175,3 +1175,43 @@ Both fit a smooth body better than rust does.
 
 Meshes located, audited for watertightness, rendered at solved best views, prompts
 written. **Blocked on Kling videos** — one per object, then a 30-epoch fit each.
+
+---
+
+## Batch H — extended-texture continuation, unicorn (added 2026-09-01)
+
+The second example for the **existing-texture** item (paper Fig. 7 is the duck). Unlike
+batches D/E this one does not start from a grey render: Kling was handed an already-textured
+frame of our own rung27+MCFM result and asked to make that texture *travel*, which is the
+regime `data/KLING_PROMPTS_CONTINUATION.md` was written for. Two takes were shot from the
+same conditioning frame; both are fitted so the better one can be chosen by looking.
+
+| asset dir | mesh | effect | conditioning frame | 2D-copy targets |
+|---|---|---|---|---|
+| `data/unicorn_extended_texture` | unicorn bust | cracked glaze, crazing travelling | yaw 20 / elev 12, frame 130 | `out/gt_targets_unicorn_extended_texture/frames` |
+| `data/unicorn_extended_texture_2` | unicorn bust | same, second take | same | `out/gt_targets_unicorn_extended_texture_2/frames` |
+
+Jobs **2240169** and **2240170**, `jobs/batch_d_arm.sbatch`, `TARGETS=qkvo+sa MODE=v2_D`
+(rung27 + MCFM temporal-only), 30 epochs, 150 frames.
+
+**The camera is not the training view, and the mesh carries the difference.** The clip had to
+be shot from yaw 20 / elev 12: the unpainted patch on the near shoulder is visible from every
+camera in the front band (train 7.4% of the silhouette, diagA 5.9%) and clears only from
+behind (diagC 1.0%). Measured, the video matches that camera at silhouette IoU **0.986**
+against **0.842** for the training view. But `rung27_selfattn_lora.py` hardcodes `EXTRINSICS`
+and takes no yaw/elev, and `make_render_mask.py` does the same, so the stock path would have
+supervised against a projection 14 IoU points off, silently.
+
+The fix follows the project's own convention that `<obj>_render_frame.obj` carries the pose:
+the rotation `R(0,0)ᵀ · R(20,12)` is baked into the mesh, so the fixed training camera sees
+exactly the view the video was shot from. Verified by rasterising the baked mesh at
+`EXTRINSICS` against the target mask: **IoU 0.998**, versus 0.841 for the un-baked mesh.
+The 2D copies were built against that same yaw-20 silhouette (100% coverage, source ≥99.9%,
+white gate PASS on both takes).
+
+Two traps for anyone re-running this. `make_render_mask.py`'s `preprocess()` must **not** be
+applied to a `_render_frame.obj` — those meshes are already in the training frame, and
+applying it drops the control check from IoU 0.998 to 0.311. And `'bd_'` is **disabled** in
+`watchdog.py` (commented out 2026-08-26), so a TIMEOUT on these two will not be resubmitted
+automatically; 30 epochs against the 4h cap means that is the expected path, not a rare one.
+`jobs/watch_batchH.sh` reports terminal states but does not resubmit.

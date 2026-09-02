@@ -104,6 +104,58 @@ answer NO.
 
 Return JSON: {{"answers": [<one true/false per question, in order>]}}"""
 
+RATE_PROMPT = """This video shows a 3D object whose surface appearance changes over time.
+
+For each question below, rate HOW WELL it is satisfied on a scale of 1 to 5. Do not answer
+yes or no: a plain yes hides the difference between an effect that is merely present and one
+that is actually right, and telling those apart is the whole point of this rating.
+
+5 = fully and convincingly satisfied; nothing about it looks wrong
+4 = satisfied, with a minor shortfall you could name
+3 = partly satisfied; the property is recognisable but clearly imperfect or incomplete
+2 = barely satisfied; only a trace of the property is there
+1 = not satisfied at all
+
+Judge the SURFACE EFFECT only. Ignore the object's resolution, framing, playback speed and
+clip length. A crude, blurry or washed-out version of the right effect is a 2 or a 3, not a 5.
+If a question cannot be verified from this video, rate it 1.
+
+{questions}
+
+Return JSON: {{"ratings": [<one integer 1-5 per question, in order>]}}"""
+
+PAIRED_PROMPT = """The FIRST video is the REFERENCE: the effect as it is supposed to look.
+The SECOND video is another system's attempt at that same effect on a 3D object.
+
+Rate how well the SECOND matches the FIRST on each property below, 1 to 5. You are grading
+against the reference, not in the abstract.
+
+5 = indistinguishable from the reference on this property
+4 = close, with a small difference you could name
+3 = the property is there but clearly worse: cruder, blurrier, weaker or patchier
+2 = only a trace of it survives
+1 = absent, or replaced by something else
+
+Be strict. Most attempts are NOT 5s. A recognisable but crude version of the right effect is
+a 3, not a 4. Reserve 5 for a property you genuinely cannot tell apart from the reference.
+
+IF THE TWO VIDEOS ARE THE SAME VIDEO, every rating is 5. That case is the calibration check
+and must not be graded down.
+{camera}
+Judge the surface effect only. Ignore resolution, framing, playback speed and clip length.
+
+{questions}
+
+Return JSON: {{"ratings": [<one integer 1-5 per question, in order>]}}"""
+
+CAM_SAME = ""
+CAM_DIFF = ("\nTHE TWO VIDEOS ARE FILMED FROM DIFFERENT CAMERA ANGLES. That is expected and"
+            "\nmust not lower any rating. Judge only whether the effect itself matches.\n")
+
+RATE_SCHEMA = {'type': 'object',
+               'properties': {'ratings': {'type': 'array', 'items': {'type': 'integer'}}},
+               'required': ['ratings']}
+
 GEN_SCHEMA = {'type': 'object',
               'properties': {'effect': {'type': 'string'},
                              'questions': {'type': 'array', 'items': {'type': 'string'}}},
@@ -240,19 +292,35 @@ def answer(a, key):
     def one(u):
         obj, m, v, rep = u
         block = '\n'.join(f'{i+1}. {q}' for i, q in enumerate(qs[obj]['questions']))
-        r = retrying(lambda: call(key, [part(vpath(obj, m, v))],
-                                  ANSWER_PROMPT.format(questions=block), ANS_SCHEMA),
+        rate = a.mode in ('rate', 'paired')
+        if a.mode == 'paired':
+            # The reference exists only at the trained camera, so at the three unseen
+            # views the pair is GT-at-train against method-at-that-view. Every method
+            # eats the same mismatch, and the prompt is told to ignore it.
+            prompt = PAIRED_PROMPT.format(
+                questions=block, camera=(CAM_SAME if v == 'train' else CAM_DIFF))
+            parts = [part(vpath(obj, 'gt', 'train')), part(vpath(obj, m, v))]
+        else:
+            prompt = (RATE_PROMPT if rate else ANSWER_PROMPT).format(questions=block)
+            parts = [part(vpath(obj, m, v))]
+        schema = RATE_SCHEMA if rate else ANS_SCHEMA
+        r = retrying(lambda: call(key, parts, prompt, schema),
                      f'{obj}/{m}/{v}#{rep}')
         if not r:
             return
         d, usage = r
-        ans = d.get('answers', [])
+        ans = d.get('ratings' if rate else 'answers', [])
         if len(ans) != 5:
-            log(f'  WARN {obj}/{m}/{v}#{rep}: {len(ans)} answers'); return
-        rec = dict(obj=obj, method=m, view=v, repeat=rep,
-                   answers=[bool(x) for x in ans],
-                   pct=100.0 * sum(bool(x) for x in ans) / 5,
-                   tokens=usage.get('totalTokenCount'))
+            log(f'  WARN {obj}/{m}/{v}#{rep}: {len(ans)} values'); return
+        if rate:
+            vals = [max(1, min(5, int(x))) for x in ans]
+            rec = dict(obj=obj, method=m, view=v, repeat=rep, ratings=vals,
+                       score=sum(vals) / 5.0, tokens=usage.get('totalTokenCount'))
+        else:
+            rec = dict(obj=obj, method=m, view=v, repeat=rep,
+                       answers=[bool(x) for x in ans],
+                       pct=100.0 * sum(bool(x) for x in ans) / 5,
+                       tokens=usage.get('totalTokenCount'))
         with _lock:
             fh.write(json.dumps(rec) + '\n'); fh.flush()
             state['n'] += 1
@@ -278,6 +346,11 @@ def main():
     p.add_argument('--repeats', type=int, default=3)
     p.add_argument('--workers', type=int, default=6)
     p.add_argument('--regen', action='store_true')
+    p.add_argument('--mode', choices=['yesno', 'rate', 'paired'], default='yesno',
+                   help="'rate' scores each of the 5 questions 1-5 instead of true/false. "
+                        "Binary was not discriminative: a crude but recognisable effect "
+                        "answers yes, so frozen TRELLIS.2 scored 85.9%% on a texture whose "
+                        "PSNR is 12.")
     a = p.parse_args()
 
     all_objs = sorted({f.name.split('__')[0] for f in VIDS.glob('*.mp4')})

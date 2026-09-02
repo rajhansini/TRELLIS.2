@@ -45,8 +45,12 @@ for OBJ in $OBJS; do
   # raw video frames), and the mask GATE-align reads. A missing render_mask.npy is what
   # sent batch D/E into "GATE-align FAILED" after the GPU was already allocated.
   [ -f "$MESH" ]  || { echo "   MISSING MESH        $OBJ"; continue; }
-  [ -d "$GTREN" ] || { echo "   MISSING TARGETS     $OBJ"; continue; }
-  [ -f "$E/out/gt_targets_$OBJ/render_mask.npy" ] || { echo "   MISSING render_mask $OBJ"; continue; }
+  # With DEPFILE the target build is still QUEUED, so requiring its outputs here
+  # would reject exactly the objects this flag exists to chain.
+  if [ -z "${DEPFILE:-}" ]; then
+    [ -d "$GTREN" ] || { echo "   MISSING TARGETS     $OBJ"; continue; }
+    [ -f "$E/out/gt_targets_$OBJ/render_mask.npy" ] || { echo "   MISSING render_mask $OBJ"; continue; }
+  fi
   [ "$NFR" -ge 30 ] || { echo "   ONLY $NFR FRAMES    $OBJ"; continue; }
   echo "== $OBJ  (nfr=$NFR)"
 
@@ -62,13 +66,40 @@ for OBJ in $OBJS; do
     TAG=${SPEC%%:*}; R=${SPEC#*:}; JN=${R%%:*}; R=${R#*:}; SB=${R%%:*}; EXTRA=${R#*:}
     [[ ",$ARMS," != *",$TAG,"* ]] && continue
     N=$((N+1))
-    [ -f "out/TEXEL/${OBJ}_${TAG}.json" ] && { echo "   skip $TAG (texel exists)"; continue; }
+    # DONE means the TRAINING finished, i.e. a 30-epoch run dir for this
+    # (object, rung, mcfm) has final_eval.json. Testing out/TEXEL/<obj>_<arm>.json
+    # instead is WRONG and cost 20 duplicate jobs: that file is written by the texel
+    # metric pass, which runs long after training, so a fully trained object reads as
+    # untrained until someone remembers to measure it.
+    DONE=$(python3 - "$OBJ" "$TAG" <<'PYX'
+import json,sys,glob,os
+obj,tag=sys.argv[1:3]
+K={'r19':('19','None'),'r19mcfm':('19','v2_D'),'r27':('27','None'),'r27mcfm':('27','v2_D'),
+   'w5':('27','v2_E'),'stD':('27','st_D'),'v3D':('27','v3_D')}
+rung,mode=K[tag]
+for c in glob.glob(f'runs/rung{rung}_*/config.json'):
+    try: d=json.load(open(c))
+    except Exception: continue
+    if d.get('rung')!=int(rung) or str(d.get('mcfm'))!=mode or d.get('epochs')!=30: continue
+    if f'/data/{obj}/' not in (d.get('gt_dir') or ''): continue
+    if os.path.exists(os.path.join(os.path.dirname(c),'final_eval.json')):
+        print('yes'); break
+PYX
+)
+    [ -n "$DONE" ] && { echo "   skip $TAG (trained)"; continue; }
     grep -qx "$JN" /tmp/_bg.$$ && { echo "   skip $TAG (queued)"; continue; }
     # rung27_hero / rung27_mcfm_hero resolve MESH and GTDIR from OBJ themselves; the
     # other three take them explicitly. Passing both is harmless and keeps one code path.
     EXP="OBJ=${OBJ},NFR=${NFR},MESH=${MESH},GTDIR=${GTREN}${EXTRA:+,$EXTRA}"
     [ -n "${DRY:-}" ] && { printf '   %-8s %-28s %s\n' "$TAG" "$JN" "$SB"; continue; }
-    J=$(sbatch --parsable ${NICE:+--nice="$NICE"} --job-name="$JN" --export=ALL,"$EXP" "$SB")
+    # DEPFILE lets the whole chain go in at once: '<obj> <jobid>' per line, and the
+    # arms wait on that object's target build instead of on a human watching for it.
+    DEP=""
+    if [ -n "${DEPFILE:-}" ] && [ -f "$DEPFILE" ]; then
+      D=$(awk -v o="$OBJ" '$1==o{print $2; exit}' "$DEPFILE")
+      [ -n "$D" ] && DEP="--dependency=afterok:$D"
+    fi
+    J=$(sbatch --parsable ${NICE:+--nice="$NICE"} $DEP --job-name="$JN" --export=ALL,"$EXP" "$SB")
     note "$J" "$JN" "$EXP" "$SB" \
       "BATCH G rest: ${OBJ} arm=${TAG} (${SB##*/}) ${NFR}fr seed42 30ep; PASS: out/TEXEL/${OBJ}_${TAG}.json after the texel pass, and the run dir has final_eval.json"
     echo "   $J  $JN  ($TAG)"

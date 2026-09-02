@@ -34,12 +34,26 @@ OBJS = [
      'wet black lacquer flecked with pale chips'),
     ('robot_rust_2', 'Robot &mdash; Rust', 'robot',
      'oxide creeping over the limbs and torso'),
+    ('pig_rainbow', 'Pig &mdash; Rainbow', 'pig',
+     'saturated colour sweeping the body'),
+    ('pig_red', 'Pig &mdash; Red', 'pig',
+     'red spreading over the hide'),
 ]
 
 # The cars sit at align IoU 0.898 -- 0.002 under the bar the gargoyle failure set --
 # so their pages say so rather than presenting them as clean. robot_rust_2 at 0.939 is
 # the regeneration that fixed the clip batch G originally rejected at 0.612.
+PIG_ALIGN = ('<b>Alignment &mdash; this clip was rejected once, wrongly.</b> The first solve '
+             'searched rotation ALONE, with scale fixed, and reported IoU 0.711; the clip was '
+             'written up as "silhouette redrawn". It was not. Our render was 26% too small, so '
+             'the rotation search was scoring poses at the wrong size. Fitting rotation and a '
+             '2D similarity together lands it at <span class="mono">{iou}</span> &mdash; better '
+             'than any other object in this batch. Frames are resampled by s&#8776;0.796; the '
+             'untouched upload is kept in <span class="mono">frames_from_video_raw</span>.')
+
 ALIGN_BY_OBJ = {
+    'pig_rainbow': PIG_ALIGN.format(iou='0.974'),
+    'pig_red': PIG_ALIGN.format(iou='0.962'),
     'car_effect1': ('<b>Alignment, read this before judging the result.</b> This clip solved '
                     'at silhouette IoU <span class="mono">0.898</span> with 4.6% of the mesh '
                     'outside the video, AFTER a similarity correction (scale 0.900, dx +9, '

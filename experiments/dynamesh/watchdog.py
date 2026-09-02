@@ -119,6 +119,9 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # submitted as 'dva_<obj>'. Logs land as out/dva_dva_<obj>_<jid>.log because
         # the sbatch --output pattern is dva_%x_%j and %x is already 'dva_<obj>'.
         'dva_': ('jobs/daily_video_arms.sbatch', 'dva'),
+        # joint rotation+similarity solves, 'sim_<name>' against
+        # jobs/solve_similarity.sbatch, log out/sim_sim_<name>_<jid>.log.
+        'sim_': ('jobs/solve_similarity.sbatch', 'sim'),
         # Target building. build_targets_one.sbatch is named 'mkt_one' and
         # build_targets_obj.sbatch 'mkt_obj', and BOTH start with 'mkt_' -- neither
         # was in this table, so every target build has run unwatched, the same
@@ -200,6 +203,16 @@ KIND = {'tgt_': ('jobs/targets_hero.sbatch', 'tgt'),
         # spot_lava disagreed with their own 30-epoch checkpoint by 4.6 dB and no
         # log accounts for them. Registered at submit time like the rest.
         'r27v_': ('jobs/render_arm.sbatch', 'RENDER'),
+        # 'tv_' is the top-view sweep for the supplementary comparison figure:
+        # a high-elevation camera chosen so the flower is visible and the seam
+        # artifact is not. Registered at submit time like every other fleet.
+        'tv_': ('jobs/render_arm.sbatch', 'RENDER'),
+        'tv2_': ('jobs/render_arm.sbatch', 'RENDER'),
+        'tv2m_': ('jobs/render_arm.sbatch', 'RENDER'),
+        'fx_':   ('jobs/render_arm.sbatch', 'RENDER'),
+        'fe_':   ('jobs/render_arm.sbatch', 'RENDER'),
+        'ab_':   ('jobs/render_arm.sbatch', 'RENDER'),
+        'v3_':   ('jobs/render_arm.sbatch', 'RENDER'),
         # BATCH D, the 7-arm supplementary ladder. Registered at SUBMIT time, not
         # after the first failure, so it is never one of the unwatched prefixes
         # that hid pan_, m3_, mkt_ and pv_. batch_d_arm.sbatch reads OBJ / NFR /

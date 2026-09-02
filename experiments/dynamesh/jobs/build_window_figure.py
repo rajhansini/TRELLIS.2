@@ -105,7 +105,7 @@ ps = [per[w]['psnr'].mean() for w in W]
 # The right axis spans 1.6 dB so a flat PSNR curve looks flat.
 ax.plot(W, fl, color=FL, marker='o', ms=5, lw=1.9, label='Flicker', zorder=3)
 ax.set_xlabel('Temporal window size $|\\mathcal{W}|$')
-ax.set_ylabel('Flicker $\\downarrow$', color=FL)
+ax.set_ylabel('Flicker', color=FL)
 ax.tick_params(axis='y', labelcolor=FL)
 ax.set_xticks(W); ax.set_xticklabels([str(w) for w in W])
 ax.set_ylim(0.0045, 0.0075)
@@ -113,18 +113,31 @@ ax.grid(alpha=.25, lw=.6); ax.set_axisbelow(True)
 
 ax2 = ax.twinx()
 ax2.plot(W, ps, color=PS, marker='s', ms=5, lw=1.9, ls='--', label='PSNR', zorder=3)
-ax2.set_ylabel('PSNR (dB) $\\uparrow$', color=PS)
+ax2.set_ylabel('PSNR', color=PS)
 ax2.tick_params(axis='y', labelcolor=PS)
 ax2.set_ylim(24.0, 25.6)
 
-ax.axvline(3, color='0.55', lw=.9, ls=':', zorder=1)
-ax.annotate('ours', xy=(3, 0.00577), xytext=(3.5, 0.00655), fontsize=9,
-            color='0.35', arrowprops=dict(arrowstyle='-', color='0.55', lw=.8))
+# The marked width is the one the paper ships. It moved 3 -> 11, so this is a
+# constant rather than a literal repeated in three places.
+OURS_W = 11
+ax.axvline(OURS_W, color='0.55', lw=.9, ls=':', zorder=1)
+# An unlabelled dotted line is a mystery in print: name it on the axis itself so the
+# reader does not have to reach the caption to learn what is marked. Placed just left
+# of the line and right-aligned, which is clear of both curves at W=11.
+ax.annotate('ours', xy=(OURS_W, 1.0), xycoords=('data', 'axes fraction'),
+            xytext=(-4, -11), textcoords='offset points',
+            ha='right', va='top', fontsize=8.5, color='0.35')
 
+# ncol=1 -> Flicker on one line, PSNR under it. Two columns put them side by side
+# and the pair read as one label at figure size.
 h1, l1 = ax.get_legend_handles_labels()
 h2, l2 = ax2.get_legend_handles_labels()
-ax.legend(h1 + h2, l1 + l2, loc='upper center', ncol=2, frameon=False, fontsize=9)
+ax.legend(h1 + h2, l1 + l2, loc='upper right', ncol=1, frameon=False, fontsize=9)
 fig.tight_layout()
+# WHITE, explicitly. savefig inherits the rcParams face colour, and a figure that
+# picks up a dark style sheet lands a black plate in the paper.
+fig.patch.set_facecolor('white'); ax.set_facecolor('white')
 for ext in ('pdf', 'png'):
-    fig.savefig('out/window_sweep.%s' % ext, dpi=200)
+    fig.savefig('out/window_sweep.%s' % ext, dpi=200,
+                facecolor='white', edgecolor='none')
 print('\nwrote out/window_sweep.{json,tex,pdf,png}')

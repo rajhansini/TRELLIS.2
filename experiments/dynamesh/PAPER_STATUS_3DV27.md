@@ -277,6 +277,24 @@ a uniform halo: Kling redrew the shape (the robot's limbs, the pig's ears and sn
 is the number `gargoyle` failed at in batch D/E. These three need regenerating with a
 stronger rigid-silhouette lock, not post-hoc correction.
 
+> **CORRECTION (2026-09-01). The paragraph above is wrong about the pigs.** Both clips are
+> usable and are now trained, rendered and in the gallery at IoU **0.974** and **0.962** --
+> the best alignment in batch G. The 0.711 came from `solve_orientation.py`, which searches
+> ROTATION ONLY with centring and uniform scale fixed by `canonical()`. Our render was 26%
+> too small, so that search was choosing the best pose *at the wrong size*, and the 0.825
+> post-hoc scale fit could not recover what the rotation search had already lost. Solving
+> rotation and a 2D similarity TOGETHER (`solve_similarity.py`, one rasterisation per
+> rotation, scale from mask area and offset from centroid) lands them at 0.97. The control
+> `spot_lava` returns 0.9913 at scale 1.000 through the same solver, so it does not inflate
+> scores -- it only moves clips whose scale was genuinely wrong. `warp_frames_to_render.py`
+> bakes the rotation and resamples the frames by s~0.796, keeping the upload in
+> `data/<obj>/frames_from_video_raw`. The ORIGINAL `robot_rust` clip really is out: it
+> reaches only 0.890 jointly, and `robot_rust_2` supersedes it at 0.939 anyway.
+>
+> The lesson generalises: any clip rejected on a rotation-only IoU should be re-checked with
+> the joint solve before it is written off, because a scale error is indistinguishable from
+> a bad pose in that objective.
+
 **Submitted for the two unicorns**, 16 jobs, jobs 2236926-2236941: one
 `jobs/targets_hero.sbatch` per object, then all seven supplementary arms
 (`r19`, `r19mcfm`, `r27`, `r27mcfm`, `w5`, `stD`, `v3D`) each held on
